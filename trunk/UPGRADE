@@ -1,0 +1,15 @@
+    ATTENTION!!!!!!!!
+
+  If you're upgrading from version lower than 5.10, and do not install
+monitors on nodes automaticaly, you MUST on all nodes:
+  - create directory $SHAREDDIR/Cleo
+  - copy from main node file $SHAREDDIR/Cleo/Conn.pm on all nodes.
+  - do not remember copy cleo-mon to $BIBDIR
+
+
+    ВНИМАНИЕ!!!!!!
+  Если Вы обновляете Cleo с версии меньшей, чем 5.10, и не применяете
+автоматическую установку на узлы, то Вам НЕОБХОДИМО на всех узлах:
+  - создать каталог $SHAREDDIR/Cleo
+  - скопировать туда файл $SHAREDDIR/Cleo/Conn.pm
+  - не забудьте также скопировать cleo-mon в $BINDIR

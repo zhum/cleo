@@ -1,0 +1,44 @@
+Cleo exec modules are simply perl code.
+
+They MUST:
+     - include declaration of $cleo variable, containing version of
+       module.
+     - include declaration of subrutines:
+       - ok
+       - fail
+       - post
+       - pre
+They MUST NOT:
+     - include declaration of any packages
+
+Example of module:
+
+-----------------------------------
+use vars($cleo);
+
+$cleo=1.0;
+
+sub ok( $ ){
+    # called when task is finished successfully
+
+    $_[0]->{id}; # this is task id
+}
+
+sub fail( $ ){
+    # called when task is finished unsuccessfully
+}
+
+sub post( $ ){
+    # called when task is finished
+}
+
+sub pre( $ ){
+    # called when task is about to run
+}
+---------------------------------------
+
+To all subroutines is passed one argument - reference to hash,
+containing all task properties.
+
+list of task properties can be taken from sceduler description
+(README-sceduler-create)

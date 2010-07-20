@@ -1,0 +1,90 @@
+#!/usr/bin/perl
+#version 4 (for q3 version 4.01+)
+#
+# This script is a part of Cleo system
+# Created by Sergey Zhumatiy 19.11.2003
+#
+# Changes priority of one or more tasks in queue
+#
+
+use strict;
+
+use vars qw($id $new_pri $ret);
+use vars qw($opt_P $port_string $opt_q $opt_h);
+
+GetOptsTillCan('p=s'=>\$opt_P,'q=s'=>\$opt_q,'h='=>\$opt_h);
+
+$ret=0;
+
+sub max($$){
+    return $_[0]>$_[1]?$_[0]:$_[1];
+}
+
+unless($opt_h){
+
+  $port_string  ="-p $opt_P" if $opt_P =~ /^\d+$/;
+  $port_string .=" -q $opt_q" if $opt_q;
+  $new_pri = shift;
+  unless ($new_pri =~ /^\d+/){
+      warn "Use positive integer values for priority value!\n\n";
+      exit(1);
+  }
+  while($id=shift){
+    unless ($id =~ /^\d+/){
+      warn "Bad task id ($id)!\n";
+      next;
+    }
+    $ret=max($ret,system("__BIN__/cleo-client $port_string -C $id -P $new_pri"));
+    if($!){die("Internal error. Unable to run client application\n");}
+  }
+  exit $ret;
+}
+warn "Usage: $0 [-q queue][-P port] new_priority id [id ...]\n\n";
+exit(1);
+
+
+#  Gets opts like this: ('X=i', \$Xoption,...) (this means "option '-X 10' to variable $Xoption=10)
+#  The scans command line for options till founds argument '--' or non-specified
+#  option, or not '-' prefixed argument.
+#  Specifications of options (what goes after 'X='):
+#  i - integer
+#  s - string
+#  + - cumulative value (variable MUST be a list)
+#  nothing - flag
+#
+sub GetOptsTillCan{
+
+  my %args=@_;
+  my ($k,$nk,$nv,$a,$next,%types);
+
+  foreach $k (keys(%args)){
+    $k =~ /^(\S+)(\=)(.*)/ or next;
+    $nk=$1;
+    $nv=$args{$k};
+    $types{$nk} = $3;
+
+    delete $args{$k};
+    $args{$nk} = $nv;
+  }
+
+  while($next=shift @ARGV){
+    last if(substr($next,0,1) ne '-');
+    last if($next eq '--');
+    $a=substr($next,1);
+    last unless(exists $args{$a});
+    undef $next;
+    if(($types{$a} eq 'i') || ($types{$a} eq 's')){
+      $a=$args{$a};
+      $$a=shift @ARGV;
+    }
+    elsif($types{$a} eq ''){
+      $a=$args{$a};
+      $$a=1;
+    }elsif($types{$a} eq '+'){
+      $a=$args{$a};
+      push @$a, shift @ARGV;
+    }
+  }
+  unshift @ARGV, $next if(defined $next);
+}
+

@@ -1,0 +1,149 @@
+#!/usr/bin/perl
+#
+# Version 4
+#
+
+use strict;
+use vars qw($np @run $port $pri $queue @arg $lim $h $limsec $stdin $stdout $stderr);
+use vars qw($com_file $profile $pe_select $wd $i);
+use vars qw($run_list $ok_list $fail_list $logic @attrs);
+
+# get default flags from environment
+if(defined $ENV{CLEO_SUBMIT_OPTS}){
+    push @ARGV, split(/\s+/,$ENV{CLEO_SUBMIT_OPTS});
+}
+
+
+
+GetOptsTillCan('np=i'        =>\$np,
+               'as=s'        =>\$profile,
+               't=+'         =>\@attrs,
+               'q=s'         =>\$queue,
+               'p=i'         =>\$pri,
+               'l=i'         =>\$limsec,
+               'maxtime=i'   =>\$lim,
+               'P=i'         =>\$port,
+               'stdin=s'     =>\$stdin,
+               'stdout=s'    =>\$stdout,
+               'stderr=s'    =>\$stderr,
+               'w=s'         =>\$wd,
+               'k=s'         =>\$pe_select,
+               'h='          =>\$h,
+               'f=s'         =>\$com_file,
+               'r=s'         =>\$run_list,
+               'Y=s'         =>\$ok_list,
+               'Z=s'         =>\$fail_list,
+               'z=s'         =>\$logic
+              );
+
+if($h || $np<1){
+  print "Usage: cleo-submit -np <np> [-q queue][-p priority][-l timelimit][-P port]\n".
+  "       [-stdin file][-stdout file][-stderr file][-as profile][-k pe_select]\n".
+  "       [-t attribute=value...][-maxtime limit_in_minutes][-w work_dir]\n".
+  "       [-r runned_id,...][-Y ok_id,...][-Z fail_id,...][-z a|o]\n".
+  "       {program args ...| -f command_file}\n";
+  exit(1);
+}
+
+for $i (@ARGV){
+  $i =~ s/\\//g;
+  $i =~ s/\'/\"/g;
+  $i =~ s/\0//g;
+  push @run, $i;
+}
+
+if($lim>0){$limsec=$lim*60;}
+
+if(scalar(@run)<1 and ($com_file eq '')){
+  print "No program or command file specified...\n";
+  exit(2);
+}
+
+push @arg, "-E", "-n", $np;
+#, "-e";
+if($port>0)       {push @arg, "-p", $port;}
+if($pri>0)        {push @arg, "-P", $pri;}
+if($queue ne '')  {push @arg, "-q", $queue;}
+if($limsec>0)     {push @arg, "-l", $limsec;}
+if($stdin)        {push @arg, "-1", $stdin;}
+if($stdout)       {push @arg, "-2", $stdout;}
+if($stderr)       {push @arg, "-3", $stderr;}
+if($pe_select)    {push @arg, "-k", $pe_select;}
+if($wd ne '')     {push @arg, "-w", $wd;}
+if($profile ne ''){push @arg, "-L", $profile;}
+if($run_list ne '') {push @arg, '-y', $run_list;}
+if($ok_list ne '')  {push @arg, '-Y', $ok_list;}
+if($fail_list ne ''){push @arg, '-Z', $fail_list;}
+if($logic ne '')    {push @arg, '-z', $logic;}
+
+# check for attributes
+if(@attrs>0){
+    foreach $i (@attrs){
+        $i .= '=0' if($i !~ /=/);
+        $i =~ y/#/_/; # sharps are not allowed
+        $i =~ s/=/#/; # replace only FIRST '='
+        push @arg, '-x', $i;
+    }
+}
+
+if($com_file eq ''){
+  push @arg, "-c", join(' ',@run);
+}
+else{
+  push @arg, "-Q", $com_file;
+}
+
+#$,='; ';
+#print "np=$np; q=$queue; p=$port\n";
+#print @arg,"\n";
+
+exec("__BIN__/cleo-client",@arg);
+warn "Cannot exec client application...\n";
+exit(10);
+
+#
+#  Gets opts like this: ('X=i', \$Xoption,...) (this means "option '-X 10' to variable $Xoption=10)
+#  The scans command line for options till founds argument '--' or non-specified
+#  option, or not '-' prefixed argument.
+#  Specifications of options (what goes after 'X='):
+#  i - integer
+#  s - string
+#  + - cumulative value (variable MUST be a list)
+#  nothing - flag
+#
+sub GetOptsTillCan{
+
+  my %args=@_;
+  my ($arg,$a_key,$a_value,$a,$next,%types);
+
+  foreach $arg (keys(%args)){
+    $arg =~ /^(\S+)(\=)(.*)/ or next;
+    $a_key=$1;
+    $a_value=$args{$arg};
+    $types{$a_key} = $3;
+
+    delete $args{$arg};
+    $args{$a_key} = $a_value;
+  }
+
+  while($next=shift @ARGV){
+    last if(substr($next,0,1) ne '-');
+    last if($next eq '--');
+    $a=substr($next,1);
+    last unless(exists $args{$a});
+    undef $next;
+    if(($types{$a} eq 'i') || ($types{$a} eq 's')){
+      $a=$args{$a};
+      $$a=shift @ARGV;
+    }
+    elsif($types{$a} eq ''){
+      $a=$args{$a};
+      $$a=1;
+    }elsif($types{$a} eq '+'){
+      $a=$args{$a};
+      push @$a, shift @ARGV;
+    }
+  }
+  unshift @ARGV, $next if(defined $next);
+}
+

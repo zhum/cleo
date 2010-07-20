@@ -1,0 +1,114 @@
+#
+#  This is a cleo batch system module file
+#  It adds on task start and removes on tasks end
+#  username in files '$dir/nodename' (e.g. /connom/node1)
+#  according used task nodes.
+#
+#  You must add this strng to /etc/pam.d/rsh (or /etc/pam.d/ssh)
+#  account required pam_listfile.so onerr=succeed sense=allow item=user file=/raid/lf/$node
+#
+#  Where $node is nodename.
+#
+#
+#  below $close_time is an time interval after which access must be
+#  closed (in seconds)
+#
+
+use vars qw($cleo $dir $close_time);
+
+$cleo=1.2;
+
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#
+#  Change it to directory, containing nodes access files
+#
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+$dir='/path/to/files';
+$close_time=20;
+
+#
+#  Task is about to run
+#
+sub pre( $ ){
+  my $q=$_[0];
+  my (%nodes,$i,$j,@lines);
+
+
+  # create %nodes with nodenames
+  foreach $i (split /\,/, $q->{nodes}){
+    $i =~ /^([^:]+)/;
+    $nodes{$1}=1;
+  }
+
+  # Now create files for listfile
+  foreach $i (keys(%nodes)){
+
+    # Try to read old file
+    if(open X, "<$dir/$i"){
+      @lines=<X>;
+      close X;
+    }
+    else{
+      @lines=();
+    }
+
+    # create new file
+    unless(open X, ">$dir/$i"){
+      cleo_log("cannot write to $dir/$i ($!)\n");
+      next;
+    }
+
+    # write old content and add new user, if needed
+    foreach $j (@lines){
+
+      if($j ne "q->{user}\n"){
+        print X $j if($j ne "q->{user}\n");
+        cleo_log("LISTFILE add($i): $j ->$q->{user}\n");
+      }
+    }
+    print X $q->{user}."\n";
+    close X;
+  }
+}
+
+#
+# Task is finished
+#
+sub post( $ ){
+  my $q=$_[0];
+  my (%nodes,$i,$j,@lines);
+
+  # get nodes list
+  foreach $i (split /\,/, $q->{nodes}){
+    $i =~ /^([^:]+)/;
+    $nodes{$1}=1;
+  }
+
+  # correct files
+  foreach $i (keys(%nodes)){
+
+    # try to read file
+    if(open X, "<$dir/$i"){
+      @lines=<X>;
+      close X;
+    }
+    else{
+      cleo_log("cannot read $dir/$i !!! ($!)\n");
+      next;
+    }
+
+    # try to write new content (delete user)
+    unless(open X, ">$dir/$i"){
+      cleo_log("cannot write to $dir/$i ($!)\n");
+      next;
+    }
+    foreach $j (@lines){
+      # just debug
+      cleo_log("LISTFILE: $j ->$q->{user}\n");
+
+      # write all users except given
+      print X $j if($j ne "$q->{user}\n");
+    }
+    close X;
+  }
+}

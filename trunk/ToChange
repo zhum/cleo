@@ -1,0 +1,17 @@
+mons connection scheme:
+  - @not_conn_mons.
+  - connect all of them
+
+Mons ONLY ACCEPTS server conenctions!
+
+$LST->Cleo::Conn
+send_to_channel -> send
+kill_conn -> disconnect
+
+make -> add modules
+
+on_mon_raise_back : 2nd args delete
+on_mon_disconnect - eliminate!
+$mons_connectingf - eliminate!
+
+fast raise -> checks only on fail.

@@ -1,0 +1,42 @@
+#!/bin/bash
+
+if [ "x$1" = "x" ]; then
+  echo Usage: $0 version
+  exit 1
+fi
+
+mkdir "cleo-$1"
+mkdir "cleo-$1/ready"
+mkdir "cleo-$1/empty"
+mkdir "cleo-$1/Cleo"
+mkdir "cleo-$1/ready/Cleo"
+
+FILES="cleo cleosupport.pm cleovars.pm cleo-client tasks mpirun \
+      cleo-autoblock cleo-blockcpu cleo-blocktask cleo-priority \
+      cleo-stat cleo-mode cleo-mon \
+      cleo.conf.example base_sched cleo-freeze \
+      cleo.rc cleo-mon.rc compat-test.pl \
+      cleo.rc-alt cleo-mon.rc-alt \
+      README README-scheduler-create Modules-howto \
+      README.rus README-scheduler-create.rus Modules-howto.rus \
+      COPYING LICENSE UPGRADE \
+      Extern-shuffle.txt CleoOptions.doc example-scheduler Admguide.pdf \
+      cleo.conf.example-sci cleo.conf.example-mvs cleo.conf.example-mpich \
+      doubler_sched cleo-wrapper cleo-submit \
+      man listfile_mod README-listfile \
+      Makefile Makefile.conf spec.files"
+
+cp -r $FILES "cleo-$1"
+
+cd empty
+cp empty-cleo.c Makefile README README-empty README-empty-cleo \
+   ../cleo-$1/empty
+cp cleo-terminal  "../cleo-$1"
+cd ..
+
+cp Cleo/*.pm "cleo-$1/Cleo/"
+
+cp Makefile.ready "cleo-$1/ready/Makefile"
+
+tar cfz "cleo-$1.tgz" "cleo-$1"
+rm -rf "cleo-$1"

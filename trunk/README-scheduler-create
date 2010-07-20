@@ -1,0 +1,331 @@
+  This document describes how to write your own cleo sceduler module.
+
+  Cleo sceduler module must be written in perl. This module must
+contain an variable $cleo, containing module version.
+
+  Main procedure in this module is called do_scedule.
+  First argument is a reference to the list of tasks. Every task is
+  the hash with fields:
+    id         - task id
+    user       - username
+    np         - number of processors required
+    timelimit  - time limit in seconds
+    is_own     - (0/1) is this task owned by THIS queue (or parent)
+    blocked    - (0/1) is this task blocked
+    
+  Second argument - number of reseved shared processors (for pre-runned tasks)
+
+  All other arguments are names of free processors.
+
+  There are some optional procedures, which may be declared in module:
+
+  start        - called when sceduler is loaded.
+                 Argument: reference to hash with keys 'queue' and
+                 'version' (queue name and cleo version)
+
+  stop         - called when sceduler is about to be unloaded.
+                 Argument: the same, as in 'start'.
+
+  event        - called if some event was happened. See description
+                 below.
+
+  Return value for ALL procedures - 0, if sceduler is loaded correctly, or
+  not 0, if there was some errors.
+
+
+  Module must NOT contain any package definitions.
+
+  Procedure do_scedule may call predefined functions to operate with
+queue and tasks. But it is limited by 5 seconds to run. After this
+time sceduler will be stopped and marked as failed. After several
+fails sceduler will be killed. Sceduler may be marked as failed also
+when it call any predefined function with bad argumet.
+
+  Here is full list of predefined functions, which sceduler may use:
+
+  run ID, PE_LIST
+    Runs task with id 'ID'. PE_LIST is processors list, which must be
+    used to run this task. Now PE_LIST is IGNORED. Thist list is
+    created by pe_select modules now. So, PE_LIST may be void.
+
+  block ID, REASON
+    Blocks task with id 'ID' and reason 'REASON'.
+
+  unblock ID, REASON
+    Unblocks task with id 'ID' and reason 'REASON'. If reason is
+    'Total', then all blocks will be deleted.
+
+  move ID, ID_AFTER
+    Moves task with id 'ID' in queue to position after task with id
+    'ID_AFTER'. If ID_AFTER is equal to -1, then task is moved to the
+    top of queue. If ID_AFTER is equal to -2, then task is moved to
+    the bottom of queue.
+
+  get_task_info ID, NAME
+    Returns info about task with id 'ID'. NAME describes which info to
+    get. Available valuse of NAME are:
+      task               - full task name with path and argumenta
+      args               - list of arguments
+      added              - time when task was added (UNIX epoch)
+      timelimit          - time limit in seconds for task
+      priority           - priority
+      np                 - nubmer of required processors
+      user               - name of user owned this task
+      dir                - working direscory
+      pe_select          - name of processor selection method
+      queue              - name of current queue
+      out                - name of output file. (!)
+      rep                - name of report file. (!)
+      owner              - name of queue, which this task REALLY belongs
+
+      com_line           - command line for task run. (!)
+      blocks             - list of blocks on this task. This is perl list.
+      group              - unix group, which must be setted on task run
+      env                - list of unix environment variables (string)
+      temp_dir           - full path to temporary directory
+      occupy_full_node   - 0/1 use free processors on node if available
+      run_via_mons       - 0/1 use run via cleo monitors
+      use_file           - name of cpecial file to create
+      one_rep            - 0/1 overwrite report file or not
+
+      wait_cond_type     - a/o (and/or) type of condition for waiting tasks
+      wait_for_run       - list of tasks to wait to be runned
+      wait_for_ok        - list of tasks to wait to be finished ok
+      wait_for_fail      - list of tasks to wait to be finished failed
+
+      file_mask          - mask for task attaching
+      rsh_filter         - name of pseudo-rshell filter
+      
+      time               - time, when task was started (if runned) or added to queue
+      
+    Mark (!) means that this parameter may contain nonresolved
+    pseudovariables.
+
+  set_task_info ID, NAME, NEW_VALUE
+    Set new value for task field. Please, be VERY CAREFULL, using this
+    call.
+
+  get_user_info USERNAME, NAME
+    Get info about default parameters for user with name
+    'USERNAME'. NAME describes which info to get. Available valuse of
+    NAME are:
+      add_pri_on_chld    - add priority value when add task to child queue
+      attach_mask        - see get_task_info
+      coll_nodes         - use one line per node when create special file
+      def_priority       - default priority
+      def_queue          - default queue
+      def_view_flags     - flags for 'view' command
+      default_time       - default time limit
+      exec_line          - command line template for task run
+      exec_module        - name of exec_module to use
+      exec_write         - string to write to user's console on task exec
+      file_head          - head string in special file
+      file_line          - template for lines in special file
+      file_tail          - tail string in special file
+      first_line         - template for first line in special file
+      gid                - group id to run tasks
+      kill_script        - command line to exec by root on task finish
+      max_np             - maximum processors per task
+      max_queue          - maximum tasks in queue
+      max_sum_np         - maximum processors to be used by all user tasks
+      max_tasks          - maximum tasks to be runned
+      max_time           - maximum time limit
+      min_np             - minimum processors to be used per task
+      occupy_full_node   - use all processors on nodes
+      one_report         - overwrite report files
+      outfile            - template for oputput files names
+      pe_select          - processor select method
+      post_exec          - command line to exec on task finish
+      post_exec_write    - string to be written to user on task finish
+      priority           - maximum priority value
+      q_fail_exec        - command line to exec by root on failed task finish
+      q_just_exec        - command line to exec by root just after task run  
+      q_ok_exec          - command line to exec by root on ok task finish    
+      q_post_exec        - command line to exec by root before task run      
+      q_pre_exec         - command line to exec by root on task run          
+      repfile            - template for report files names
+      rsh_filter         - name of pseudo-rshell filter
+      run_via_mons       - 0/1 run tasks via cleo monitors
+      temp_dir           - temporary directory for task
+      use_file           - create special file (value=filename)
+      use_first_line     - use first line in special file
+      user_conf_file     - name of user config file (relative homedir)
+      user_fail_exec     - command line to exec by user on failed task finish
+      user_just_exec     - command line to exec by user just after task run
+      user_kill_script   - command line to exec by user on task finish
+      user_ok_exec       - command line to exec by user on ok task finish
+      user_post_exec     - command line to exec by user before task run
+      user_pre_exec      - command line to exec by user on task run
+
+    You can also read any parameter, setted before by set_user_info.
+     
+  get_user_profile_info USERNAME, PROFILE, NAME
+    Works as get_user_info, but takes in account name of given profile
+
+  set_user_info USERNAME, NAME, VAL
+    Sets custom parameter name for user. Parameter name will be
+    prepended with '__'. You can read it later with get_user_info.
+
+  get_pe_info PE, NAME
+    Gets info about processor 'PE'. NAME describes which info to
+    get. Available valuse of NAME are:
+
+      blocked         - 0/1 is processor blocked
+      blocked_reasons - reference to perl array with blocks reasons
+      ids             - reference to perl array with running tasks ids
+      own             - 0/1 is this processor owned only by this queue
+      max             - maximum tasks per cpu
+
+  cleo_log MESG
+    Writes MESG to cleo log file
+
+  list_running
+    Returns reference to a list of all running tasks. Every task is a
+    hash (see get_task_info). Most of fields have content with
+    resolved pseudo-variables.
+    Also thre are fileds: extranodes (perl list of extra used
+    processors - of occupy_full_node was used), npextra - number of
+    extra processors.
+
+  list_queued
+    Returns reference to a list of all queued tasks. Every task is a
+    hash (see get_task_info). Most of fields have content with
+    resolved pseudo-variables.
+
+  list_future
+    Returns reference to hash with planned future tasks finish
+    events. Keys of hash are tasks ids. Values are hashes with fields:
+    time (unix-time in seconds of planned task finish), np (number of
+    processors) and user (user,owning this task).
+
+  violates ID, [NOACT]
+    Tests task for ability to be runned. If there are no direct
+    violations to run this task, then 0 is returned. If any violation
+    exists, then 1 is returned. If task must be deleted from queue
+    immideately, 2 is returned.
+    If optional parameter ACT is not specified or is false (0), then any
+    action associated with violation (such as blocking and deleting)
+    is performed immideately. If you specify this parameter, then no
+    actions (in most cases) will be performed. You can cancel most of
+    cleo default violations this way.
+
+  get_mode
+    Returns current server operating mode. Returned value is an
+    integer, combined of several bits. Here are most significant:
+      MODE_RUN_ALLOW    - server can run new tasks
+      MODE_QUEUE_ALLOW  - server can add new tasks to queue
+
+    By default, cleo runs tasks, which aren't owned by queue (owned by
+    parent) if queue is blocked for run new tasks (MODE_RUN_ALLOW=0).
+    You can override it, but if you do not want it, just keep in mind.
+
+  save_data NAME, VALUE
+    Saves data between any module procedures calls and between server
+    restarts. NAME is the key, VALUE is stored value.
+
+  get_data NAME
+    Reads data, saved by save_data
+
+  get_settings USER, NAME1, ... NAMEN
+    Reads settings, named NAME1...NAMEN from config, which are
+    associated with this sceduler and user USER. If USER is empty, or
+    '*', default value is readed.
+    Settings are stored in Cleo config file in section [mod]. Format
+    of string is:
+    Sceduler_name.Queue.User.Name = value
+    Sceduler_name must be the same, as the sceduler name. User and/or
+    Queue may be '*', which defines DEFAULT value of setting 'Name'.
+    ABC.queue1.*.xxx has higher priority than ABC.*.user1.xxx
+
+  get_time
+    Returns currect UNIX-time. It is faster, than perl time function,
+    cause it simply return time saved in variable before sceduler call.
+
+  disturb_at TIME
+    Asks Cleo to sceduler with 'alarm' event (see next chapetr) at
+    TIME. TIME is specified as UNIX-time. If TIME is less than current
+    time, then event will never happened. Any call to disturb_at
+    cancels previous call.
+
+-------------------------------------------------------------------
+
+  Optionally you can implement procedures start, stop and event.
+  start is called when sceduler is loaded into Cleo. stop is called
+  when sceduler is about to be unloaded. One argument is passed to
+  start and stop - reference to hash with fields:
+    queue    - name of queue, which loads this sceduler
+    version  - version of cleo
+
+  event is called every time on theese events:
+    task finish
+    task start (actual start)
+    change task priority
+    adding new task
+    deleting task (not running! Only queued or pre-runned tasks)
+    alarm
+
+  alarm event is happening only by sceduler request (see disturb_at
+  predefined subroutine).
+
+  Arguments passed to event: name of event ('alarm', 'finish',
+  'start', 'add', 'piority') and reference to a hash with field,
+  specific to event.
+
+  For 'alarm' event second argument is undef.
+  For 'finish' event second argument has fields:
+
+      id        - task id
+      user      - user owned this task
+      signal    - signal which task was killed by
+      status    - return status
+      np        - number of processors
+      npextra   - number of extra used processors
+      special   - description os task finish (empty if successfull)
+      core      - 1 if core was dumped
+      start     - start time (UNIX-time)
+      worktime  - work time length (seconds)
+      timelimit - time, when task had be finished
+      timedout  - 1 if task was killed by timelimit
+      nodes     - list of nodes
+
+  For 'start' event second argument has fields:
+
+      id        - task id
+      user      - user owned this task
+      np        - number of processors
+      npextra   - number of extra used processors
+      timelimit - time, when task had be finished
+      nodes     - list of nodes
+
+  For 'add' event second argument has fields:
+
+      id        - task id
+      user      - user owned this task
+      np        - number of processors
+      timelimit - time, when task had be finished
+      is_own    - 1 if task is added directly in this queue
+
+  For 'priority' event second argument has fields:
+
+      id           - task id
+      user         - user owned this task
+      np           - number of processors
+      timelimit    - time, when task had be finished
+      is_own       - 1 if task is added directly in this queue
+      old_priority - old priority
+      new_priority - new priority
+
+  For 'delete' event second argument has fields:
+
+      id        - task id
+      user      - user owned this task
+      np        - number of processors
+      timelimit - time, when task had be finished
+
+
+  There is exambple module 'example-sceduler', which can be used for
+  experiments... Default sceduler is implemented in cleo internal
+  code. Also it is implemented as module - default_sceduler. You can
+  use it also.
+
+

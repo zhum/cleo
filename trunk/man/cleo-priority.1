@@ -1,0 +1,65 @@
+.TH "cleo-priority" "1" "5.x" "Sergey Zhumatiy" "Cleo Commands"
+.SH "NAME"
+.LP 
+cleo\-priority \- changes priority of queued task
+.SH "SYNTAX"
+.LP 
+\fBcleo\-priority [\fI\-q queue\fP] <new_priority> <id>\fR
+.SH "DESCRIPTION"
+.LP 
+\fBcleo\-priority\fR tries to change priority of queued task.
+.LP 
+
+If succeed, it just prints 'Ok'
+
+.LP 
+If failed, it would print:
+
+.IP 
+Error: No such task
+
+.SH "OPTIONS"
+.LP 
+.TP 
+\fB\-q <queue>\fR
+Use queue named \fIqueue\fR.
+.SH "ENVIRONMENT VARIABLES"
+.LP 
+.TP 
+\fBCLEO_PORT\fP
+Specifies the port to connect to Cleo server
+
+.TP 
+\fBCLEO_QUEUE\fP
+Specifies the queue to use
+.SH "ERROR CODES"
+.LP 
+Returned error codes:
+.TP 
+0 \- OK
+.TP 
+1 \- Invalid arguments (or help requested)
+.TP 
+2 \- No action is specified
+.TP 
+3 \- Server communication error
+.TP 
+4 \- Bad arguments
+.TP 
+5 \- Command fails
+.TP 
+10 \- Not possible to start client application
+.TP 
+20 \- Internal error detected
+.SH "EXAMPLES"
+.LP 
+Change priority of task 123 in queue test to 12:
+.IP 
+\fBcleo\-priority \-q test 12 123\fR
+
+.SH "AUTHORS"
+.LP 
+Sergey Zhumatiy <serg@parallel.ru>
+.SH "SEE ALSO"
+.LP 
+cleo\-client(1), tasks(1), cleo\-autoblock(1), mpirun(1), cleo\-blockcpu(1), cleo\-blocktask(1), cleo\-mode(1), cleo\-stat(1), cleo\-freeze(1)

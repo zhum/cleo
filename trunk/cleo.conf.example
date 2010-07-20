@@ -1,0 +1,96 @@
+[server]
+
+verbose        = 1
+
+log_file       = /var/log/cleo.log
+short_log_file = /var/log/cleo-short.log
+
+port           = 5252
+admins         = root
+gid            = mpi
+max_queue      = 20
+default_time   = 259200 # 3 days...
+pid_file       = /var/run/cleo.pid
+queue_save     = /var/cache/cleo-save
+queue_alt_save = /tmp/cleo-save.alt
+def_queue      = main
+timeout        = 5
+one_report     = 0
+repfile        = $dir/$sexe.rep-$id
+outfile        = $dir/$sexe.out-$id
+post_exec      =
+post_exec_write = Your task '$task" finished with code $status
+
+#  Uncomment it if you want enable listfile (see README-listfile)
+#
+# exec_modules     = listfile_mod
+# use_exec_modules = listfile_mod
+
+
+occupy_full_node = 1
+
+use_file  = $dir/machinefile-$id
+coll_nodes = 1
+file_head = #machine file for $task\n
+file_tail = #end\n
+file_line = $node:$n\n
+
+# to run mpich tasks
+exec_line = /opt/mpich/bin/mpirun -machinefile $dir/machinefile-$id -np $np -nolocal $task
+
+# to run mvapich tasks
+#exec_line = /usr/mpi/mvapich/bin/mpirun_rsh -hostfile $dir/machinefile-$id -np $np $task
+
+# to run impi tasks
+#exec_line = /opt/intel/impi/bin/mpirun -f $dir/machinefile-$id -r ssh -np $np $task
+
+#  for one-processor tasks
+#exec_line = $task
+
+pe_select      = random_hosts
+
+attach_mask     = .*
+
+run_via_mons    = 0
+
+schedulers       = base_sched
+scheduler        = base_sched
+
+[groups]
+stud = stud1,stud2,stud3,stud4,stud5,stud6
+powers = root,mpi,pupkin
+
+[clusters]
+
+main.pe = node1:1  node1:2
+main.pe = node2:1  node2:2
+main.pe = node3:1  node3:2
+main.pe = node4:1  node4:2
+
+main.users  = +powers
+
+#
+#  Sub queue example
+#
+#niced.parent      = main
+#
+#niced.pe = node3:1  node3:2
+#niced.pe = node4:1  node4:2
+#
+#niced.users = alex serg
+#niced.default_time = 604800 # 7 days
+
+[users]
+
+user1.max_np = 2
+user2.pe_select = random_alone
+
+[profiles]
+
+dummy.exec_line=echo $task >>/tmp/dummy.log
+
+# to run simple one-processor tasks via ssh
+#
+#  use: mpirun -as single -np 1 ./my-serial-task
+#
+single.exec_line = ssh -t $nodes 'cd $dir; $task'

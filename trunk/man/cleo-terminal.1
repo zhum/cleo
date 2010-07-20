@@ -1,0 +1,70 @@
+.TH "cleo-terminal" "1" "5.x" "Sergey Zhumatiy" "Cleo Commands"
+.SH "NAME"
+.LP 
+cleo\-trminal \- get terminal access to running task
+.SH "SYNTAX"
+.LP 
+\fB cleo\-terminal [\fI\-q queue\fR][\fI\-p port\fR] <ID>
+ cleo\-terminal \fI\-i\fR INFILE \fI\-o\fR OUTFILE\fR
+.SH "DESCRIPTION"
+.LP 
+\fBcleo\-terminal\fR get terminal access to running task.
+.LP 
+
+Your terminal will be connected to running task terminal. You'll be able to enter interactive commands to your task, if it is needed. To exit from terminal type <ESC>\-d. The task won't be killed by this exit.
+
+.SH "OPTIONS"
+.LP 
+.TP 
+\fB<ID>\fR
+Connect to task with id=<ID>.
+\fB\-q <queue>\fR
+Use queue named \fIqueue\fR.
+
+.TP 
+\fB\-i INFILE\fR
+Use INFILE as input stream. This mode does not use automatic settings by task ID.
+
+.TP 
+\fB\-o OUTFILE\fR
+Use OUTFILE as output stream. This mode does not use automatic settings by task ID.
+.SH "ENVIRONMENT VARIABLES"
+.LP 
+.TP 
+\fBCLEO_PORT\fP
+Specifies the port to connect to Cleo server
+
+.TP 
+\fBCLEO_QUEUE\fP
+Specifies the queue to use
+.SH "ERROR CODES"
+.LP 
+Returned error codes:
+.TP 
+0 \- OK
+.TP 
+1 \- Invalid arguments (or help requested)
+.TP 
+2 \- No action is specified
+.TP 
+3 \- Server communication error
+.TP 
+4 \- Bad arguments
+.TP 
+5 \- Command fails
+.TP 
+10 \- Not possible to start client application
+.TP 
+20 \- Internal error detected
+.SH "EXAMPLES"
+.LP 
+Connect to task 123 in queue test:
+.IP 
+\fBcleo\-terminal \-q test 123\fR
+
+.SH "AUTHORS"
+.LP 
+Sergey Zhumatiy <serg@parallel.ru>
+.SH "SEE ALSO"
+.LP 
+cleo\-client(1), tasks(1), cleo\-autoblock(1), mpirun(1), cleo\-blockcpu(1), cleo\-blocktask(1), cleo\-mode(1), cleo\-stat(1) cleo\-priority(1)

@@ -1,0 +1,106 @@
+#!/bin/sh
+#
+#  Cleo batch system start/stop script
+#
+#
+
+
+######################################
+###   BASE CONSTANTS
+######################################
+
+CONF=__CONF__/cleo.conf
+CLIENT=__BIN__/cleo-client
+CLEO=__SBIN__/cleo
+KEYS="-c $CONF"
+DEFPORT=5252
+STDOUT=/dev/null
+LC_ALL=C
+#ru_RU.KOI8-R
+
+export LC_ALL
+
+######################################
+###   BASE CHECK
+######################################
+
+if [ ! -f $CONF ]; then
+  echo "cannot find config file ($CONF)!"
+  exit 1
+fi
+
+######################################
+###   SUPPORTING SUBROUTINES
+######################################
+
+stop_q ()
+{
+  if [ "x$PID" != "x" -a -d "/proc/$PID" ]; then
+    kill -TERM $PID
+    sleep 3
+    kill -9 $PID 2>/dev/null >&2
+  fi
+}
+
+start_q ()
+{
+  if [ "x$PID" != "x" -a -d "/proc/$PID" ]; then
+    echo Cleo is already started.
+    return
+  fi
+  $CLEO $KEYS >$STDOUT 2>&1
+}
+
+######################################
+###   PREPARING
+######################################
+
+STR=`grep pid_file $CONF | head -n 1`
+PIDFILE=`echo $STR | cut -d = -f 2|sed -e 's/\ //g'`
+#echo $PIDFILE
+
+if [ -f "$PIDFILE" ]; then
+  PID=`cat $PIDFILE`
+else
+  PID=""
+fi
+
+STR=`grep -q port $CONF`
+PORT=`echo $STR | cut -d = -f 1`
+if [ -z "$PORT" ]; then
+  PORT=$DEFPORT
+fi
+
+######################################
+##  THE SCRIPT MAIN PART
+######################################
+
+
+case "$1" in
+  start)
+    echo -n "Starting Cleo... "
+    start_q;
+    echo "done"
+    ;;
+  stop)
+    echo -n "Stopping Cleo... "
+    stop_q;
+    echo "done"
+    ;;
+  restart)
+    echo -n "Restarting Cleo... "
+    stop_q;
+    start_q;
+    echo "done"
+    ;;
+  reload)
+    echo -n "Reloading Cleo configuration... "
+    $CLIENT -p $PORT -m conf_reload
+    echo "done"
+    ;;
+  *)
+    echo "usage: $0 {start|stop|restat|reload}"
+    exit 1
+esac
+
+exit 0

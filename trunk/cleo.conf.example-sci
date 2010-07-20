@@ -1,0 +1,115 @@
+[server]
+
+verbose        = 1
+
+log_file       = /var/log/cleo.log
+short_log_file = /var/log/cleo-short.log
+status_file     = /common/cluster/qstatus
+
+
+port           = 5252
+admins         = root,vasya
+gid            = 600
+max_queue      = 200
+default_time   = 259200 # 3 days...
+pid_file       = /var/log/cleo.pid
+queue_save     = /var/log/cleo-save
+queue_alt_save = /tmp/cleo-save.alt
+def_queue      = main
+timeout        = 5
+one_report     = 0
+repfile        = $dir/$sexe.rep-$id
+outfile        = $dir/$sexe.out-$id
+post_exec      = 
+post_exec_write = Your task '$task" finished with code $status
+user_conf_file = .cleo-conf
+
+occupy_full_node = 0
+
+#
+# for mpich tasks:
+#
+
+use_file        = $dir/MPICH.P4-$queue_name-$id
+coll_nodes      = 0
+file_head       = #machine file for $task\n
+file_tail       = #end\n
+file_line       = $node 1 $exe\n
+use_first_line  = 1
+first_line      = $node 0 $exe\n
+
+rsh_filter      = mpich /home/root/q4/qmpich-rsh-filter.pl
+
+#
+# for sci tasks:
+#
+
+use_monitors = 1
+run_via_mon    = 0
+exec_line      = /opt/scali/bin/mpimon -init_comm_world $task -- $spaced_nodes
+
+# Maximum number of processes for one user
+max_sum_np = 16
+
+pe_select      = simple
+mon_back_exec   =
+
+scedulers       = base_sced
+sceduler        = base_sced
+
+
+[groups]
+stud = stud1,stud2,stud3,stud4,stud5,stud6
+powers = root,mpi,pupkin,vasya
+
+[clusters]
+
+main.pe = node1-1:1  node1-1:2
+main.pe = node1-2:1  node1-2:2
+main.pe = node1-3:1  node1-3:2
+main.pe = node1-4:1  node1-4:2
+main.pe = node2-1:1  node2-1:2
+main.pe = node2-2:1  node2-2:2
+main.pe = node2-3:1  node2-3:2
+main.pe = node2-4:1  node2-4:2
+main.pe = node3-1:1  node3-1:2
+main.pe = node3-2:1  node3-2:2
+main.pe = node3-3:1  node3-3:2
+main.pe = node3-4:1  node3-4:2
+main.pe = node4-1:1  node4-1:2
+main.pe = node4-2:1  node4-2:2
+main.pe = node4-3:1  node4-3:2
+main.pe = node4-4:1  node4-4:2
+
+[users]
+
+mpi.max_time      = 604800   # 1 week
+mpi.max_sum_np    = 32
+mpi.priority = 11
+
+[profiles]
+
+#
+# test "task"
+#
+dummy.exec_line=echo $task >>/tmp/dummy.log
+
+#
+#  use both processors
+#
+dedicated.occupy_full_node = 1
+
+#
+#  non-mpi tasks (run using monitors; empty cleo is not used here)
+#
+single.exec_line = $task
+single.run_via_mons = 1
+
+#
+#  MPICH tasks:
+#
+mpich.run_via_mons    = 1
+mpich.use_rsh_filter  = mpich
+mpich.rsh_cmd         = mpich sh -c '$mpich_command'
+mpich.exec_line       = $task -p4pg $dir/MPICH.P4-$queue_name-$id -p4wd $dir
+

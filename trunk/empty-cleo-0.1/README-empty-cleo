@@ -1,0 +1,12 @@
+empty-cleo-0.1 is based on empty-0.5.11b
+
+It can run processes under pseudo-terminal sessions to make
+tasks be independant from Cleo. Any user can now attach to his tasks
+'terminal' input-output.
+
+Please, see README-empty original documentation.
+------------------------------------------------------------------------
+
+  Additional note: it can be compiled ONLY on POSIX-compatible systems.
+
+serg@parallel.ru. Sergey Zhumatiy, 2005-2008

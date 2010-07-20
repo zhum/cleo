@@ -1,0 +1,184 @@
+#!/usr/bin/perl
+#
+# Cleo batch system pseudo-terminal interface to
+# runned tasks.
+#
+# Usage: cleo-terminal [-q queue] ID
+#        cleo-terminal -i INFILE -o OUTFILE
+#
+
+use Socket;
+
+use strict;
+
+use vars qw($port $user $id $answer $status $tmpfd %opts $usage @answer $in $out);
+
+$port = 35000;
+
+if (open(CONF,'<__CONF__/cleo.conf'))
+{
+  my $section='server';
+  while (<CONF>)
+  {
+    next if(/^\#/ || /^\s*$/);
+    if (/^\s*\[(.+)\]/)
+    {
+      $section=$1;
+      next;
+    }
+    if ($section eq 'server')
+    {
+      if (/^\s*port\s*\=\s*(\d+)/)
+      {
+        $port=$1;
+        last;
+      }
+    }
+  }
+  close(CONF);
+}
+$port = $ENV{QS_PORT} if $ENV{QS_PORT};
+
+GetOptsTillCan_hash(\%opts,
+                    'p=i',
+                    'q=s',
+                    'i=s',
+                    'o=s'
+                   );
+
+$usage="Usage: $0 cleo-terminal [-q queue][-p port] ID\n         cleo-terminal -i INFILE -o OUTFILE\n";
+
+$port = $opts{'p'} if($opts{'p'});
+
+if($opts{i} ne '' and $opts{o} ne ''){
+    # direct input/output
+    $in=$opts{i};
+    $out=$opts{o};
+}
+else{
+    # get in/out files from Cleo
+
+    $id=$ARGV[0];
+    if($id !~ /^\d+$/){print $usage; exit(1);}
+
+    socket(S, PF_INET(), SOCK_STREAM(), getprotobyname('tcp'))|| die "Cannot create socket: $!\n";
+    connect(S,sockaddr_in($port, inet_aton('localhost')))     || die "Cannot connect to server: $!\n";;
+
+    $user=getpwuid($<);
+    $opts{'q'} ||= $ENV{QS_QUEUE};
+    $opts{'q'} ||= 'main';
+    eval{
+        MAIN:  {
+            $SIG{'ALRM'}= sub {die "alarm\n";};
+            alarm(30);
+            print S "get_io:$user:$$:+all\n";
+            print S "queue: $opts{'q'}\n";
+            print S "id: $id\nend\n";
+
+            $tmpfd=select(S);$| = 1; select STDOUT;
+            $answer=<S>;
+            chomp $answer;
+
+            #authorization fase
+            if ($answer =~ /^\+auth:(.*)/){
+                last MAIN if($1 eq '');
+                $0=$1;
+
+                #confirm authorization is done
+                print S "+ok\n";
+                $answer='';
+                while (!defined($answer=<S>))
+                    {select undef,undef,undef,0.1;}
+                chomp $answer;
+
+                select S; $|=0; select STDOUT;
+                #is the answer correct?
+                if ($answer =~ /^(\-|\+)(.+)/){
+                    undef $status;
+                    if ($1 eq '+'){
+                        while ($answer=<S>){
+                            if($answer =~ /out\s*=\s*(.*)/){
+                                $out=$1;
+                                next;
+                            }
+                            if($answer =~ /in\s*=\s*(.*)/){
+                                $in=$1;
+                            }
+                        }
+                    }
+                    else{
+                        print "Cannot get task info (queue=$opts{q}, id=$id):\n  $2\n";
+                        while(<S>){
+                            print $_;
+                        }
+                        exit(1);
+                    }
+                }
+                else{
+                    print "Error: server sent bad answer. Please, contact system administrator.\n";
+                    exit(2);
+                }
+            }
+            else{
+                print "Error: server didn't send authorization. Please, contact system administrator.\n";
+                exit(2);
+            }
+        }# ~MAIN
+    };
+    if($@){
+        # ALARM...
+        print "Server is too busy or server internal error detected.\n";
+        exit(1);
+    }
+}
+print "Use ESC-d to detach from task.\n\n";
+exec("__BIN__/empty-cleo -c $in -l $out") or die "Cannot start session: $!\n";
+
+#
+#  Gets opts like this: ('X=i',) (this means "option '-X 10' to variable $options{X}=10)
+#  The scans command line for options till founds argument '--' or non-specified
+#  option, or not '-' prefixed argument.
+#  Specifications of options (what goes after 'X='):
+#  i - integer
+#  s - string
+#  + - cumulative value (variable MUST be a list)
+#  nothing - flag
+#
+sub GetOptsTillCan_hash{
+  # \%hash,"arg1","arg2,...
+  my $hash=shift @_;
+  my @args=@_;
+  my (%args,$arg,$a_key,$a_value,$a,$next,%types);
+
+  foreach $arg (@args)
+  {
+    $arg =~ /^(\S+)(\=)(.*)/ or next;
+    $a_key=$1;
+    $a_value=$args{$arg};
+    $types{$a_key} = $3;
+
+    delete $args{$arg};
+    $args{$a_key} = $a_value;
+  }
+
+  while ($next=shift @ARGV)
+  {
+    #    print ">>$next<[$ARGV[0]]\n";
+    last if(substr($next,0,1) ne '-');
+    last if($next eq '--');
+    $a=substr($next,1);
+    last unless(exists $args{$a});
+    undef $next;
+    if (($types{$a} eq 'i') || ($types{$a} eq 's'))
+    {
+      $hash->{$a}=shift @ARGV;
+    } elsif ($types{$a} eq '')
+    {
+      $hash->{$a}=1;
+    } elsif ($types{$a} eq '+')
+    {
+      push @{$hash->{$a}}, shift @ARGV;
+    }
+  }
+  unshift @ARGV, $next if(defined $next);
+}

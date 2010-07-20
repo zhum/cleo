@@ -1,0 +1,5 @@
+  - new comand: selftest
+  - new comand: change np of queued task
+  - on load (self-test): if state is fail or dead, then check if it is
+    blocked. Otherwise - make it active.
+  - enable groups in [users] section (+mygroup.maxtime = 10)

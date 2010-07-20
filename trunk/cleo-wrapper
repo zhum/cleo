@@ -1,0 +1,36 @@
+#!/usr/bin/perl
+#
+#  Try to start new session, call cleo-mon
+#  and tell pid, sid, and task id,
+#  then execute task
+#
+
+use POSIX;
+
+# read task id
+my $id=shift(@ARGV);
+my $pgid;
+
+# set exe name as task
+$0=shift(@ARGV);
+
+# Start new session
+POSIX::setsid();
+
+$pgid=setpgid(0,0);
+
+# test if control pipe exists
+if(-p '/tmp/cleo-wrapper'){
+
+    #!!!!!!!!!  Try to check cleo-mon existence...
+    #  E.g. scan process list.
+
+    if(open(PIPE,'>/tmp/cleo-wrapper')){
+        print PIPE "$$ -$pgid $id\n";
+        close PIPE;
+    }
+}
+
+exec $0,@ARGV;
+exit 111;
+

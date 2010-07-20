@@ -1,0 +1,288 @@
+#!/usr/bin/perl
+#version 5 (for cleo version 5.01+)
+
+use strict;
+
+use vars qw($id $n $user $task $nodes $rtime $dir $num_run $num_queue $i $err);
+use vars qw($opt_d $opt_P $opt_l $opt_r $opt_f $port_string $opt_q $opt_h);
+use vars qw($opt_o @opt_u $opt_t $opt_m $opt_b $opt_Q $opt_R $opt_e);
+
+# get default flags from environment
+if(defined $ENV{CLEO_TASKS_OPTS}){
+    push @ARGV, split(/\s+/,$ENV{CLEO_TASKS_OPTS});
+}
+
+
+GetOptsTillCan('d=' =>\$opt_d,
+               'l=' =>\$opt_l,
+               'P=i'=>\$opt_P,
+               'r=' =>\$opt_r,
+               'h=' =>\$opt_h,
+               't=' =>\$opt_t,
+               'q=s'=>\$opt_q,
+               'f=' =>\$opt_f,
+               'o=' =>\$opt_o,
+               'R=' =>\$opt_R,
+               'Q=' =>\$opt_Q,
+               'm=s'=>\$opt_m,
+               'u=+'=>\@opt_u,
+               'e=' =>\$opt_e,
+               'b=' =>\$opt_b
+              );
+# -d -> delete    -l -> long view -v -> view (default)
+# -r -> recursive -f -> show foreign tasks too
+# -u -> user list -o -> show own tasks
+# -m -> mask      -b -> show blocked processors
+# -R -> running (kill) -Q -> queued (kill)
+# -t -> def timelimit
+
+unless($opt_h){
+
+  $port_string  ="-p $opt_P" if $opt_P =~ /^\d+$/;
+  $port_string .=" -R" if $opt_r;
+  $port_string .=" -q $opt_q" if $opt_q;
+
+  if($opt_d){
+    $port_string .=" -L ".join(',',@opt_u) if(scalar(@opt_u));
+    if($opt_m){
+      if($opt_R){
+        $opt_R='r';
+      }else{
+        $opt_R=' ';
+      }
+      if($opt_Q){
+        $opt_Q='q';
+      }else{
+        $opt_Q=' ';
+      }
+      $opt_m =~ tr/\0\'\"\`//s;
+      $port_string.=" -M '${opt_R}${opt_Q}${opt_m}'";
+    }
+    #    print "$port_string -d $opt_d\n\n";
+    if(@ARGV>0){
+      my $ids=join(',',@ARGV);
+      $ids =~ tr/'"`~$@%&*<>;:|\\\/? ()[]{}\0//d;
+      exec("__BIN__/cleo-client $port_string -d $ids");
+      warn "Internal error. Unable to run client application\n";
+      exit(10);
+    }
+    print "No task is specified!\n";
+    exit(2);
+  }
+  else{
+    my $vstring='MmPs';
+    my @out;
+    my ($cur,$curid,%ids,%queue,%idseq,@queues,$sec,$min,$hr,$day,$time);
+
+    $vstring.='c\>rFw' if $opt_l;
+    $vstring.='mM' if $opt_t;
+    $vstring.='Bb' if $opt_b;
+    if($opt_f or $opt_o){
+        $vstring.='f' if $opt_f;
+        $vstring.='o' if $opt_o;
+    }
+    else{
+        $vstring.='fo';
+    }
+
+    foreach my $x (@opt_u){
+      $x =~ s/\W//cs;
+      $vstring.="u=$x";
+    }
+    unless(open(CLIENT,"__BIN__/cleo-client $port_string -V $vstring |")){
+      print "Internal error. Unable to run client application ($!)\n";
+      exit(10);
+    }
+    @out=<CLIENT>;
+    close CLIENT;
+    if($? != 0){
+        print @out;
+        exit(5);
+    }
+    $time=time;
+    chomp @out;
+#    print @out;
+    undef $curid;
+    $cur='_';
+    while($_=shift @out){
+      $_=~/([^: ]+)\s*\:\s*(.*)/;
+#      print "[$cur;$curid]$1/$2\n";
+      if($1 eq 'Error'){
+        $err=$2;
+      }
+      elsif($1 eq 'Queue'){
+        push @queues, $2;
+        $cur=$2;
+        undef $curid;
+        next;
+      }
+      if($1 eq 'Id'){
+        $curid=$2;
+        push @{$idseq{$cur}}, $2;
+        next;
+      }
+      if(defined $curid){
+        $ids{$cur}{$curid}{$1}=$2;
+      }
+      else{
+        $queue{$cur}{$1}=$2;
+      }
+    }#while
+
+    unless(@queues){
+      print "Error! $err\n";
+      exit 5;
+    }
+    foreach $cur (@queues){
+      print "Queue: $cur\nRunning: $queue{$cur}{Running}; Queued: $queue{$cur}{Queued}; Pre-runned: $queue{$cur}{'Pre-runned'}; Free: $queue{$cur}{Free} of $queue{$cur}{Total_own}+$queue{$cur}{Total_shared} ($queue{$cur}{Num_blocked} blocked)\n";
+      print "Default time limit: $queue{$cur}{Def_timelimit}, maximal: $queue{$cur}{Max_timelimit}\n" if($opt_t);
+      print "Queue is blocked for adding tasks\n" if($queue{$cur}{Blocked});
+      print "Queue is blocked for running new tasks\n" if($queue{$cur}{Norun});
+#      print ">>>$queue{$cur}{Blocked_pe}<<\n";
+      if($queue{$cur}{Blocked_pe} && defined($opt_b)){
+        my $n=scalar(split(/\,/,$queue{$cur}{Blocked_pe}));
+        print "Blocked $n processors: $queue{$cur}{Blocked_pe}\n";
+      }
+      print "Running:\nID   :      User: NP:      Time :      Timelimit: Task\n" if($queue{$cur}{Running});
+      foreach $curid (@{$idseq{$cur}}){
+        next unless($ids{$cur}{$curid}{State} eq 'run');
+        ($sec,$min,$hr,undef,undef,undef,undef,$day)=
+          gmtime($time-$ids{$cur}{$curid}{Time});
+        $hr+=$day*24;
+        unless(defined $ids{$cur}{$curid}{Extracpus}){
+          $ids{$cur}{$curid}{Extracpus}=0;
+        }
+        print sprintf("%-5d:%10s:%3d: %3d:%02d:%02d :",
+                     $curid,
+                     $ids{$cur}{$curid}{User},
+                     $ids{$cur}{$curid}{Np}+$ids{$cur}{$curid}{Extracpus},
+                     $hr,$min,$sec);
+        if($ids{$cur}{$curid}{Timelimit}>0){
+          print substr(localtime($ids{$cur}{$curid}{Timelimit}),4,15).': ';
+        }
+        else{
+          print '      Unlimited: ';
+        }
+        print "B:$ids{$cur}{$curid}{Blocks}# " if($ids{$cur}{$curid}{Blocked});
+        print "[$ids{$cur}{$curid}{Owner_id}] " if($ids{$cur}{$curid}{Owner_id});
+        print "$ids{$cur}{$curid}{Short_exe}\n";
+        if($opt_l){
+          print "Program :$ids{$cur}{$curid}{Full}";
+          foreach $i (split(/\#/,$ids{$cur}{$curid}{Blocks})){
+            print "\nBlocked :$i";
+          }
+          print "\nCPUs    :$ids{$cur}{$curid}{Cpus}";
+          print "\nOutput  :$ids{$cur}{$curid}{Out}";
+          print "\nReport  :$ids{$cur}{$curid}{Rep}";
+          print "\nWorkdir :$ids{$cur}{$curid}{Work}\n--------------------------------------------\n";
+        }
+      }#foreach running
+      if($opt_e!=0){
+          print "Queued:\nID   :      User: NP:Pri:     When added:   Estimated run:    Timelimit: Task\n" if($queue{$cur}{Queued} or $queue{$cur}{'Pre-runned'});
+      }
+      else{
+          print "Queued:\nID   :      User: NP:Pri:     When added:    Timelimit: Task\n" if($queue{$cur}{Queued} or $queue{$cur}{'Pre-runned'});
+      }
+      foreach $curid (@{$idseq{$cur}}){
+        my $x;
+        next if($ids{$cur}{$curid}{State} eq 'run');
+        print sprintf("%-5d:%10s:%3d:%3d:",$curid,$ids{$cur}{$curid}{User},$ids{$cur}{$curid}{Np},$ids{$cur}{$curid}{Priority});
+        print substr(localtime($ids{$cur}{$curid}{Added}),4,15).': ';
+        if($opt_e!=0){
+            if($ids{$cur}{$curid}{Estimated_run}>0){
+                print substr(localtime($ids{$cur}{$curid}{Estimated_run}),4,15).': ';
+            }
+            else{
+                print '        Unknown: ';
+            }
+        }
+        if($ids{$cur}{$curid}{Timelimit}>0){
+          ($sec,$min,$hr,undef,undef,undef,undef,$day)=
+            gmtime($ids{$cur}{$curid}{Timelimit});
+          print sprintf("%3d:%02d:%02d:%02d: ",$day,$hr,$min,$sec);
+        }
+        else{
+          print '   Unlimited: ';
+        }
+        print "!" if(($ids{$cur}{$curid}{State} eq 'waiting') || ($ids{$cur}{$curid}{State} eq 'prerun'));
+        print "B:$ids{$cur}{$curid}{Blocks}# " if($ids{$cur}{$curid}{Blocked});
+        print "[$ids{$cur}{$curid}{Owner_id}] " if($ids{$cur}{$curid}{Owner_id});
+        print "$ids{$cur}{$curid}{Short_exe}\n";
+        if($opt_l){
+          print "Program :$ids{$cur}{$curid}{Full}";
+          foreach $i (split(/\#/,$ids{$cur}{$curid}{Blocks})){
+            print "\nBlocked :$i";
+          }
+          print "\nOutput  :$ids{$cur}{$curid}{Out}";
+          print "\nReport  :$ids{$cur}{$curid}{Rep}";
+          print "\nWorkdir :$ids{$cur}{$curid}{Work}\n--------------------------------------------\n";
+        }
+      }
+    }
+    print "=======================================\n";
+  }
+  exit 0;
+}
+print "Usage: tasks [-q queue][-P port]\n".
+    "             [-r]   recursive\n".
+    "             [-l]   long output\n".
+    "             [-f]   show foreign tasks\n".
+    "             [-o]   show own tasks\n".
+    "             [-t]   show default and maximal timelimits\n".
+    "             [-b]   show list of blocked cpus\n".
+    "             [-u users] use list of users (show only their tasks)\n".
+    "             [-e]   show estimated run time for queued tasks\n".
+    "   or: tasks [-q queue][-p port]\n".
+    "             [-u users]   use list of users\n".
+    "             [-m mask]    use mask of taskname\n".
+    "             [-Q]         on queued tasks\n".
+    "             [-R]         on running tasks (by default on both running and queued)\n".
+    "             -d <num>|all id of task to delete or delete all matched task\n\n";
+exit(0);
+
+#
+#  Gets opts like this: ('X=i', \$Xoption,...) (this means "option '-X 10' to variable $Xoption=10)
+#  The scans command line for options till founds argument '--' or non-specified
+#  option, or not '-' prefixed argument.
+#  Specifications of options (what goes after 'X='):
+#  i - integer
+#  s - string
+#  + - cumulative value (variable MUST be a list)
+#  nothing - flag
+#
+sub GetOptsTillCan{
+
+  my %args=@_;
+  my ($k,$nk,$nv,$a,$next,%types);
+
+  foreach $k (keys(%args)){
+    $k =~ /^(\S+)(\=)(.*)/ or next;
+    $nk=$1;
+    $nv=$args{$k};
+    $types{$nk} = $3;
+
+    delete $args{$k};
+    $args{$nk} = $nv;
+  }
+
+  while($next=shift @ARGV){
+    last if(substr($next,0,1) ne '-');
+    last if($next eq '--');
+    $a=substr($next,1);
+    last unless(exists $args{$a});
+    undef $next;
+    if(($types{$a} eq 'i') || ($types{$a} eq 's')){
+      $a=$args{$a};
+      $$a=shift @ARGV;
+    }
+    elsif($types{$a} eq ''){
+      $a=$args{$a};
+      $$a=1;
+    }elsif($types{$a} eq '+'){
+      $a=$args{$a};
+      push @$a, shift @ARGV;
+    }
+  }
+  unshift @ARGV, $next if(defined $next);
+}
+

@@ -1,0 +1,172 @@
+#  Example sceduler. Based on 'simple-sceduler'.
+#
+#  Shows most abilities os sceduler module.
+#
+#  It limits user vasya by 10000 seconds per day
+#  (very ugly - it takes in account any tasks started
+#   before midnight and ended after midnight buggy)
+#
+
+
+use vars qw($cleo $vasya_used $vasya_limit);
+
+$cleo=1.0;
+
+$vasya_limit=10_000;
+
+#
+#
+#  start
+#
+###########################################################
+sub start(){
+  my ($time,$mtime,$yday,$cur_yday,$secs);
+
+  $time=time;
+
+  cleo_log "Starting example sceduler. Cleo version is $arg->{version}, queue $arg->{queue}";
+
+  return unless open FILE, "</tmp/ex-sced-savefile.$arg->{queue}";
+
+  # read saved value of hours spent by basya
+  $vasya_used=<FILE>;
+  (undef,undef,undef,undef,undef,undef,undef,undef,undef,$mtime)=stat FILE;
+  close FILE;
+
+  # check, was this value saved today or not...
+  (undef,undef,undef,undef,undef,undef,undef,$yday)=localtime($mtime);
+  (undef,undef,undef,undef,undef,undef,undef,$cur_yday)=localtime($time);
+
+  # if not, reset it
+  if($yday!=$cur_yday){
+    $vasya_used=0;
+  }
+
+  $secs = $time%(24*60*60);  # seconds from midnight
+  $time += 24*60*60 - $secs; # when next midnight will start
+
+  # call alarm at midnight
+  disturb_at($time);
+}
+
+sub event(){
+  my $event=shift;
+  my $args=shift;
+
+  if($event eq 'alarm'){
+
+    # reset vasya's wasted time...
+    $vasya_used = 0;
+
+  }
+  elsif($event eq 'finish'){
+
+    # correct time, wasted by vasya
+    $vasya_used-=($args->{timelimit}-$args->{start}+$args->{work})*$args->{np};
+
+  }
+}
+
+
+#
+#
+#  stop
+#
+###########################################################
+sub stop(){
+  my $arg=shift;
+
+  return unless open FILE, ">/tmp/ex-sced-savefile.$arg->{queue}";
+  print FILE $vasya_used;
+  close FILE;
+}
+
+#
+#
+#  do_scedule
+#
+###########################################################
+sub do_scedule(){
+  my ($tasks,$res,@free);
+  my ($i,$j,$nfree);
+
+  my ($f,$need,$runmode);
+
+  # get arguments
+  $tasks=shift;
+  $res=shift;
+  push @free, @_;
+
+  # count free processors (do not forget reserved!)
+  $nfree=scalar(@free)-$res;
+
+  # can we run own tasks?
+  $runmode = get_mode() & MODE_RUN_ALLOW;
+
+  cleo_log("tasks: ".scalar(@$tasks));
+  cleo_log("NFree: $nfree");
+
+  # No work this time...
+  return 0 if $nfree<1;
+
+  #
+  #  First main loop: run tasks while here are free processors
+  #
+  for($i=0;$i<@$tasks;++$i){
+
+    # ignore own tasks if run is disallowed by mode
+    next if(!$runmode and $tasks->[$i]->{is_own});
+
+    # ignore blocked
+    if(get_task_info($tasks->[$i]->{id},'blocked')){
+      delete $tasks->[$i]->{id}; # exclude this task
+      next;
+    }
+
+    # just log
+    cleo_log("task $i: $tasks->[$i]->{id} np=$tasks->[$i]->{np}");
+
+    # first TOO LARGE task
+    last if(($tasks->[$i]->{np}>$nfree) and $tasks->[$i]->{is_own});
+
+    # check, is it vasya?
+    if($tasks->[$i]->{user} eq 'vasya'){
+      # check, has he time for this task?
+      if($vasya_limit-$vasya_used <= $tasks->[$i]->{timelimit}*$tasks->[$i]->{np}){
+
+        # it fits! Run it!
+        run($tasks->[$i]->{id});
+
+        # correct number of free processors
+        $nfree-=$tasks->[$i]->{np};
+
+        # do not take it in account later
+        delete $tasks->[$i]->{id};
+
+        # add this time to used...
+        $vasya_used += $tasks->[$i]->{timelimit}*$tasks->[$i]->{np};
+
+      }
+      else{
+
+        # block this task
+        block($tasks->[$i]->{id}, "Limit!!!");
+      }
+    }
+    else{
+
+      # it is not vasya - eimply run task!
+      run($tasks->[$i]->{id});
+
+      # correct number of free processors
+      $nfree-=$tasks->[$i]->{np};
+
+      # do not take it in account later
+      delete $tasks->[$i]->{id};
+    }
+  }
+
+  # finished planning!
+  return 0;
+}
+
