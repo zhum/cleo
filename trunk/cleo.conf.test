@@ -1,0 +1,137 @@
+[server]
+
+verbose        = 1
+
+log_file       = /tmp/qlog3
+short_log_file = /tmp/qs3
+
+#sceduler  = quota_sced
+sceduler  = base_sced
+scedulers = base_sced quota_sced
+
+port           = 5252
+admins         = root,+big
+gid            = 600
+max_queue      = 10
+max_tasks      = 4
+#max_np         = 24
+default_time   = 259200 # 3 days...
+pid_file       = /tmp/q3.pid
+queue_save     = /tmp/queue3-save
+queue_alt_save = /tmp/queue3-save.alt
+def_queue      = main
+timeout        = 5
+one_report     = 0
+repfile        = $dir/$sexe.rep-$id
+outfile        = $dir/$sexe.out-$id
+post_exec      = 
+post_exec      = 
+post_exec_write = 
+#Your task '$task" finished with code $status
+q_pre_exec     = 
+#echo "running!!!" | write serg
+temp_dir       = /tmp/qq-$queue-$id
+debug_users    = root,serg
+
+mon_run_string = 
+
+exec_modules = test.cm mvs_access XmlRpcLog
+use_exec_modules = test.cm mvs_access XmlRpcLog
+
+
+#occupy_full_node = 1
+
+use_file  = /tmp/machinefile-$id
+coll_nodes = 0
+#file_head = #machine file for $task\n
+#file_tail = #end\n
+#file_line = $node 1 $task\n
+#first_line = $node 0 $task\n
+#use_first_line = 1
+#exec_line = $exe -p4pg /tmp/machinefile-$id $args
+#exec_line = /usr/local/sbin/run.mpich2 /tmp/machinefile-$id $np $task
+#exec_line = $task
+
+file_line  = $node
+use_first_line = 0
+#exec_line  = /home/serg/Work/cleo/qnew/ssh-runner $np $spaced_cpus $task
+exec_line  = $task
+#use_empty = /tmp/cleo/empty-cleo
+
+#pe_select      = random_hosts
+
+#pe_sel_method   = simple /home/serg/Work/cleo/select.pl
+#qnew/qsmod -L/tmp/qsmod.log -C/home/serg/Work/cleo/qnew/qs.cfg
+#pe_select       = simple
+
+pe_select       = random
+attach_mask     = .*
+
+
+run_via_mons    = 0
+use_monitors    = 1
+rsh_filter      = mpich /home/serg/Work/queue/qmpich-rsh-filter.pl
+use_rsh_filter  = mpich
+#mpich
+rsh_cmd         = mpich sh -c '$mpich_command'
+#file_mask       = /tmp/abcde-.+
+
+
+[groups]
+
+stud     = vvv1,vvv2,vvv3,vvv4,vvv5,vvv6,vvv7,vvv8,akatov,posohova,nevskih
+we       = msx,alex,root,vvv,asa
+#,serg
+big      = alex,root,serg,danila
+
+[clusters]
+
+#niced.parent      = main
+short.parent      = main
+#n2.parent = niced
+
+main.pe = asi.srcc.msu.su:1  asi.srcc.msu.su:2
+main.pe = asi.srcc.msu.su:3  asi.srcc.msu.su:4
+main.pe = asi.srcc.msu.su:5  asi.srcc.msu.su:6
+main.pe = asi.srcc.msu.su:7  asi.srcc.msu.su:8
+main.pe = asi.srcc.msu.su:9  asi.srcc.msu.su:10
+main.users  = +we
+
+##niced.pe = asi.srcc.msu.su:1
+##niced.pe = asi.srcc.msu.su:1  asi.srcc.msu.su:2
+#niced.pe = asi.srcc.msu.su:3  asi.srcc.msu.su:4
+#niced.pe = asi.srcc.msu.su:5  asi.srcc.msu.su:6
+#niced.pe = asi.srcc.msu.su:7  asi.srcc.msu.su:8
+#niced.pe = asi.srcc.msu.su:9  asi.srcc.msu.su:10
+#
+short.pe = asi.srcc.msu.su:1
+#
+##n2.pe = asi.srcc.msu.su:1 asi.srcc.msu.su:2
+#n2.pe = asi.srcc.msu.su:3 asi.srcc.msu.su:4
+#n2.pe = asi.srcc.msu.su:5 asi.srcc.msu.su:6
+#n2.pe = asi.srcc.msu.su:7 asi.srcc.msu.su:8
+#n2.pe = asi.srcc.msu.su:9 asi.srcc.msu.su:10
+#
+#n2.nousers = +stud,fake
+
+[users]
+
+danila.max_np = 20
+sarov.pe_select = random_alone
+sarov.def_queue = all
+
+#serg.exec_line = $task
+
+alex.max_np = 4
+serg.max_np=4
+
+[profiles]
+single.exec_line=echo $task >/tmp/yahoo2
+show.exec_line=echo $uniq_nodes // $cpus // $spaced_mpi_nodes //  $spaced_nodes
+multi.file_line=$node $list_line
+
+[mod]
+quota_sced.*.*.hquota = 100
+quota_sced.*.*.quota  = 20
+quota_sced.*.*.priority = 30
+quota_sced.*.*.db_prefix = /tmp

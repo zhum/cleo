@@ -1,0 +1,65 @@
+#!/usr/bin/perl
+
+use strict;
+
+use vars qw(@run $port $queue $arg $h $recurs);
+
+GetOptsTillCan('q=s'=>\$queue,'P=i'=>\$port,'r='=>\$recurs,'h='=>\$h);
+
+if($h){
+  warn "Usage: $0 [-q queue][-P port] [mode]\n";
+  exit(1);
+}
+
+if(defined $port) {push @run, "-p", $port;}
+if(defined $queue){push @run, "-q", $queue;}
+if(defined $recurs){push @run, "-R";}
+
+push @run, '-m';
+
+unless(scalar(@ARGV)>0){ push @run, 'view';}
+
+for my $i (@ARGV){
+  $i =~ s/\\//g;
+  $i =~ s/\'/\"/g;
+  $i =~ s/\0//g;
+  push @run, $i;
+}
+
+$arg=join(' ',@run);
+
+exec("__BIN__/cleo-client $arg");
+warn "Cannot exec client application...\n";
+exit(10);
+
+sub GetOptsTillCan{
+  my %args=@_;
+  my ($k,$nk,$nv,$a,$next,%types);
+
+  foreach $k (keys(%args)){
+    $k =~ /^(\S+)(\=)(.*)/ or next;
+    $nk=$1;
+    $nv=$args{$k};
+    $types{$nk} = $3;
+
+    delete $args{$k};
+    $args{$nk} = $nv;
+  }
+
+  while($next=shift @ARGV){
+    last if(substr($next,0,1) ne '-');
+    $a=substr($next,1);
+    last unless(exists $args{$a});
+    undef $next;
+    if($types{$a} eq 'i' || $types{$a} eq 's'){
+      $a=$args{$a};
+      $$a=shift @ARGV;
+    }
+    elsif($types{$a} eq ''){
+      $a=$args{$a};
+      $$a=1;
+    }
+  }
+  unshift @ARGV, $next if(defined $next);
+}
+

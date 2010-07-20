@@ -1,0 +1,161 @@
+#!/bin/sh
+#
+# chkconfig: 2345 90 40
+# description: Cleo batch system start/stop script
+#
+# processname: cleo
+# config: /etc/cleo.conf
+# pidfile: /var/run/cleo.pid
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+LOCKFILE=/var/lock/subsys/cleo-mon
+RETVAL=0
+
+
+######################################
+###   BASE CONSTANTS
+######################################
+
+CONF=__CONF__/cleo.conf
+CLIENT=__BIN__/cleo-client
+CLEO=__SBIN__/cleo
+KEYS="-c $CONF"
+DEFPORT=5252
+STDOUT=/dev/null
+LC_ALL=C
+#ru_RU.KOI8-R
+
+export LC_ALL
+
+######################################
+###   PREPARING
+######################################
+
+STR=`grep pid_file $CONF | head -n 1`
+PIDFILE=`echo $STR | cut -d = -f 2|sed -e 's/\ //g'`
+#echo $PIDFILE
+
+if [ -f "$PIDFILE" ]; then
+  PID=`cat $PIDFILE`
+else
+  PID=""
+fi
+
+STR=`grep -q port $CONF`
+PORT=`echo $STR | cut -d = -f 1`
+if [ -z "$PORT" ]; then
+  PORT=$DEFPORT
+fi
+
+######################################
+###   BASE CHECK
+######################################
+
+if [ ! -f $CONF ]; then
+  echo_failure "cannot find config file ($CONF)!"
+  exit 1
+fi
+
+######################################
+###   SUPPORTING SUBROUTINES
+######################################
+
+stop_q ()
+{
+    msg_stopping $"Cleo server"
+    stop_daemon --pidfile "$PIDFILE" --lockfile "$LOCKFILE" --no-announce -- $CLEO
+    RETVAL=$?
+
+    # force stopping
+    sleep 3
+    kill -9 $PID 2>/dev/null >&2
+
+    return $RETVAL
+}
+
+start_q ()
+{
+    if [ "x$PID" != "x" -a -d "/proc/$PID" ]; then
+        msg_already_running "Cleo is already started."
+        return 0
+    fi
+
+    msg_starting $"Cleo server"
+    start_daemon --pidfile "$PIDFILE" --lockfile "$LOCKFILE" --no-announce -- $CLEO $KEYS >$STDOUT 2>&1
+    RETVAL=$?
+    return $RETVAL
+}
+
+######################################
+##  THE SCRIPT MAIN PART
+######################################
+
+
+case "$1" in
+  status)
+    pid=`ps -eo pid,comm|grep -v grep|grep \ cleo\$| cut -d \  -f 2`
+    if [ "x$pid" != "x" ]; then
+        echo_success "running"
+        RETVAL=0
+    else
+        echo_failure "not running"
+        RETVAL=1
+    fi
+    ;;
+  start)
+    start_q;
+    ;;
+  stop)
+    stop_q;
+    ;;
+  restart)
+    stop_q;
+    start_q;
+    ;;
+  reload)
+    msg_reloading "Cleo"
+    $CLIENT -p $PORT -m conf_reload
+    RETVAL=$?
+    if [ RETVAL == 0 ]; then
+        success "reloaded"
+    else
+        failure "not reloaded"
+    fi
+    ;;
+  condstart)
+    if [ ! -e "$LOCKFILE" ]; then
+        start_q;
+    fi
+    ;;
+  condstop)
+    if [ ! -e "$LOCKFILE" ]; then
+        stop_q;
+    fi
+    ;;
+  condrestart)
+    if [ ! -e "$LOCKFILE" ]; then
+        stop_q;
+        start_q;
+    fi
+    ;;
+  condreload)
+    if [ ! -e "$LOCKFILE" ]; then
+        msg_reloading "Cleo"
+        $CLIENT -p $PORT -m conf_reload
+        RETVAL=$?
+        if [ RETVAL == 0 ]; then
+            echo_success "reloaded"
+        else
+            echo_failure "not reloaded"
+        fi
+    fi
+    ;;
+  *)
+    msg_usage "{status|start|stop|restat|reload|condstart|condstop|condrestat|condreload}"
+    exit 1
+esac
+
+exit $RETVAL

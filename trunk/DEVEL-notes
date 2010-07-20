@@ -1,0 +1,44 @@
+SUCC_OK
+SUCC_FAIL
+SUCC_COND
+
+SUCC_ALL      get all answers
+SUCC_FIRST    get first answer
+SUCC_ANY      get first wanted answer
+SUCC_RET      get answers till EPP in returned hashe 'success' is false
+SUCC_WAIT
+
+
+MON ATTACH HANDLER:
+
+-------------------------------------------
+mon_init_attach_handler
+
+      hash
+      success (SUCC_ OK/FAIL)
+
+    # for parent (process answers from childs)
+    my ( $hash, $succ, $a, $user_v, $from, $ret_args ) = @_;
+
+
+-------------------------------------------
+new_req_to_mon:
+
+       what         - type
+       args         - % arguments
+       to           - @ or one name or '_all_'
+       success_cond - success condition
+       success_subr - success subroutine
+       every_subr   - every mon answer subroutine
+    optional
+       timeout      - timeout
+       timeout_subr - timeout subroutine
+
+mon_spp/tpp/epp:
+
+       hash
+       success (SUCC_ OK/FAIL/)
+       args
+       user_vars
+       from
+       entry

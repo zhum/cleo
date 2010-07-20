@@ -1,0 +1,24 @@
+  listfile_mod is a exec modules for Cleo batch system. It controls
+PAM module listfile to restrict direct users access to compute nodes.
+
+  Before task start it creates (or updates) files named /DIR/NODENAME
+where DIR is predefined dir (must be accessible to all nodes) and
+NODENAME is name of used node. If task uses N nodes, there will be
+N files created (updated).
+  Each created or updated file will contain user name, so user will be
+allowed to use services on node.
+  After task finish username will be erased from file.
+
+  NOTE! If one user runs 2 or more tasks on onw node, his name will be
+erased from file on FIRST task end.
+
+  To enable PAM control for ssh, add theese lines to BEGIN of /etc/pam.d/sshd:
+
+account sufficient pam_listfile.so onerr=succeed sense=allow item=user file=/DIR/root
+account required   pam_listfile.so onerr=succeed sense=allow item=user file=/DIR/NODENAME
+
+  DIR and NODENAME were spoken about before.
+
+  In file /DIR/root you may list users, which are always allowed. If you want to
+be more restricted, change onerr=succeed in second line to onerr=fail.
+

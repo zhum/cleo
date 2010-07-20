@@ -1,0 +1,100 @@
+#!/usr/bin/perl
+#version 3
+
+use strict;
+
+use vars qw($opt_P $opt_r $port_string $opt_q $opt_h $client $opt_b $opt_u
+            $opt_R $opt_s $opt_f);
+
+$client='__BIN__/cleo-client';
+
+GetOptsTillCan('P=i'=>\$opt_P,
+               'r=' =>\$opt_r,
+               'h=' =>\$opt_h,
+               'R=s'=>\$opt_R,
+               'q=s'=>\$opt_q,
+               's=' =>\$opt_s,
+               'b=' =>\$opt_b,
+               'f=' =>\$opt_f,
+               'u=' =>\$opt_u
+              );
+# -r -> recursive     -b -> block    -u -> unblock
+
+
+if($opt_h || ($ARGV[0] eq '')){
+    warn "Usage: $0 [-q queue][-P port][-R reason][-r][-s][-b|-u] cpus_list\n".
+         "  -r     recursive\n".
+         "  -s     safe - do not block until any task is running on node (default)\n".
+         "  -f     force - block immediately\n".
+         "  Cpus list can be given as list of nodes and/or cpus and/or".
+         "  diapasons of them via comma. Diapasons are two cpu or node".
+         "  names with '..' between. E.g. node1..node3\n";
+    exit(1);
+}
+
+$port_string  =" -p $opt_P" if $opt_P =~ /^\d+$/;
+$port_string .=" -R" if $opt_r;
+$port_string .=" -O 1" if $opt_s;
+$port_string .=" -M '$opt_R'" if $opt_R ne '';
+$port_string .=" -q $opt_q" if $opt_q ne '';
+
+$port_string .=" -O 1" unless $opt_f;
+
+if($opt_u){
+  $b = '-U';
+}
+else{
+  $b = '-B';
+}
+
+exec("$client $port_string $b ".join(',',@ARGV));
+warn("Internal error. Unable to run client application\n");
+exit(10);
+
+
+#
+#  Gets opts like this: ('X=i', \$Xoption,...) (this means "option '-X 10' to variable $Xoption=10)
+#  The scans command line for options till founds argument '--' or non-specified
+#  option, or not '-' prefixed argument.
+#  Specifications of options (what goes after 'X='):
+#  i - integer
+#  s - string
+#  + - cumulative value (variable MUST be a list)
+#  nothing - flag
+#
+sub GetOptsTillCan{
+
+  my %args=@_;
+  my ($k,$nk,$nv,$a,$next,%types);
+
+  foreach $k (keys(%args)){
+    $k =~ /^(\S+)(\=)(.*)/ or next;
+    $nk=$1;
+    $nv=$args{$k};
+    $types{$nk} = $3;
+
+    delete $args{$k};
+    $args{$nk} = $nv;
+  }
+
+  while($next=shift @ARGV){
+    last if(substr($next,0,1) ne '-');
+    last if($next eq '--');
+    $a=substr($next,1);
+    last unless(exists $args{$a});
+    undef $next;
+    if(($types{$a} eq 'i') || ($types{$a} eq 's')){
+      $a=$args{$a};
+      $$a=shift @ARGV;
+    }
+    elsif($types{$a} eq ''){
+      $a=$args{$a};
+      $$a=1;
+    }elsif($types{$a} eq '+'){
+      $a=$args{$a};
+      push @$a, shift @ARGV;
+    }
+  }
+  unshift @ARGV, $next if(defined $next);
+}
+

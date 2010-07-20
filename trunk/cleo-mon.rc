@@ -1,0 +1,92 @@
+#!/bin/sh
+#
+#  Cleo node monitor start/stop script
+#
+#
+
+
+PIDFILE=/var/run/qmon.pid
+PIDFILE2=/tmp/qmon.pid
+
+
+if [ -f "$PIDFILE" ]; then
+  PID=`cat $PIDFILE`
+else
+  if [ -f "$PIDFILE2" ]; then
+    PID=`cat $PIDFILE2`
+  else
+    PID=""
+  fi
+fi
+
+######################################
+###   SUPPORTING SUBROUTINES
+######################################
+
+stop_q ()
+{
+    if [ "x$PID" != "x" -a -d "/proc/$PID" ]; then
+      kill -TERM $PID
+      sleep 3
+      kill -9 $PID 2>/dev/null >&2
+    fi
+}
+
+start_q ()
+{
+    __SBIN__/cleo-mon
+}
+
+######################################
+##  THE SCRIPT MAIN PART
+######################################
+
+
+case "$1" in
+  start)
+    echo -n "Starting Cleo monitor... "
+    start_q;
+    echo "done"
+    ;;
+  stop)
+    echo -n "Stopping Cleo monitor... "
+    stop_q;
+    echo "done"
+    ;;
+  status)
+    echo -n "Cleo monitor is "
+    if [ "x$PID" != "x" -a -d "/proc/$PID" ]; then
+      echo "running."
+    else
+      echo "not running"
+      exit 1
+    fi
+    ;;
+  restart|reload)
+    echo -n "Restarting Cleo monitor... "
+    stop_q;
+    start_q;
+    echo "done"
+    ;;
+  condstart)
+    echo -n "Starting Cleo monitor... "
+    start_q;
+    echo "done"
+    ;;
+  condstop)
+    echo -n "Stopping Cleo monitor... "
+    stop_q;
+    echo "done"
+    ;;
+  condrestart|condreload)
+    echo -n "Restarting Cleo monitor... "
+    stop_q;
+    start_q;
+    echo "done"
+    ;;
+  *)
+    echo "${0##*/} {start|stop|status|reload|restart|condstart|condstop|condreload|condrestart}"
+    exit 1
+esac
+
+exit 0

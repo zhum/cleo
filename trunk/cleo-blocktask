@@ -1,0 +1,106 @@
+#!/usr/bin/perl
+#version 3
+
+use strict;
+
+
+use vars qw($opt_P $opt_r $port_string $opt_q $opt_h $client $opt_b $opt_u @opt_U $opt_t $opt_R $opt_a);
+
+$client='__BIN__/cleo-client';
+
+GetOptsTillCan('P=i'=>\$opt_P,
+               'r=' =>\$opt_r,
+               'h=' =>\$opt_h,
+               'q=s'=>\$opt_q,
+               'b=' =>\$opt_b,
+               'u=' =>\$opt_u,
+               'U=+'=>\@opt_U,
+               'R=s'=>\$opt_R,
+               'a=s'=>\$opt_a,
+               't=s'=>\$opt_t
+              );
+# -r -> recursive     -b -> block    -u -> unblock
+# -R -> reason        -a -> 'as user'
+
+
+if($opt_h || ($ARGV[0] eq '')){
+    warn "Usage: $0 [-q queue][-P port][-r][-U userlist][-t taskmask]\n".
+         "                  [-R 'reason'][-a as_user][-b|-u] task_id\n\n";
+    exit(1);
+}
+
+$port_string  =" -p $opt_P" if $opt_P =~ /^\d+$/;
+$port_string .=" -R" if $opt_r;
+$port_string .=" -q $opt_q" if $opt_q;
+$port_string .=" -O '$opt_R'" if $opt_R;
+$port_string .=" -S $opt_a" if $opt_a;
+$port_string .=" -L ".join(',',@opt_U) if(scalar(@opt_U));
+if($opt_t){
+  $opt_t =~ tr/\0\'\"\`//s;
+  $port_string.=" -M '  $opt_t'";
+}
+
+if($opt_u){
+  $b = '-u';
+}
+else{
+  $b = '-b';
+}
+
+if(($ARGV[0] ne 'all') && ($ARGV[0] !~ /^\d+$/)){
+  die "Usage: cleo-blocktask [-q queue][-P port][-r][-U userlist][-t taskmask]\n".
+  "                  [-R 'reason'][-a as_user][-b|-u] task_id1 ... task_idN\n\n"
+}
+exec("$client $port_string $b ".join(',',@ARGV));
+warn("Internal error. Unable to run client application\n");
+exit(10);
+
+
+
+
+#
+#  Gets opts like this: ('X=i', \$Xoption,...) (this means "option '-X 10' to variable $Xoption=10)
+#  The scans command line for options till founds argument '--' or non-specified
+#  option, or not '-' prefixed argument.
+#  Specifications of options (what goes after 'X='):
+#  i - integer
+#  s - string
+#  + - cumulative value (variable MUST be a list)
+#  nothing - flag
+#
+sub GetOptsTillCan{
+
+  my %args=@_;
+  my ($k,$nk,$nv,$a,$next,%types);
+
+  foreach $k (keys(%args)){
+    $k =~ /^(\S+)(\=)(.*)/ or next;
+    $nk=$1;
+    $nv=$args{$k};
+    $types{$nk} = $3;
+
+    delete $args{$k};
+    $args{$nk} = $nv;
+  }
+
+  while($next=shift @ARGV){
+    last if(substr($next,0,1) ne '-');
+    last if($next eq '--');
+    $a=substr($next,1);
+    last unless(exists $args{$a});
+    undef $next;
+    if(($types{$a} eq 'i') || ($types{$a} eq 's')){
+      $a=$args{$a};
+      $$a=shift @ARGV;
+    }
+    elsif($types{$a} eq ''){
+      $a=$args{$a};
+      $$a=1;
+    }elsif($types{$a} eq '+'){
+      $a=$args{$a};
+      push @$a, shift @ARGV;
+    }
+  }
+  unshift @ARGV, $next if(defined $next);
+}
+

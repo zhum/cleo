@@ -1,0 +1,190 @@
+#!/bin/sh
+#
+# chkconfig: 2345 90 40
+# description: Cleo agent start/stop script
+#
+# processname: cleo-mon
+# config: /etc/cleo-mon.conf
+# pidfile: /var/run/cleo-mon.pid
+#
+# LSB:
+# Provides: cleo-mon
+# Required-Start: $network
+# Required-Stop: 
+# Default-Start: 2 3 5
+# Default-Stop: 2 3 5
+# Short-Description: Cleo agent start/stop script
+# Description: Cleo agent start/stop script
+
+PIDFILE=/var/run/cleo-mon.pid
+LOCKFILE=/var/lock/subsys/cleo-mon
+RETVAL=0
+
+
+# Source function library.
+if [ -e /etc/init.d/functions ]; then
+  # altlinux mode
+
+######################################
+###   SUPPORTING SUBROUTINES
+######################################
+
+stop_q ()
+{
+    msg_stopping $"Cleo agent"
+    stop_daemon --pidfile "$PIDFILE" --lockfile "$LOCKFILE" --no-announce -- /usr/sbin/cleo-mon
+    RETVAL=$?
+    if [ RETVAL == 0]; then
+        success
+    else
+        failure
+    fi
+    return $RETVAL
+
+#    pid=`ps -eo pid,comm|grep -v grep|grep cleo-mon| cut -d \  -f 2`
+#    if [ "x$pid" != "x" ]; then
+#      kill $pid
+#    fi
+#    RETVAL=$?
+#    return $RETVAL
+}
+
+start_q ()
+{
+    msg_starting $"Cleo agent"
+    start_daemon --pidfile "$PIDFILE" --lockfile "$LOCKFILE" --no-announce -- /usr/sbin/cleo-mon
+    RETVAL=$?
+    if [ RETVAL == 0]; then
+        success
+    else
+        failure
+    fi
+    return $RETVAL
+}
+
+status_q()
+{
+    pid=`ps -eo pid,comm|grep -v grep|grep cleo-mon| cut -d \  -f 2`
+    if [ "x$pid" != "x" ]; then
+        echo_success "runnung"
+        RETVAL=0
+    else
+        echo_failure "not running"
+        RETVAL=1
+    fi
+}
+elif [ -e /lib/lsb/init-functions ]; then
+  #  LSB mode
+  source /lib/lsb/init-functions
+  lsb_ver=`lsb_release -v 2>/dev/null`
+  lsb2=0
+  if echo '$lsb_ver' |grep 'core-2.*-noarch &>/dev/null'; then
+      lsb2=1
+  fi
+  lsb3=0
+  if echo '$lsb_ver' |grep 'core-[3456789].*-noarch &>/dev/null'; then
+      lsb3=1
+  fi
+  
+  if [ $lsb3 = 0  -a $lsb2 = 1 ]; then
+      # emulate log_daemon_msg
+      log_daemon_msg()
+          {
+              echo "$@"
+          }
+   fi
+  
+
+######################################
+###   SUPPORTING SUBROUTINES
+######################################
+
+stop_q () #lsb
+{
+    log_daemon_msg "Cleo agent stopping "
+    killproc -p "$PIDFILE" -- /usr/sbin/cleo-mon
+    RETVAL=$?
+    if [ RETVAL = 0 ]; then
+        log_success_msg "OK"
+    else
+        log_failure_msg "FAIL"
+    fi
+    return $RETVAL
+
+#    pid=`ps -eo pid,comm|grep -v grep|grep cleo-mon| cut -d \  -f 2`
+#    if [ "x$pid" != "x" ]; then
+#      kill $pid
+#    fi
+#    RETVAL=$?
+#    return $RETVAL
+}
+
+start_q () #lsb
+{
+    log_daemon_msg "Cleo agent starting "
+    start_daemon -p "$PIDFILE" /usr/sbin/cleo-mon
+    RETVAL=$?
+    if [ RETVAL = 0 ]; then
+        log_success_msg "OK"
+    else
+        log_failure_msg "FAIL"
+    fi
+    return $RETVAL
+}
+
+status_q() #lsb
+{
+    log_daemon_msg "Cleo agent i s"
+    pidofproc -p "$PIDFILE" /usr/sbin/cleo-mon
+    if [ $? = 0 ]; then
+        log_success_msg "running"
+        RETVAL=0
+    else
+        log_failure_msg "stopped"
+        RETVAL=1
+    fi
+}
+fi
+
+
+######################################
+##  THE SCRIPT MAIN PART
+######################################
+
+
+case "$1" in
+  status)
+    status_q;
+    ;;
+  start)
+    start_q;
+    ;;
+  stop)
+    stop_q;
+    ;;
+  restart|reload|try-restart)
+    stop_q;
+    start_q;
+    ;;
+  condstart)
+    if [ ! -e "$LOCKFILE" ]; then
+        start_q;
+    fi
+    ;;
+  condstop)
+    if [ ! -e "$LOCKFILE" ]; then
+        stop_q;
+    fi
+    ;;
+  condrestart|condreload)
+    if [ ! -e "$LOCKFILE" ]; then
+        stop_q;
+        start_q;
+    fi
+    ;;
+  *)
+    echo "${0##*/} {start|stop|status|reload|restart|condstart|condstop|condreload|condrestart}"
+    exit 1
+esac
+
+exit $RETVAL

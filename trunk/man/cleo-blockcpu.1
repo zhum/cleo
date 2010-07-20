@@ -1,0 +1,76 @@
+.TH "cleo-blockcpu" "1" "5.x" "Sergey Zhumatiy" "Cleo Commands"
+.SH "NAME"
+.LP 
+cleo\-blockcpu \- blocks or unblocks specified cpus in all queues.
+.SH "SYNTAX"
+.LP 
+\fBcleo\-blockcpu\fR [\fIOPTIONS\fP] \fB<cpus>\fR
+.SH "DESCRIPTION"
+.LP 
+\fBcleo\-blockcpu\fR blocks or unblocks specified cpus in all queues.
+.SH "OPTIONS"
+.LP 
+.TP 
+\fB\-h\fR
+Print help information and exit.
+
+.TP 
+\fB\-b\fR
+Block specified cpus. This is the default. This option is mutually exclusive to \fI\-u\fR.
+
+.TP 
+\fB\-u\fR
+Unblock specified cpus. This option is mutually exclusive to \fI\-b\fR.
+
+.TP 
+\fB\-s\fR
+Block cpu in safe mode. If cpu is running any task, it won't be blocked. Cpu will be immediately blocked when task will finished.
+
+.TP 
+\fB\-R <reason>\fR
+Describe blocking theese cpus with <reason>.
+
+.TP 
+\fBcpus\fR
+Cpus list of cpu names or node names via space.
+
+.SH "ENVIRONMENT VARIABLES"
+.LP 
+.TP 
+\fBCLEO_PORT\fP
+Specifies the port to connect to Cleo server
+.SH "ERROR CODES"
+.LP 
+Returned error codes:
+.TP 
+0 \- OK
+.TP 
+1 \- Invalid arguments (or help requested)
+.TP 
+2 \- No action is specified
+.TP 
+3 \- Server communication error
+.TP 
+4 \- Bad arguments
+.TP 
+5 \- Command fails
+.TP 
+10 \- Not possible to start client application
+.TP 
+20 \- Internal error detected
+.SH "EXAMPLES"
+.LP 
+Block first processor on node cl_node5:
+.IP 
+\fBcleo\-blockcpu cl_node5:1\fR
+
+.LP 
+Unblock all processors on nodes from cl_node5 to cl_node9 (using bash expansion)
+.IP 
+\fBcleo\-blockcpu \-u cl_node{5,6,7,8,9}\fR
+.SH "AUTHORS"
+.LP 
+Sergey Zhumatiy <serg@parallel.ru>
+.SH "SEE ALSO"
+.LP 
+cleo\-client(1), tasks(1), cleo\-priority(1), mpirun(1), cleo\-autoblock(1), cleo\-blocktask(1), cleo\-mode(1), cleo\-stat(1), bash(1), cleo\-freeze(1)

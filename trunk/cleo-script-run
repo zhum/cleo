@@ -1,0 +1,14 @@
+#!/bin/sh
+
+NP=$1
+FILE=$2
+shift
+shift
+
+export NP
+export FILE
+
+#export >/tmp/111222
+exec "$@"
+#>/tmp/111 2>/tmp/222
+

@@ -1,0 +1,189 @@
+.TH empty 1 "May, 1 2005"
+.SH NAME
+empty \- run processes under pseudo-terminal sessions
+.SH SYNOPSIS
+.br
+.B empty
+\-f \-i 
+.B fifo1 
+\-o 
+.B fifo2 command 
+[command args]
+.br
+.B empty
+\-w [-vn] [-t n] \-i
+.B fifo2
+\-o 
+.B fifo1 keyphrase 
+[response]
+.br
+.B empty
+\-s [\-n] \-o 
+.B fifo1 request
+.br
+.B empty
+\-k 
+.B pid 
+[signal]
+.SH DESCRIPTION
+.B empty
+is an utility that provides a simple interface to execute and/or interact with processes under pseudo-terminal sessions. This tool is definitely useful in programming of shell scripts which are used to communicate with interactive programs like telnet or ftp. In some cases
+.B empty
+can be a substitution for TCL/TK expect or other similar programming tools.
+.PP
+There are several common forms of command lines for
+.B empty.
+But the first execution of
+.B empty
+is usually a start in the daemon mode to
+.B fork
+a new 
+.B command 
+(process) under PTY-session. This can be done with 
+.B \-f
+key. 
+An interface for the input and output data channels of the forked process is performed by two fifo files which names must be specified with
+.B \-i 
+and 
+.B \-o 
+keys. This files are automaticaly created/deleted any time you start/exit
+.B empty
+daemon so you must not create them manually.
+.PP
+At this point any application can easily communicate with forked process by writing data to the input fifo and reading answers from the output fifo, see
+.B EXAMPLES 
+section for the details. To simplify this operations,
+.B empty
+offers abilities to just
+.B send
+any data (use
+.B \-s
+key), or even to 
+.B watch
+the output fifo for the 
+.B keyphrase
+and reply to the input fifo with
+.B response
+(see
+.B \-w
+key).
+.PP
+.B Note!
+Input fifo for
+.B empty -f ...
+is usually an output fifo for
+.B empty -w 
+and 
+.B empty -s
+forms. And output fifo of
+.B empty -f ...
+is an input fifo for
+.B empty -w ...
+.PP
+If something goes wrong the forked process may be 
+.B killed
+by the standard kill command, or using
+.B \-k
+key of
+.B empty.
+.PP
+The following options are available:
+.TP 12
+\-f
+fork, spawn, start or execute a new process specified by the
+.B command
+and its arguments.
+.TP
+\-s
+send data to the forked process.
+.TP
+\-w
+.B watch
+for the
+.B keyphrase
+and if specified send the
+.B response
+to the input fifo.
+If 
+.B response
+is not set,
+.B empty
+waits for the proper
+.B keyphrase
+in the output fifo and exits with zero code.
+.TP
+\-k pid
+send
+.B signal
+to the process with
+.B pid.
+If
+.B signal
+is omitted SIGTERM is used.
+.TP
+\-i fifo1
+a fifo file, which is used as input for a forked process.
+.TP
+\-o fifo2
+a fifo file, which is used as output for a forked process.
+.TP
+\-t n
+Use with
+.B \-w
+key. Wait for maximum of
+.B n 
+seconds (default is 10) to receive the
+.B keyphrase.
+If
+.B keyphrase
+was not recognised, empty exits with -1 code.
+.TP
+\-n
+remove ending "newline" character when sending data.
+.TP
+\-v
+kvazi verbose mode. Show all contents of received buffer.
+.SH EXAMPLES
+.TP 0 
+Start a new PTY-session with telnet to localhost:
+.nf
+	empty -f -i in.fifo -o out.fifo telnet localhost
+.fi
+.TP
+Interact with telnet:
+.nf
+	empty \-w \-i out.fifo \-o in.fifo ogin my_user
+	empty \-w \-i out.fifo \-o in.fifo assword my_password
+.fi
+.TP
+Send commands to telnet with empty:
+.nf
+	empty \-s \-o in.fifo who
+	empty \-s \-o in.fifo "ls \-la /"
+.fi
+.TP
+Just cat output from telnet:
+.nf
+	cat out.fifo
+.fi
+.TP
+Send commands to telnet with echo:
+.nf
+	echo "who am i" > in.fifo
+	echo "uname -a" > in.fifo
+.fi
+.TP
+Kill a process with PID 1234:
+.nf
+	empty -k 1234
+or
+	kill 1234
+.nf
+.SH RETURN VALUES
+If any error occurs
+.B empty
+usually exits with code 1 otherwise zero is returned. 
+.SH AUTHOR
+.B empty
+was made by Mikhail E. Zakharov. This software was based on the basic idea of pty version 4.0 Copyright (c) 1992, Daniel J. Bernstein but no code was ported from pty4.
+

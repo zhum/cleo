@@ -1,0 +1,164 @@
+.TH "mpirun" "1" "5.x" "Sergey Zhumatiy" "Cleo Commands"
+.SH "NAME"
+.LP 
+mpirun \- enqueue new task to queue (compatibile with MPI standard)
+.SH "SYNTAX"
+.LP 
+\fBmpirun \-np N\fR [\fIOPTIONS\fP] task [task args]
+.SH "DESCRIPTION"
+.LP 
+\fBmpirun\fR tries to submit MPI task to the Cleo queue. Most common options, recommended by MPI cosorcium are supported (see below).
+.LP 
+
+If succeed, output would be similar to:
+
+.IP 
+Using queue main
+.br 
+Successfully added to queue main (ID=100)
+
+.LP This means, that your task is added to queue named 'main' with id=100. You can view or delete this task by id using command \fBtasks(1)\fR.
+
+.LP 
+If mpirun failed, output would be similar to:
+
+.IP 
+Using queue main
+.br 
+Error: \fIThe_error_description.\fR
+
+.SH "OPTIONS"
+.LP 
+.TP 
+\fB\-h\fR
+Print help information and exit.
+
+.TP 
+\fB\-np <N>\fR
+Specify the number of processors to run on. \fIThis_option_is_always_required.\fR
+
+
+.TP 
+\fB\-stdin <filename>\fR
+Use \fIfilename\fR as the standard input for the program.
+
+.TP 
+\fB\-stdout <filename>\fR
+Use \fIfilename\fR as the standard output for the program.
+
+.TP 
+\fB\-stderr <filename>\fR
+Use \fIfilename\fR as the standard error for the program.
+
+.TP 
+\fB\-q <queue>\fR
+Use queue named \fIqueue\fR to submit to.
+
+.TP 
+\fB\-as <profile\-name>\fR
+Use run profile \fIprofile\-name\fR.
+
+.TP 
+\fB\-t <attrname>[=value]\fR
+Associate with this task attribute, named \fIattrname\fR. If \fIvalue\fR is specified, attribute will be initialized with it. Otherwise '0' is used as default value.
+
+.TP 
+\fB\-p <pri>\fR
+Set task priority to \fIpri\fR.
+
+.TP 
+\fB\-l <lim>\fR
+Set task execution time limit to \fIlim\fR (in seconds).
+
+.TP 
+\fB\-maxtime <lim>\fR
+Set task execution time limit to \fIlim\fR (in minutes).
+
+.TP 
+\fB\-w <dir>\fR
+Use workdir \fIdir\fR.
+
+.TP 
+\fB\-k <strategy>\fR
+Use processors select strategy, named \fIstrategy\fR.
+
+.TP 
+\fB\-P <port>\fR
+Use \fIport\fR as port number to connect to Cleo server.
+
+.TP 
+\fB\-r <list>\fR
+Wait for tasks listed in \fIlist\fR and run ONLY if they all had ran or any of them had ran (see \-z) Tasks must be listed via comma.
+
+.TP 
+\fB\-Y <list>\fR
+Wait for tasks listed in \fIlist\fR will finish \fBsuccessfully\fR. Wait for all or any of listed tasks \- see \-z. Tasks must be listed via comma.
+
+.TP 
+\fB\-Z <list>\fR
+Wait for tasks listed in \fIlist\fR will \fBfail\fR. Wait for all or any of listed tasks \- see \-z. Tasks must be listed via comma.
+
+.TP 
+\fB\-z <a|and|o|or>\fR
+Set condition for tasks waiting (see \-r, \-Y, \-Z). \fIa\fR or \fIand\fR set condition 'and', i.e. ALL listed tasks must fulfill requirenments. \fIo\fR or \fIor\fR set condition 'or', i.e. ANY of listed tasks must fulfill requirenments.
+.SH "ENVIRONMENT VARIABLES"
+.LP 
+.TP 
+\fBCLEO_PORT\fP
+Specifies the port to connect to Cleo server
+
+.TP 
+\fBCLEO_QUEUE\fP
+Specifies the queue to use
+
+.TP
+\fBCLEO_TEMP\fP
+Specifies temporary directory to use for task.
+
+.TP
+\fBCLEO_OUT\fP
+Specifies output file name template for task.
+
+.TP
+\fBCLEO_REP\fP
+Specifies report file name template for task.
+
+.SH "ERROR CODES"
+.LP 
+Returned error codes:
+.TP 
+0 \- OK
+.TP 
+1 \- Invalid arguments (or help requested)
+.TP 
+2 \- No action is specified
+.TP 
+3 \- Server communication error
+.TP 
+4 \- Bad arguments
+.TP 
+5 \- Command fails
+.TP 
+10 \- Not possible to start client application
+.TP 
+20 \- Internal error detected
+.SH "EXAMPLES"
+.LP 
+Enqueue task mpitest into default queue on 2 processors:
+.IP 
+\fBmpirun \-np 2 mpitest\fR
+
+.LP 
+Enqueue task mpitest with parameters 100 and 200 into queue 'debug' on 4 processors with time limit of 2 minutes:
+.IP 
+\fBmpirun \-np 4 \-maxtime 2 \-q debug mpitest 100 200\fR
+.IP 
+or
+.IP 
+\fBmpirun \-np 4 \-l 120 \-q debug mpitest 100 200\fR
+.SH "AUTHORS"
+.LP 
+Sergey Zhumatiy <serg@parallel.ru>
+.SH "SEE ALSO"
+.LP 
+cleo\-client(1), tasks(1), cleo\-priority(1), cleo\-autoblock(1), cleo\-blockcpu(1), cleo\-blocktask(1), cleo\-mode(1), cleo\-stat(1), cleo\-freeze(1)

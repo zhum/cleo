@@ -1,0 +1,115 @@
+#
+#
+#
+#
+#
+
+include ../Makefile.conf
+
+SEDBINDIR=$(shell echo $(BINDIR) | sed -ne 's/\//\\\//g; p')
+SEDSBINDIR=$(shell echo $(SBINDIR) | sed -ne 's/\//\\\//g; p')
+SEDSHAREDDIR=$(shell echo $(SHAREDDIR) | sed -ne 's/\//\\\//g; p')
+SEDRCDIR=$(shell echo $(RCDIR) | sed -ne 's/\//\\\//g; p')
+SEDETCDIR=$(shell echo $(ETCDIR) | sed -ne 's/\//\\\//g; p')
+OLDVEREXE=q3.pl qmode qclient3.pl block_cpu block_task qstat\
+	      autoblock change_pri
+
+THEBINDIR=$(BASEDIR)/$(BINDIR)
+THESBINDIR=$(BASEDIR)/$(SBINDIR)
+THESHAREDDIR=$(BASEDIR)/$(SHAREDDIR)
+THERCDIR=$(BASEDIR)/$(RCDIR)
+THEETCDIR=$(BASEDIR)/$(ETCDIR)
+THEMANDIR=$(BASEDIR)/$(MANDIR)
+THEDOCDIR=$(BASEDIR)/$(DOCDIR)/cleo
+
+all: comp-test cleofiles emptyfiles manfiles
+
+comp-test:
+	perl ../compat-test.pl
+
+compatible: backup
+	ln -s $(THEBINDIR)/cleo $(THEBINDIR)/q3.pl
+	ln -s $(THEBINDIR)/cleo-mode $(THEBINDIR)/qmode
+	ln -s $(THEBINDIR)/cleo-client $(THEBINDIR)/qclient3.pl
+	ln -s $(THEBINDIR)/cleo-blockcpu $(THEBINDIR)/block_cpu
+	ln -s $(THEBINDIR)/cleo-blocktask $(THEBINDIR)/block_task
+	ln -s $(THEBINDIR)/cleo-stat $(THEBINDIR)/qstat
+	ln -s $(THEBINDIR)/cleo-autoblock $(THEBINDIR)/autoblock
+	ln -s $(THEBINDIR)/cleo-priority $(THEBINDIR)/change_pri
+
+backup:
+	for i in $(OLDVEREXE); do \
+	  [ -f $(THEBINDIR)/$i ] && mv $(THEBINDIR)/$i $(THEBINDIR)/$i.version4\
+	done
+	[ -f $(THEBINDIR)/mpirun ] && mv $(THEBINDIR)/mpirun $(THEBINDIR)/mpirun.version4
+	[ -f $(THEBINDIR)/tasks ] && mv $(THEBINDIR)/tasks $(THEBINDIR)/tasks.version4
+
+cleofiles:
+	for i in $(PERLFILES) $(PERLSFILES) $(SHAREDFILES) $(CONFFILES) \
+	$(SCRIPTS) $(EXTRAFILES); do \
+	  sed -ne "s/__BIN__/$(SEDBINDIR)/g; \
+	           s/__SBIN__/$(SEDSBINDIR)/g; \
+	           s/__SHARED__/$(SEDSHAREDDIR)/g; \
+	           s/__RC__/$(SEDRCDIR)/g; \
+	           s/__CONF__/$(SEDETCDIR)/g; \
+	           p" <../$$i >$$i;\
+	done
+
+manfiles:
+	for i in $(MANFILES1); do \
+	  gzip -c <../man/$$i >$$i.gz; \
+	done
+
+emptyfiles:
+	cd ../empty; $(MAKE); cd ..
+
+install:
+	install $(INSTALL_FLAGS) -m 0755 -d $(THEBINDIR) $(THESHAREDDIR) \
+	  $(THESBINDIR) $(THERCDIR) $(THEDOCDIR) $(THEETCDIR) $(THEMANDIR)/man1 $(THESHAREDDIR)/Cleo
+#	cp ../cleo-conn.pm Conn.pm
+	install $(INSTALL_FLAGS) -m 0755 $(PERLFILES) $(THEBINDIR)
+	install $(INSTALL_FLAGS) -m 0755 $(PERLSFILES) $(THESBINDIR)
+	install $(INSTALL_FLAGS) -m 0755 $(EXEFILES) $(THEBINDIR)
+	install $(INSTALL_FLAGS) -m 0644 $(SHAREDFILES) $(THESHAREDDIR)
+	install $(INSTALL_FLAGS) -m 0644 $(EXTRAFILES) $(THESHAREDDIR)/Cleo
+	install $(INSTALL_FLAGS) -m 0755 cleo.rc $(THERCDIR)/cleo
+	install $(INSTALL_FLAGS) -m 0755 cleo-mon.rc $(THERCDIR)/cleo-mon
+	install $(INSTALL_FLAGS) -m 0755 $(CONFFILES) $(THEETCDIR)
+	install $(INSTALL_MANS) -m 0644 *.1.gz $(THEMANDIR)/man1
+
+	chgrp $(MPIGROUP) $(THEBINDIR)/cleo-submit $(THEBINDIR)/mpirun || true
+	chmod 0750 $(THEBINDIR)/cleo-submit
+	chmod 0745 $(THEBINDIR)/mpirun
+
+	(cd ..; install $(INSTALL_FLAGS) -m 0644 $(DOCS) $(THEDOCDIR))
+	if [ $(RCINSTALL) == "1" ]; then \
+          /usr/lib/lsb/install_initd  $(THERCRDIR)/cleo $(THERCRDIR)/S90cleo; \
+	fi
+	for i in $(NODES); do \
+          echo "Copying to $$i"; \
+          cat cleo-mon | $(RSH) $$i "cat > $(THEBINDIR)/cleo-mon; \
+                chown $(USER).$(GROUP) $(THEBINDIR)/cleo-mon; \
+                chmod 0755 $(THEBINDIR)/cleo-mon"; \
+          cat cleo-mon.rc | $(RSH) $$i "cat > $(THERCDIR)/cleo-mon; \
+                chown $(USER).$(GROUP) $(THERCDIR)/cleo-mon; \
+                chmod 0755 $(THERCDIR)/cleo-mon"; \
+          cat Conn.pm | $(RSH) $$i "install $(INSTALL_FLAGS) -m 0755 -d $(THESHAREDDIR)/Cleo; \
+                cat > $(THESHAREDDIR)/Cleo/Conn.pm; \
+                chown $(USER).$(GROUP) $(THESHAREDDIR)/Cleo/Conn.pm; \
+                chmod 0755 $(THESHAREDDIR)/Cleo/Conn.pm"; \
+          if [ $(RCINSTALL) == "1" ]; then \
+            $(RSH) $$i "/usr/lib/lsb/install_initd  $(THERCRDIR)/cleo-mon"; \
+          fi; \
+        done;
+	if [ -f $(THEETCDIR)/cleo.conf ]; then \
+          echo ;\
+          echo ;\
+          echo ;\
+          echo Copy $(THEETCDIR)/cleo.conf.example to cleo.conf and edit it for your config.;\
+          echo ;\
+          echo ;\
+          echo ;\
+        else \
+          mv $(THEETCDIR)/cleo.conf.example $(THEETCDIR)/cleo.conf ;\
+        fi;
+

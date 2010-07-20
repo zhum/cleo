@@ -1,0 +1,131 @@
+.TH "cleo-mode" "1" "5.x" "Sergey Zhumatiy" "Cleo Commands"
+.SH "NAME"
+.LP 
+cleo\-mode \- changes or queries Cleo server running modes and does some special tasks.
+.SH "SYNTAX"
+.LP 
+\fBcleo\-mode\fR [\fIOPTIONS\fP] command
+.SH "DESCRIPTION"
+.LP 
+\fBcleo\-mode\fR can change operation mode of Cleo server or query current mode.
+.LP 
+
+Only users with admin Cleo priveleges can run this command. Other users will get answer similar this:
+
+.IP 
+$ cleo\-mode
+.br 
+You are not authorized to change server mode (testuser).
+
+.LP 
+Awailable commands are:
+.TP 
+\fBversion\fR
+Show server version.
+
+.TP 
+\fBupdate_pid\fR
+Write pid\-file again.
+
+.TP 
+\fBconf_reload\fR
+Reload configuration file. This does not change processor set of queues and queues hierarhy.
+
+.TP 
+\fBupdate_users\fR
+Reload list of users, available in the system (via passwd file)
+
+.TP 
+\fBreload_sced\fR
+Reload sceduler(s).
+
+.TP 
+\fBupdate_restrict\fR
+Reload /etc/cleo\-time\-restrictions file.
+
+.TP 
+\fBnorun\fR
+Change server mode. No tasks would be ran.
+
+.TP 
+\fBrun\fR
+Change server mode. Tasks can be ran again.
+
+.TP 
+\fBqdisable\fR
+Change server mode. No tasks would be submitted to queue.
+
+.TP 
+\fBqenable\fR
+Change server mode. Tasks can be submitted to queue again.
+
+.TP 
+\fBrecreate_logs\fR
+Close and open all log files (usefull for logrotate).
+
+.TP 
+\fBview\fR
+Default \- view current server mode.
+
+
+
+
+.SH "OPTIONS"
+.LP 
+.TP 
+\fB\-h\fR
+Print help information and exit.
+
+.TP 
+\fB\-q <queue>\fR
+Use queue named \fIqueue\fR to submit to.
+
+.TP 
+\fB\-r\fR
+Do the action recursively on all subqueues.
+
+.TP 
+\fB\-P <port>\fR
+Use \fIport\fR as port number to connect to Cleo server.
+
+
+.SH "ENVIRONMENT VARIABLES"
+.LP 
+.TP 
+\fBQS_PORT\fP
+Specifies the port to connect to Cleo server
+
+.TP 
+\fBCLEO_QUEUE\fP
+Specifies the queue to use
+.SH "ERROR CODES"
+.LP 
+Returned error codes:
+.TP 
+0 \- OK
+.TP 
+1 \- Invalid arguments (or help requested)
+.TP 
+2 \- No action is specified
+.TP 
+3 \- Server communication error
+.TP 
+4 \- Bad arguments
+.TP 
+5 \- Command fails
+.TP 
+10 \- Not possible to start client application
+.TP 
+20 \- Internal error detected
+.SH "EXAMPLES"
+.LP 
+Deprecate to run any new tasks in queue 'test'.
+.IP 
+\fBcleo\-mode \-q test norun\fR
+
+.SH "AUTHORS"
+.LP 
+Sergey Zhumatiy <serg@parallel.ru>
+.SH "SEE ALSO"
+.LP 
+cleo\-client(1), tasks(1), cleo\-priority(1), cleo\-autoblock(1), cleo\-blockcpu(1), cleo\-blocktask(1),  cleo\-stat(1), cleo\-freeze(1)

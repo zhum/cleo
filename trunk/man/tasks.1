@@ -1,0 +1,145 @@
+.TH "tasks" "1" "5.x" "Sergey Zhumatiy" "Cleo Commands"
+.SH "NAME"
+.LP 
+tasks \- Watch or delete task(s) in queue
+.SH "SYNTAX"
+.LP 
+\fBtasks\fR [\fIOPTIONS\fP]
+.br 
+\fBtasks\fR [\fIOPTIONS\fP] \fI\-d\fP \fBid\fR [\fIid ... id\fP]
+.SH "DESCRIPTION"
+.LP 
+By default \fBtasks\fR shows all tasks in queue \fIowned by user\fR, unless user is the administrator.
+To see tasks of other users you can use \fI\-f\fR option. If \fI\-d\fR option is specified, then all desired tasks are deleted from queue (no information about tasks in queue is shown then).
+.TP 
+\fINote:\fR You sould NOT glue options like this: \-ofl. You should always specify all them separately: \-o \-f \-l. 
+.SH "OPTIONS"
+.LP 
+.TP 
+\fB\-h\fR
+Print help information and exit.
+
+.TP 
+\fB\-r\fR
+Be recursive.
+
+.TP 
+\fB\-q\fR \fIqueue\fR
+Use queue named \fIqueue\fR.
+
+.TP 
+\fB\-P\fR \fIport\fR
+Use \fIport\fR as port to connect to Cleo server.
+
+.TP 
+\fB\-l\fR
+Show long output. Include work dir, status and output files, program arguments and used CPUs (for runned tasks) in output information about tasks.
+
+.TP 
+\fB\-t\fR
+Show default and maximal timelimits.
+
+.TP 
+\fB\-b\fR
+Show list of blocked cpus if there are.
+
+.TP 
+\fB\-o\fR
+Show only own tasks (default for non\-administrators). May be combined with \fB\-f\fR option.
+
+.TP 
+\fB\-f\fR
+Show only tasks of other users. May be combined with \fB\-o\fR option.
+
+.TP 
+\fB\-u\fR \fIuserlist\fR
+Show (or delete, if \fB\-d\fR is used) only tasks of users, listed in \fIuserlist\fR (via comma)
+
+.TP 
+\fB\-m\fR \fIregexp\fR
+Is used only with \fB\-d\fR. Only those tasks will be deleted, which names maches \fIregexp\fR (in perl syntax). 
+
+.TP 
+\fB\-e\fR
+Show estimated run time for queued tasks.
+
+.TP 
+\fB\-Q\fR
+Is used only with \fB\-d\fR. Only queued tasks will be deleted.
+
+.TP 
+\fB\-R\fR
+Is used only with \fB\-d\fR. Only runned tasks will be deleted.
+
+.TP 
+\fB\-d\fR
+Deletes task(s). <\fIid\fP> may be single task id or the word \fIall\fR. In last case all tasks are deleted.
+Note \fI\-u\fR, \fI\-Q\fR, \fI\-R\fR and \fI\-m\fR options, which can be specified to delete only desired tasks. 
+.SH "ENVIRONMENT VARIABLES"
+.LP 
+.TP 
+\fBCLEO_SUBMIT_OPTS\fP
+Specifies default options for cleo-submit and mpirun.
+
+.TP 
+\fBCLEO_PORT\fP
+Specifies the port to connect to Cleo server.
+
+.TP 
+\fBCLEO_QUEUE\fP
+Specifies the queue to use.
+
+.TP 
+\fBCLEO_TASK_OPTS\fP
+Specifies default options. Usually '-e', to show estimated run time by default.
+
+.SH "ERROR CODES"
+.LP 
+Returned error codes:
+.TP 
+0 \- OK
+.TP 
+1 \- Invalid arguments (or help requested)
+.TP 
+2 \- No action is specified
+.TP 
+3 \- Server communication error
+.TP 
+4 \- Bad arguments
+.TP 
+5 \- Command fails
+.TP 
+10 \- Not possible to start client application
+.TP 
+20 \- Internal error detected
+.SH "EXAMPLES"
+.LP 
+To see tasks in queue by default you can simply type:
+.IP 
+\fBtasks\fR
+
+.LP 
+If you want to see datailed list of all tasks in queue 'abc' then use:
+.IP 
+\fBtasks \-l \-o \-f \-q abc\fR
+
+.LP 
+To see your timelimits and blockrd tasks with tasks list use:
+.IP 
+\fBtasks \-b \-t\fR
+
+.LP 
+To delete all tasks of users hax0r and lamer, which names begins with crack, use:
+.IP 
+\fBtasks \-d \-u hax0r,lamer \-m ^crack\.\* all\fR
+
+.LP 
+To delete tasks 752, 800 and 801 from queue abc use:
+.IP 
+\fBtasks \-d \-q abc 752 800 801\fR
+.SH "AUTHORS"
+.LP 
+Sergey Zhumatiy <serg@parallel.ru>
+.SH "SEE ALSO"
+.LP 
+cleo\-client(1), mpirun(1), cleo\-priority(1), cleo\-autoblock(1), cleo\-blockcpu(1), cleo\-blocktask(1), cleo\-mode(1), cleo\-stat(1), cleo\-freeze(1)

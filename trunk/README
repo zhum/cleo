@@ -1,0 +1,76 @@
+  Cleo is a batch processing system for miltiprocessors or/and clusters
+(queue system).
+
+  This software is made for Joint SuperComputer Centre (Moscow Russia)
+and for Science Research Computer Centre of Moscow State University
+(Moscow Russia). Author of this software is Sergey Zhumatiy (serg@parallel.ru).
+
+  You can use it ONLY after contacting author and getting the agreement.
+It is free.
+
+  Please, see the LICENSE and GPL files.
+
+INSTALLATION
+
+  1. You must have perl5 or higher installed.
+
+  2. Ensure, that all your header files are converted to perl or just run
+      cd /usr/include; h2ph -r -l .
+
+     If some header file fails, then simply MOVE it in other place, run h2ph
+       again and tthen return header file back.
+
+  3. Edit Makefile.conf file, to set proper directories for
+     installation. You also can edit files owner and permissions.
+
+  4. If you are ugrading from version 4 or earlier and want to save
+     old executables, run 'make backup'. This saves your old
+     executables with '.version4' extensions. Then you must copy current
+     'tasks' and 'mpirun' executables to safe place.
+
+  5. If you want to save compatibility with old commands names (such
+     as qmode), you can run 'make compatible'.
+
+  6. Save your original 'mpirun' script, if it is placed in the same
+     dir, as cleo executables will be installed. Cleo will use its own
+     mpirun script, but you must save the original.
+
+  7. Run 'make', then 'make install'
+
+  9. If you didn't use automatic copying to nodes, copy
+     /usr/local/bin/cleo-mon to the same dir on computational nodes,
+     and file /etc/init.d/cleo-mon.rc to /etc/init.d/cleo-mon on nodes.
+     Then you must create directory /usr/local/share/Cleo (if you had
+     changed SHAREDDIR, then $SHAREDDIR/Cleo), and copy
+     /usr/local/share/Cleo/Conn.pm on every node.
+
+  10. Link /etc/init.d/cleo.rc to your system start script directory(s)
+     with accordance to used runlevel. On different systems it may be
+     /etc/rc3.d/S99cleo, or /etc/init.d/rc3.d/cleo, etc...
+
+  11. Link /etc/init.d/cleo-mon.rc on computational nodes to
+     your system start script directory(s).
+
+
+  Now customize your /etc/cleo.conf file (see documentation), and start
+monitors, if you need (/etc/init.d/cleo-mon.rc start) on nodes.
+  You can use saved mpirun script to run mpi appliactions from
+cleo. To prevent run this script directly, you can change its group to
+special group (like mpi), permit to read and execute it only for this
+group, and specify this group in cleo.conf by 'group = ...' in
+[global] section.
+
+  To start system just type '/etc/init.d/cleo.rc start'.
+
+
+TUNING
+
+  You can tune the system by adding new modules and scedulers. You can
+read about creating new scedulers in file README-sceduler-create. An
+example sceduler is presented by file example-sceduler, you can use
+it. Also you can use base_sced - the default sceduler.
+  You can create new modules, which are called on each task run or
+end. Detailed info and simple examples may be found in file
+Modules-howto. For example, you can copy some files on nodes before
+task run and clean them after task end, etc.
+

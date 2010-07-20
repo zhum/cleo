@@ -1,0 +1,103 @@
+.TH "cleo-blocktask" "1" "5.x" "Sergey Zhumatiy" "Cleo Commands"
+.SH "NAME"
+.LP 
+cleo\-blocktask \- block or unblock user task(s)
+.SH "SYNTAX"
+.LP 
+\fBcleo\-blocktask [\fIOPTIONS\fP] <task_ids|all>
+.SH "DESCRIPTION"
+.LP 
+\fBcleo\-blocktask\fR blocks or unblocks user task(s), probably with given reason (see also \fBcleo\-autoblock\fR). As parameter you can type task id or 'all'. In last case all tasks with specified parameters will be affected.
+.LP 
+.SH "OPTIONS"
+.LP 
+.TP 
+\fB\-h\fR
+Print help information and exit.
+
+.TP 
+\fB\-r\fR
+Be recursive
+
+.TP 
+\fB\-U <userlist>\fR
+Affect only tasks of users in \fIuserlist\fR (via comma).
+
+.TP 
+\fB\-t <taskmask>\fR
+Affect only tasks, which names are like regular expression \fItaskmask\fR. Regular expression must be in perl notation.
+
+.TP 
+\fB\-R <reason>\fR
+Use \fIreason\fR as description to (un)block task.
+
+.TP 
+\fB\-a <user>\fR
+Make action as user \fIuser\fR.
+
+.TP 
+\fB\-b\fR
+Block task(s). (default action)
+
+.TP 
+\fB\-u\fR
+Unblock task(s).
+
+.TP 
+\fB\-q <queue>\fR
+Use queue named \fIqueue\fR to submit to.
+
+.TP 
+\fB\-P <port>\fR
+Use \fIport\fR to conect to Cleo server.
+
+.SH "ENVIRONMENT VARIABLES"
+.LP 
+.TP 
+\fBCLEO_PORT\fP
+Specifies the port to connect to Cleo server
+
+.TP 
+\fBCLEO_QUEUE\fP
+Specifies the queue to use
+.SH "ERROR CODES"
+.LP 
+Returned error codes:
+.TP 
+0 \- OK
+.TP 
+1 \- Invalid arguments (or help requested)
+.TP 
+2 \- No action is specified
+.TP 
+3 \- Server communication error
+.TP 
+4 \- Bad arguments
+.TP 
+5 \- Command fails
+.TP 
+10 \- Not possible to start client application
+.TP 
+20 \- Internal error detected
+.SH "EXAMPLES"
+.LP 
+Block all tasks of user user1:
+.IP 
+\fBcleo\-blocktask \-U user1 all\fR
+
+.LP 
+Unblock all tasks count1, count2, etc., blocked with reason 'Temporary stop':
+.IP 
+\fBcleo\-blocktask \-t 'count.+' \-R 'Temporary stop' \-u all\fR
+
+.LP 
+Unblock tasks with ids 111 and 222 in queue 'debug':
+.IP 
+\fBcleo\-blocktask \-u \-q debug 111 222\fR
+
+.SH "AUTHORS"
+.LP 
+Sergey Zhumatiy <serg@parallel.ru>
+.SH "SEE ALSO"
+.LP 
+cleo\-client(1), tasks(1), cleo\-priority(1), mpirun(1), cleo\-blockcpu(1), cleo\-autoblock(1), cleo\-mode(1), cleo\-stat(1)

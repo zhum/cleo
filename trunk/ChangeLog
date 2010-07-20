@@ -1,0 +1,1573 @@
+2010-07-20    Sergey Zhumatiy  <serg@parallel.ru>
+* base_sched
+    - fixed forgotten ppn in second pass
+
+2010-07-13    Sergey Zhumatiy  <serg@parallel.ru>
+* cleosupport.pm
+    - added use_file_simple option
+
+2009-07-15    Sergey Zhumatiy  <serg@parallel.ru>
+* tasks
+  - added support for estimated task run info
+
+* cleo, cleosupport.pm
+  - many fixes for task rerun
+  - fix for monitor timeout
+  
+2009-06-03    Sergey Zhumatiy  <serg@parallel.ru>
+* version 5.22b
+
+* base_sched
+  - new scheduler, implementing processes-per-node (ppn) politic
+
+* empty-cleo.c
+  - too much cpu consumption fixed
+  - out files are appendable now.
+  - added '-e' key to redirect stderr
+  - added '-r' key to print pid/gid/exitcode into file
+
+* cleosupport.pm:
+  - time export to xml fixed
+  - debug messages for extra cpu added
+  - log_level option in config file added
+  - blocked tasks count fixed in xml export
+  - <blocked> section is printed in all tasks entries now
+  - get/set_task_attr function added for schedulers
+  - added calculation of some variables (such as extra_nodes_used) after restart
+  - new scheduler optional event added: select_cpus. It must return list of cpus to run selected task
+  - logrotate filename year is fixed
+  - fixed 'Full task line' option in get_task_list_w_flags
+  - max_log_days/max_log_size added to config options
+  - fixed log rotating
+  - added some options for translating to monitors
+  - init_attach uses SUCC_ALL instead SUCC_ANY condition now
+  - fixed closed channel losing
+  - max_cpuh and max_runned limits added
+  - xml_rights added (0644 by default)
+  - xml output fixed
+  - extra checks on task cpus occupation
+  - log rotation fixed
+  - xml report now is generated in tmp file, then is renamed
+  - xml report format is changed to new version
+  - fixed missed stdin/stderr redirection
+  - added fix for prerunned tasks after cleo restart
+  - fixed emty username in attach request
+  - less debugging information by default
+
+* cleo.pl:
+  - new schedulers format added (returning cpu list)
+  - task attributes added
+  - initial code for cpu selection from scheduler is added
+  - version info in mode_version request is corrected
+  - added some options for translating to monitors
+  - new pseudo-variable added: $wrap = wrapper with args
+  - default exec_line changed to /opt/mpich/...
+  - block_task does not change queue status now. Do it in several cases especially now.
+  - exec_modules cancel_task() works fine now
+  - exec_module 'cancel' action function is called now on task cancel
+  - added task cancel from exec_modules
+  - task rerun after execution fail implemented (not tested)
+  - less debugging information by default
+  - nil_sub is moved to cleosupport.pm
+  - timeout for empty answer id decreased by default
+  - run_chunk_tmout parameter is added: limit time to run new or prerunned tasks at once
+  - task_local_renice parameter is added: renice localy executed tasks processes
+  - DEBUG2 level messages are not logged by default now
+
+* cleo-mon.pl:
+  - fixed UGLY tasks attaching bug
+  - $attach_in_progress ALWAYS is string now. No digits.
+  - delayed_requests deleted
+  - last_attach mechanism implemented
+  - dead tasks are cleaned up every 600 seconds now
+  - added wrapper support
+  - base function for illegal process filter added (not working yet)
+  - OOM-killer prevention added
+  - deprecated UIDs added (0-100 by default)
+  - minor fixes
+
+* mpirun.1:
+  - -t key added
+
+* mpirun:
+  - -t key added
+
+* cleo-client:
+  - -x key added
+
+* Cleo/Conn.pm:
+  - closed connections are not destroyed until all data won't sent or channed becomes dead
+  - fixed undefined channel closing
+
+* cleo-blockcpu:
+  - exit codes corrected
+
+* cleo-freeze:
+  - exit codes corrected
+
+* cleo-priority:
+  - exit codes corrected
+
+* cleo-autoblock:
+  - exit codes corrected
+
+* cleo-terminal:
+  - exit codes corrected
+
+* cleo-mode:
+  - exit codes corrected
+
+* mpirun:
+  - exit codes corrected
+
+* tasks:
+  - exit codes corrected
+
+* cleo-blockcpu.1:
+  - exit codes info added
+
+* cleo-freeze.1:
+  - exit codes info added
+
+* cleo-priority.1:
+  - exit codes info added
+
+* cleo-autoblock.1:
+  - exit codes info added
+
+* cleo-terminal.1:
+  - exit codes info added
+
+* cleo-mode.1:
+  - exit codes info added
+
+* mpirun.1:
+  - exit codes info added
+
+* tasks.1:
+  - exit codes info added
+
+* mpirun:
+  - option -r, -Y -Z and -z added
+
+* Makefile:
+  - added clean target
+  - check for 'ready' dir availability
+  - use $(MAKE) instead make
+  - unique tasks uids added (not actually used now)
+  - post_exec fixes
+
+* Makefile.conf:
+  - cleo-wrapper added
+
+* cleo-wrapper.pl:
+  - execution wrapper added
+
+* cleo.rc:
+  - client is in sbin instead of bin now.
+
+* cleo-client:
+  - -x key added
+* Cleo/Conn.pm:
+  - closed connections are not destroyed until all data won't sent
+    or channed becomes dead
+
+2008-12-18   Sergey Zhumatiy  <serg@parallel.ru>
+  * version 5.20a released
+  * cleosupport.pm:
+   - max_log_days/max_log_size added to config options
+   - fixed log rotating
+   - added some options for translating to monitors
+  * Makefile.conf: cleo-wrapper added
+  * mkdistr: cleo-wrapper added
+  * cleo-mon:
+   - fixed UGLY tasks attaching bug
+   - $attach_in_progress ALWAYS is string now. No digits.
+   - delayed_requests deleted
+   - last_attach mechanism implemented
+   - dead tasks are cleaned up every 600 seconds now
+  * cleo:
+   - added some options for translating to monitors
+   - fixed closed channel losing
+   - block_task does not change queue status now. Do it in several cases especially now.
+   - minor bugfixes
+   - cpu blocked reason xml bugfix
+
+2008-10-24  Sergey Zhumatiy  <serg@parallel.ru>
+  * version 5.13 (b)
+  * client is in sbin instead of bin now.
+  * cleosupport.pm:
+    - max_cpuh and max_runned limits added
+    - xml_rights added (0644 by default)
+    - extra checks on task cpus occupation
+    - log rotation fixed
+    - xml report now is generated in tmp file, then is renamed
+    - xml report format is changed to new version
+    - fixed missed stdin/stderr redirection
+  * cleo_mon:
+    - deprecated UIDs added (0-100 by default)
+    - minor fixes
+  * empty-cleo.c:
+    - out files are appendable now.
+  * Makefile:
+   - check for 'ready' dir availability
+   - use $(MAKE) instead make
+   - unique tasks uids added (not actually used now)
+   - post_exec fixes
+   - minor fixes
+  * cleo:
+   - xml fomat fixed again
+   - exec_modules cancel_task() works fine now
+   - exec_module 'cancel' action function is called now on task cancel
+   - cleosopport.pm added task cancel from exec_modules
+   - timeout for empty answer id decreased by default
+   - run_chunk_tmout parameter is added: limit time to run new or prerunned tasks at once
+   - task_local_renice parameter is added: renice localy executed tasks processes
+   - DEBUG2 level messages are not logged by default now
+  * mpirun:
+   - option -r, -Y -Z and -z added
+  * Conn.pm
+   - fixed undefined channel closing
+  * cleo-empty.c:
+   - added '-e' key to redirect stderr
+  * cleo-mon rc
+   - script is improved
+
+2008-04-02  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * version 5.12 (a)
+
+    * spec files for AltLinux and CentOS added
+
+    * minor bugs fixed
+
+    * logrotate added
+
+2007-08-21  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * version 5.11 (a)
+
+    * LSB 3.1 compliant init script added
+
+    * added automatic log rotating
+
+    * added russian pdf-documentation
+
+    * fixed missing cleaning rsh_data
+
+    * fixed "fase 3" freezing
+
+2007-08-09  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * version 5.10 (b)
+
+    * cleo: fixed timeout in server-user communication
+
+    * Cleo/Conn.pm: only IPv4 mode selectd. v6 has some troubles
+
+    * Cleo/Conn.pm: send and recv replaced by sysread and syswrite
+
+    * Cleo/Conn.pm: minor fixes
+
+    * cleo-mon: fixed long messages accident truncating
+
+2007-06-27  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * version 5.10 (a)
+
+    * cleosupport.pm: XML status reformed to new format
+
+    * cleo: new command 'freeze' is added
+
+    * cleo, cleo-mon: new IO layer implemented
+
+    * Cleo/Conn.pm: new IO layer for non-blocking communications
+
+    * cleo-mon: fixed bugs with misdetected task pids
+
+2007-03-01  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * version 5.02 (g)
+
+    * cleosupport.pm: XML status fixed
+
+    * listfile_mod: Fixed bugs
+
+    * cleo: New short log entry: ADDED
+
+    * cleo: Now new pseudo-variable is available: $[...]. It
+    evaluates any arithemtical expreassion
+
+    * cleo: Now cleo-mode command conf_reload is named reload_conf by
+    default (old name is supported)
+
+    * Admguide.odt: Recent changes documented
+
+
+
+2006-11-10  Sergey Zhumatiy  <serg@parallel.ru>
+    * version 5.02 (e)
+
+    * cleo-mon: fixed update_childs() bug (empty childs list)
+
+    * cleo: message contents from childs are not logged by default now
+
+    * cleo, cleosupport.pm: now detached processes (empty-cleo) are checked too
+
+    * cleo: message 'finished' from mons is forwarded to childs always now
+
+    * cleosupport.pm: xml state saving is implemeted (not tested fully)
+
+2006-09-20  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * version 5.02 (c)
+
+    * cleo-mon: fixed bad detected ip address of host machine (when dhcp
+    is used)
+
+2006-08-16  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * version 5.02 (b)
+
+    * cleo: fixed answer on 'chattr' request
+
+2006-07-31  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * version 5.02 (a)
+
+2006-07-31  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * tasks: now unlimited tasks are shown as 'unlimited'
+
+    * cleosupport.pm: added support for timelimit changing
+
+    * cleosupport.pm: some code cleanups
+
+    * cleo-client: added support for timelimit changing
+
+    * cleo: added support for timelimit changing
+
+    * cleo: some minor fixes
+
+2006-07-24  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * cleo: fixed incorrect work time reporting in rep-files.
+
+2006-05-30  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * cleo-mon: added version info in 'int_info'
+
+    * cleo-mon: fixed task child processes killing
+
+    * cleo-mon: now we do not open listen port untill correct hostname
+                    will be gotten.
+
+    * cleosupport.pm: first node is passed as $node to scripts now
+
+    * cleo: support for version info in monitor answer added
+
+
+2006-05-26  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * version 5.01
+
+    * cleosupport.pm: Fixed badly blocking cpus
+
+2006-05-03  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * cleosupport.pm: Fixed (un)blocking tasks
+
+    * cleo-client: Fixed (un)blocking tasks
+
+2006-04-11  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * version 5.00
+
+2006-04-11  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * mkdistr: russian docs added
+
+    * cleosupport.pm: when config is reloading, list variables would be
+    overwritten now
+
+    * cleo-client: detailed server answer is shown now
+
+    * cleo-blocktask: multiple tasks can be specified now
+
+    * cleo-blockcpu: multiple cpus can be specified now
+
+    * cleo: support for multiple block request added; minor changes
+
+    * README-sceduler-create: some fixes
+
+    * README: additions and fixes
+
+    * Makefile.ready: bugfixes
+
+2006-03-22  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * cleo-mon: Bugfix: now extra processes are not killed.
+
+2006-03-21  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * cleo-mon: Bugfix: on task deleteion state file is updated.
+
+    * cleo: Now on monitor reconnect internal_info request is sent to
+    it
+
+
+2006-03-20  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * cleo: fixed multiple fail-dead mail messages
+
+    * cleo: started new code for verification of just reconnected monitor
+
+2006-03-07  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * tasks: -d can take many ids now
+
+    * mkdistr: man files were added
+
+    * cleosupport.pm: some bugfixes; del_task can delete many ids at
+    once now; workaround on exec_modules hanging
+
+    * cleo-client: -d allows many ids now
+
+    * cleo: some bugfixes
+
+    * README: some correction were added
+
+    * Makefile.ready: man files were added
+
+    * Makefile.conf: man files were added
+
+2006-02-15  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * cleosupport.pm: Fixed small bug in task state change. Added slog
+    RUN_NODES
+
+    * cleo-mon: Fixed nondetectable channel closing
+
+    * empty-cleo-0.1/empty-cleo.c: fixed hung on child unexpected
+    death
+
+
+2006-02-10  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * empty-cleo-0.1/empty-cleo.c: fixed output files truncating when
+    sigchild comes.
+
+2006-02-03  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * cleo: small bug fixed - nothing was done on mon 'run' answer to
+    CHILD queue
+
+
+2006-01-30  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * VERSION 4.90d
+
+    * cleo: Fixed bad timelimit setting (when timelimit is undefined
+    in add request)
+
+    * cleosupport.pm,cleo: Greatly improved algorithm of monitors
+    alive-check.
+
+    * cleo-mon: added priority changing (to -19)
+
+2005-12-20  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * VERSION 4.90c
+
+    * qsupport.pm: now extern_ids info is collected when server
+    restores status
+
+    * qsupport.pm, q3.pl: fixed bad call to mons 'run' - now timeout
+    wont happens unexpectedly
+
+    * q3.pl: fixed pre-runned task processors reserving
+
+    * q3.pl: fixed 'is_admin' mistyping
+
+    * XmlRpcLog.pm: minor changes
+
+
+2005-12-12  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * VERSION 4.90b
+
+    * q3.pl: Added permission check into get_io handler.
+
+    * q3.pl: Fixed bad answer in get_io handler.
+
+    * empty-cleo-0.1/cleo-terminal: fixed empty-cleo call string.
+
+2005-12-12  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * qsupport.pm: Fixed some bugs in new_req_to_mon call
+
+    * q3.pl: Fixed some bugs in new_req_to_mon call
+
+    * q3.pl: Added timed out requests for init_attach logging
+
+    * q3.pl: Empty support improved
+
+2005-12-05  Sergey Zhumatiy  <serg@parallel.ru>
+
+    * VERSION 4.90a
+
+    * qsupport.pm: added empty support
+
+    * q3.pl: added support for 'get_io' command (for empty)
+
+    * subst_path.pl: new script for installation
+
+    * Modules-hoto.txt: added description of extern modules
+
+    * Makefile.defs: template for Makefile
+
+    * Makefile: added make rules
+
+    * Extern-shuffle.txt: added description of creating new extern pe
+    select modules
+
+12-11-2005
+    * qmo3.pl, qsupport.pm, q3.pl: added 'hard_kill_delay' parameter
+    to define daley between TERM and KILL signals
+    * tasks: fixed invalid timelimit showing on queued tasks
+
+10-11-2005
+    * qmon3.pl: fixed ugly bug - never attached on nodes
+    * q3.pl: fixed double writing to rep-file
+    * q3.pl: fixed always happened hardkill
+
+09-11-2005
+    * qsupport.pm: fixed ugly bug - phantom tasks via remove_id
+
+08-11-2005
+    * version 4.88 (a)
+
+08-11-2005
+    * q3.pl, qsuport.pm, qmon3.pl: Some bugs fixed (attach processing)
+
+31-10-2005
+    * qsupport.pm: fixed bad execute_task return code interpretation
+    * qsupport.pm: fixed missed processors reservation in attach-mode
+    run
+
+07-10-2005
+    * q3.pl: fixed open file descriptors leak
+    * qsupport.pm: ugly patch applied for failing when file cannot be saved
+
+07-10-2005
+    * qsuport.pm: added get_mod_setting function, get_settings call
+    for scedulers. Added list_queued call for scedulers
+
+
+30-09-2005
+    * q3.pl: timed out 'del_mon_task' deletes task in queue now.
+    * qsupport.pm: fixed bad code in Sceduler module.
+
+02-08-2005
+    * version 4.86 (d)
+
+02-08-2005
+    * q3.pl, qsupport.pm: fixed 'double-run' (added optional field
+    'no_run_again' in qentry.
+    * q3.pl: added level indicator in sceduler log prefix
+
+05-07-2005
+    * version 4.86 (c)
+
+05-07-2005
+    * q3.pl, qmon3.pl, qsupport.pm: intercommunicating speed and
+    performance improved - now all reads and sends are made NOT
+    one-by-one byte, but by blocks.
+
+24-06-2005
+    * version 4.86 (b)
+
+24-06-2005
+    * q3.pl: fixed init_attach finishing processing
+    * qmon3.pl: no setgid is made now
+    * qsupport.pm: no settings from saved file is loaded now (except
+    blocked tasks and queues)
+
+02-06-2005
+    * version 4.86 (a)
+02-06-2005
+    * q3.pl, qsupport.pm: fixed 'phantom bug' (I hope!)
+
+13-05-2005
+    * q3.pl: fixed 'fantom tasks' (created when run_via_mons answer
+    has come, but task was deleted)
+
+06-05-2005
+    * version 4.85 (b)
+
+13-05-2005
+    * tasks: localtime is used now instead of gmtime.
+    * qsupport.pm: fixed bug in dump_queue - total_shared is shown
+    properly now
+
+12-05-2005
+    * qclient.pl: exit codes changed. On operation fail exit code is 5
+    now.
+
+06-05-2005
+    * qsupport.pm: new field in dump-file: 'blocked'. It's a number of
+    blocked cpus.
+    * qsupport.pm: view prints a new field - Num_blocked (number of
+    blocked cpus)
+    * tasks: show number of blocked cpus now.
+
+06-05-2005
+    * version 4.85 (a)
+
+06-05-2005
+    * q3.pl, qsupport.pm: added update for %user_np_used just after
+    task running
+    * qsupport.pm: fixed small bug in count_user_np_used
+
+05-05-2005
+    * qsupport.pm, q3.pl: fixed ugly bug - single tasks weren't
+      deleted after finishing
+    * qsupport.pm, q3.pl: added delayed head process killing
+    * qsupport.pm, q3.pl: deleted manual increment/decrement of
+      %user_np_used
+
+
+03-05-2005
+    * qsupport.pm: fixed bug in count_user_np_used
+
+29-04-2005
+    * version 4.84 (a)
+
+29-04-2005
+    * qsupport.pm: duplicates deleting added in load_scedulers
+    * qsupport.pm: count_user_np_used subroutine added
+    * q3.pl: %user_np_used update sceduled on every queue change
+    * q3.pl, qmon3.pl - support of delayed kill (15 then 9) improved
+28-04-2005
+    * version 4.83c
+
+28-04-2005
+    * q3.pl, qsupport.pm, base_sced
+    - some task run violations bypass fixed in base_sced
+    - pinger-connecter-fast_raise rewriten
+
+13-04-2005
+    * version 4.83 b
+
+13-04-2005
+    * q3.pl, qsupport.pm
+    - all fixed timeouts in new_req_to_mon calls are changed to
+      get_setting('mon_req_timeout')
+    - multiple dead report from monitors fixed (only first is
+      processed)
+    - prerun status is set while attaching
+    - disabled full 'view' info logging
+
+30-03-2005
+    * qsupport.pm, q3.pl
+    - fixed loading some custom data
+    - fixed deleting dead tasks on monitors while start analysis
+
+24-03-2005
+    * qsupport.pm
+    - fixed bogus total_shared value in dump_queue
+
+18-03-2005
+    * q3.pl
+    - fixed bug in count_user_tasks
+    - added quote_sced files
+
+11-03-2005
+    * q3.pl, qsupport.pm
+    - minor bugfixes
+
+05-03-2005
+    * q3.pl
+    - bugfix mistyped get_settings fixed
+
+17-02-2005
+    * version 4.83 (a)
+
+17-02-2005
+    * qmon3.pl, q3.pl, qsupport.pm
+    - fixed attaching scheme
+
+16-02-2005
+    * version 4.82 (d)
+
+16-02-2005
+    * qmon3.pl, q3.pl, qsupport.pm
+    - fixed outfile/stdout bug in rsh emulator
+
+04-02-2005
+    * qmon3.pl, q3.pl, qsupport.pm
+    - rsh emulation works now well (I hope)
+
+27-01-2005
+    * qmon3.pl, q3.pl, qsupport.pm
+    - rsh emulation is rewritten
+    - another timelimit error fixed
+
+24-11-2004
+    * q3.pl
+    - task worktime is now written correct even if more 24 hours
+
+03-11-2004
+    * version 4.81 (b)
+
+03-11-2004
+    * q3.pl
+    - fixed fd exhausting while some node hungs
+
+13-10-2004
+    * version 4.81 (a)
+
+13-10-2004
+    * q3.pl
+    - fixed default (inlined) sceduling algorithm - it takes in
+    account blocked tasks now.
+
+27-09-2004
+    * qsupport.pm, base_sced
+    - added {id} field in list_future
+    - cosmetic changes in base_sced
+    - added config lines for default sceduler
+
+01-09-2004
+    * q3.pl
+    - fixed incorrect check_blocked_for_res cycle
+
+01-09-2004
+    * q3.pl
+    - fixed double timelimit increment
+
+01-09-2004
+    * version 4.80 (d)
+
+01-09-2004
+    * q3.pl, qsupport.pm, mkdistr.sh
+    - fixed scedulers code. now base_sced works fine
+    - added base_sced to distro
+
+06-09-2004
+    * q3.pl
+    - fixed try_to_run calls.
+
+12-08-2004
+    * q3.pl
+    - fixed mistype on run timeout
+
+11-08-2004
+    * q3.pl
+    - fixed invalid try_to_run call
+
+04-08-2004
+    * version 4.80 (b)
+
+04-08-2004
+    * q3.pl, qsupport.pm
+    - deleted use of @foreign and @pending (test it!!!)
+    - fixed bug with nonrunning tasks in child queues
+    - fixed bug with possible erroneous forwarding messages
+
+04-08-2004
+    * version 4.80 (a)
+
+04-08-2004
+    * q3.pl, qsupport.pm, qvars.pm
+    - fixed some bugs
+    - implemented modules for sceduling
+    - removed %blocked_pe, now flag 'blocked' in pe stucture exists
+    - soft cpu blocks works now
+    - logging style for sent messages changed: there are marks ===>,
+    !==>, <===, ==-> now (to child, to self, to parent, to mon).
+
+09-07-2004
+    * qsupport.pm, q3.pl
+    - exec-modules implemented
+
+08-07-2004
+    * qsupport.pm, q3.pl
+    - get_uid function implemented
+
+07-07-2004
+    * gmkill-rsh.pl, q3.pl
+    - fixed small bugs
+
+05-07-2004
+    * qclient3.pl, block_cpu, block_cpi.1, cleo
+    - added reason setting to block processor
+    - added locale support (ru_RU.KOI8-r by default)
+    - started 'soft' cpu blocking (do not delete tasks, block cpu
+    after execution)
+
+02-07-2004
+    * version 4.69 d
+
+02-07-2004
+    * qsupport.pm
+    - modified output of dump_queue - now there is:
+    'blocked_pe_reasons: node:N reason1;reason2 node:M reason3;reason4
+    ...
+
+30-06-2004
+    * version 4.69 c
+
+30-06-2004
+    * q3.pl
+    - added killing of pseudo-rshels
+    - removed Getopts::Std use. Using GetOptsTillCan now.
+
+23-06-2004
+    * qmon3.pl, q3.pl, qsupport.pm
+    - fixed some bugs with local rsh run
+    - fixed additional groups fetching bug
+
+22-06-2004
+    * q3.pl, rsh_local
+    - new rsh emulator added (for LOCAL use)
+    - new code for LOCAL rsh handling added
+
+17-06-2004
+    * q3.pl, qsupport.pm, qclient3.pl
+    - candebug function added
+    - debug_users option added (now debug command can be executed only
+    by root or theese users)
+    - debug command can be executed recursively
+
+10-06-2004
+    * q3.pl
+    - new algorithm of load optimizing implemented
+    - $VARIANT added (literal variant of sub-version)
+
+09-07-2003
+    * q3.pl, qsupport.pm
+    - signed int variables support added in config file
+    - Large files support added
+    - potential bug in get_block fixed
+    - fixed double unpacking in forwarding to childs
+
+08-07-2003
+    * q3.pl
+    - added queue presence in user request processing
+    - too high timelimit in 'add' requests are fatal now (task is not
+    added)
+
+07-07-2003
+    * q3.pl
+    - SIGHUP now reloads config (only for current process!)
+    - fixed $from instead of __all__ when receiving extra nodes
+
+03-07-2003
+    * q3.pl
+    - fixed possible doublepacking in flush_to_childs
+
+30-06-2003
+    * q3.pl
+    - fixed missing code in mons-based run
+    - fixed missed $nid assignment and incorrect run  of rshells if no
+    pseudorshells used
+
+25-06-2003
+    * q3.pl, qsupport.pm
+    - fixed missing nodes list in 'run_pre' request
+
+23-06-2003
+    * version 4.68
+
+23-06-2003
+    * q3.pl, qsupport.pm
+    - minor fixes
+
+21-06-2003
+    * q3.pl, qsupport.pm
+    - added pseudovariable adm_email. It is available in ANY
+    substitution (even if subst_args is empty!)
+    - new monitor ping/reconnect scheme implemented (but not tested)
+
+19-06-2003
+    * q3.pl
+    - added pseudo-variable $uniq_nodes
+
+19-06-2003
+    * q3.pl, qsupport.pm
+    - extra packing in flush_to_parent when sending to self fixed
+    - fixed value of $mpi_nodes
+
+18-06-2003
+    * qsupport.pm
+    - workaround with possibly undefined cluster_settings{[no]users}
+    - assign_new_valie is more informable now.
+    - bug in kill_tree (null pid) fixed
+
+18-06-2003
+    * version 4.67
+
+18-06-2003
+    * tasks, qsupport.pm, q3.pm, mkdistr.sh
+    - output for 'tasks' enhanced (total number of processors is
+    printed, peasons for blocked tasks and ids in parent queue)
+    - fixed sadly errors with run_pre
+    - added files to mkdistr list
+
+17-06-2003
+    * qinstall
+    - added automatic install mode (auto command line switch)
+    - fixed bug in $nodes/$spaced_nodes substitution
+    - mpi_nodes/spaced_mpi_nodes have now new function
+    - profile tracking whole task lifetime implemented (I hope)
+
+16-06-2003
+    * qsupport.pm
+    - minor fixes in internal tasks implementation
+
+10-06-2003
+    * qsupport.pm, q3.pm
+    - support for internal tasks added (sc_task_in/at/del, sc_execute)
+    - replaced many 'time' syscalls to $last_time
+    - old style of command passing is removed
+
+09-06-2003
+    * version 4.66
+
+09-06-2003
+    * q3.pl, qsupport.pm, qmon3.pl
+    - support for custom PATH is returned to qmon
+    - kill_tree is rewritten again. More correct and faster now
+    - fixed environmrnt passing in main queue
+
+04-05-2003
+    * q3.pl, qsupport.pm
+    - qlog prototype is changed (priority is added: ALL, DEBUG2,
+    DEBUG, INFO, WARN, ERR)
+    - all occurences of qlog are corrected for new prototype
+    - missing reload_users is fixed (Thanks to Dan Yefimov)
+
+02-06-2003
+    * q3.pl, qsupport.pm
+    - fixed bug in kill_tree (Thanks to Dan Yefimov)
+
+30-05-2003
+    * version 4.65
+
+30-05-2003
+    * qmon3.pl, q3.pl, qsupport.pm
+    - included forced removing '.' form PATH before execution (-T
+    error)
+    - all 'system' are replaced by launch
+    - mons and server use the same protocol as server-childs now
+    - changed behaviors for some pseudo-vars and some added: cpus,
+    spaced_cpus, nodes, spaced_nodes, cpu, node. mpi_nodes is equal
+    spaced_nodes (for historical reasons)
+    - fixed bug in invalid prototype string ('debug' command)
+    - all kill replaced by kill_tree (Thanks to Dan Yefimov
+    <dan@D00M.integrate.com.ru>)
+    - some security fixes
+    - fixed invalid sends to self
+    - added reasons when blocking nodes in child queues
+
+26-05-2003
+    * version 4.64
+
+26-05-2003
+    * q3.pl, qsupport.pm, qmon3.pl, qclient3.pl
+    - deldir improved
+    - monitors now deletes temp dirs
+    - temp dirs handling improved
+    - support for syslog added in qclient3.pl
+
+21-05-2003
+    * q3.pl, qsupport.pm
+    - added 'env' and 'tsk' keys categories to %debug
+    - security improved in file creations (using saved uid)
+    - added pre_exec and just_exec options (runned with user's priveleges)
+        - user_fail_exec, user_just_exec, user_ok_exec, user_post_exec,
+    user_pre_exec added
+    - launch has been rewriten
+    - deldir has been rewriten
+    - after kill -15 forcing kill -9 added
+
+15-05-2003
+    * version 4.63
+
+15-05-2003
+    * q3.pl
+    - implemented sending requests and answers to self
+    - replaced querying worked tasks after restart
+
+13-05-2003
+    * veriosn 4.62
+
+05-05-2003
+    * qsupport.pm
+    - new mechanizm of postload with groups realized. Now groups are
+    expanded correctly
+
+28-04-2003
+    * q3.pl, qsupport.pm
+    - fixed some buggy usages of is_in_list
+
+25-04-2003
+    * version 4.61
+
+25-04-2003
+    * qsupport.pm
+    - debugged support for delayed blocking of unconnected monitors
+
+24-04-2003
+    * qsuport.pm, q3.pl
+    - q_ok_exec and q_fail_exec options added
+    - just_exec removed from task_after_death
+    - fixed bug with incorrect get_setting call in execute_task
+    - added support for delayed blocking of unconnected monitors
+
+18-04-2003
+    * version 4.60
+
+18-04-2003
+    * q3.pl, qsupport.pm, qmon3.pl
+    - fixed bug with filter dying
+    - fixed (I hope) bug with rshells, which didnt die.
+
+14-04-2003
+    * q3.pl, qsupport.pm
+    - fixed bug with empty admins and users
+    - fixed bug with unexpexted field 'cluster_name' in all messages
+
+10-04-2003
+    * version 4.57
+
+10-04-2003
+    * q3.pl, qsupport.pm, qvars.pm, mpirun, qclient3.pl, tasks,
+    * block_task, block_cpu
+    - fixed 'no-run' bug in sub-subqueues.
+    - protocol improvenments made in child-parent communications
+    - fixed environment passing bug
+
+02-04-2003
+    * qmon3.pl
+    - changed update_childs - now add grandchilds are added at once.
+
+31-03-2003
+    * qmon3.pl, mpirun, qsupport.pm
+    - fixed some bugs with multilevel running troubles.
+    - fixed '-E' option by default in mpirun
+    - added option to 'init' command to mons - now rsh name may be
+    initialized.
+
+14-03-2003
+    * q3.pl, qsuppport.pm
+    - changed testing of users,nousers,admins lists.
+
+12-03-2003
+    * mpirun
+    - -w key added (workdir)
+
+11-03-2003
+    * qsupport.pm, q3.pl
+    - minor fixes
+    * mpirun
+    - flag -as corrected
+    * cleo
+    - rc-file cleo added instead of rc.q3
+    * installinfo
+    - corrected
+
+25-02-2003
+    * q3.pl
+    - fixed bug in conditional task running (tasks with 'or'
+    dependencies could be runned incorrectly)
+
+20-02-2003
+    * qsupport.pm, q3.pl
+    - fixed bug with "eliminating" of pe when unblock them
+    - fixed bug: own nodes had become shared too some cases
+
+14-02-2003
+    * qsupport.pm
+    - number of pending tasks is shown now as 'Pending' instead of
+    'Blocked'
+
+10-02-2003
+    * q3.pl, qsupport.pm
+    - fixed invalid(old) user specification in del_task and block_task
+    callings (as o instead '__internal__')
+
+06-02-2003
+    * q3.pl, qsupport.pm, qvars.pm
+    - fixed bug with nested queue run
+    - added $debug_cf variable (0 by default)
+    - fixed nonshown prerunned tasks number
+
+31-01-2003
+    * q3.pl, qsupport.pm, qclient3.pl, mpirun
+    - fixed reloading of pe_select parameter from user's config.
+    - added '-k' option to qclient3.pl and mpirun to choose pe_select
+    strategy
+    - fixed bug in shuffle_hosts_alone (2 hosts were cutted off)
+
+30-01-2003
+    * qsupport.pm
+    - fixed bug with possibly closed fd 0,1,2 while traditional run.
+28-01-2003
+    * qstat3.pl
+    - fixed bug with tasks in different months
+
+27-01-2003
+    * q3.pl, qsupport.pm
+    - fixed (I hope now) bug with killing running tasks on restart
+    - fixed mistyped slog bug
+
+21-01-2002
+    * version 4.52
+
+21-01-2002
+    * q3.pl, qsupport.pm
+    - some minor fixes
+
+05-01-2002
+    * qsupport.pm
+    - fixed bug with running tasks as root from child queues
+
+03-01-2003
+    * q3.pl, qsupport.pm
+    - fixed bug with nondeleting pseudo-tasks in child queues after
+    deleting (finishing) master task.
+
+27-12-2002
+    * qsub, qdel, qstat
+    - added new utilites
+
+19-12-2002
+    * qsupport.pm
+    - fixed expanding groups
+
+16-12-2002
+    * q3.pl
+    - fixed non-set default_time on adding task
+    - fixed 'fase3' bug
+
+11-12-2002
+    * version 4.51
+
+11-12-2002
+    * q3.pl, qsupport.pm
+    - many fixes around own/shared nodes detection
+    - added cpu_map_file support
+
+02-12-2002
+    * q3.pl, qsupport.pm
+    - some fixes about compatibility with perl-5.003
+    - fixed random_hosts_alone
+    - added parameter 'wait_cond_type' for type of condition
+      in dependencies (default is '&' i.e. 'and', any other is 'or').
+
+20-11-2002
+    * q3.pl
+    - many fixes in all time-restrictions part
+    - reload_conf works now on all subclusters
+
+18-11-2002
+    * qmon.pl, q3.pl
+    - fixed nonclosing some ports in monitor.
+    - detailed regexp in time-restrictions loading.
+    - default config file renamed to cleo.conf
+    - added kill_mons_on_exit option
+
+15-11-2002
+    * version 4.50
+
+15-11-2002
+    * qsupport.pm, q3.pl
+    - completely done startup with new config loader
+
+12-11-2002
+    * qsupport.pm
+    - fixed wrong diagnostics on task deletion
+
+11-11-2002
+    * qsupport.pm, q3.pl
+    - new config loader.
+    - some parameters names in config file now are CHANGED!!!
+    - fix for 'enabled' in time restrictions
+
+07-10-2002
+    * version 4.13
+
+07-10-2002
+    * qsupport.pm, q3.pl
+    - changes in communications subroutines (mainly 'defined' were
+    changed to 'exists'). I hope this will prevent suddenly deads in
+    the future...
+    - main::mark_channel_dead now deletes channel
+
+11-09-2002
+    * qsupport.pm
+    - in push_to_queue fixed loading of default priority
+    - fixed buggy max_tasks_on_pe loading (why?)
+
+09-09-2002
+    * qsupport.pm
+    - fixed user's config file handling
+
+05-09-2002
+    * version 4.11
+
+05-09-2002
+    * q3.pl
+    - changed syntaxis of restrictions file:
+    no 'count' field, there are 'enabled' and 'once' field instead
+    - cluster name field detection fixed
+
+29-08-2002
+    * qsupport.pm, qvars.pm
+    - now task (and tmpdir deleting) are executing with all user
+    groups
+
+25-08-2002
+    * qsupport.pm, q3.pl
+    - fixed (I hope!) bug(s) with extra shared and own processors.
+    - fixed (I hope too) bug with internal_info collecting from queues
+
+15-08-2002
+    * q3.pl
+    - fixed bug with PI and -rep files (task_afer_death was not
+    called)
+
+13-08-2002
+    * qsupport.pm
+    - fixed bug in cpu interval checking (block_cpu)
+
+29-07-2002
+    * q3.pl
+    - eliminated dead_nodes in task_node_dead
+
+24-07-2002
+    * q3.pl, qmon3.pl, qsupport.pm
+    - fixed dead of monitors in attach_handler
+    - added error codes
+
+18-07-2002
+    * q3.pl
+    - fixed 'debug' command processing: now answer is always sent to
+    client and isadmin is called always too.
+
+25-06-2002
+    * q3.pl, qsupport.pm
+    - bugfixes and cleanups for dependencies implementation. Simple
+    testing done.
+
+21-06-2002
+    * q3.pl, qclient3.pl
+    - 'debug' command implemented
+
+21-06-2002
+    * version 4.10
+
+21-06-2002
+    * q3.pl, qsupport.pm
+    - changed semantics of channels in send_to_channel: added new
+    function create_conn, modified kill_konn. Now connection is an
+    index, and real channels are available via %connections.
+
+11-06-2002
+    * q3.pl
+    - added checking for satisfied dependencies
+    - fixed check_running (avoid check for non-local tasks)
+
+10-06-2002
+    * q3.pl, qsupport.pm, tasks
+    - yet some bugfixes
+
+07-06-2002
+    * q3.pl, qsupport.pm
+    - some bugfixes
+
+06-06-2002
+    * q3.pl, qclient3.pl, tasks, qsupport.pm
+    - added checking for dependencies on task run
+    - added recognition of keys for dependencies in 'add' command
+    - added new keys for qclient for dependencies
+    - added functionality to tasks (delete running/queued tasks)
+    - described flags in get_task_list_w_flags
+
+05-06-2002
+    * version 4.06
+
+31-05-2002
+    * qsupport.pm
+    - added functions new_runned and find_runned to manage list of
+    runned tasks. Global variable runned_list_len restricts length of
+    this list
+    - in run_task now task is added to runned_task
+
+20-05-2002
+    * qsupport.pm
+    - in load_state added marking processors as working (for running
+      tasks) and loading of 'pid' field is not ignored now.
+
+16-05-2002
+    * qsupport.pm, q3.pl
+    - fixed some potential bugs in del_task
+    - fixed bug with changing requested timelimit to max in q3.pl
+
+15-05-2002
+    * q3.pl, qsupport.pm, qmon3.pl
+    - fixed bug in flush_channel
+    - changed method of sending to master in monitor (as in q3.pl)
+    - commented some annoying logs in q3.pl
+
+14-05-2002
+    * q3.pl
+    - fixed bug with changing priority
+
+13-05-2002
+    * qsupport.pm
+    - added option to let root be administrator of all queues by default
+
+06-05-2002
+    * qsupport.pm
+    - autorecreation of dead subcluster added (not tested fully)
+
+30-04-2002
+    * qmon3.pl, q3.pl, qsupport.pm
+    - changed new_req_to_mons prototype (added every_sub)
+    - implemented autorecover of (still) running tasks
+    - when running new task on monitor all sockets are closed now
+    - time restrictions work properly now (I hope)
+
+26-04-2002
+    * qmon3.pl, q3.pl, qsupport.pm
+    - small bugfixes
+    - in qmon3.pl changed subroutine get_block (as in q3.pl)
+
+23-04-2002
+    * q3.pl, qsupport.pm
+    - fixed check_time_restrictions
+    - fixed check_blocked_by_res
+    - fixed split in autoblock
+
+19-04-2002
+    * version 4.05
+
+19-04-2002
+    * tasks, q3.pl, qsupport.pm, qvars.pm
+    - fixed 'tasks' - now pre-runned tasks are shown right
+    - added time restrictions
+
+18-04-2002
+    * q3.pl, qsupport.pm, tasks
+    - fixed bug in 'tasks' (no info where printed if no tasks where in
+    queue)
+    - fixed buf in blocking cpus in child queues
+
+17-04-2002
+    * version 4.04
+
+17-04-2002
+    * q3.pl, qsupport.pm
+    - changed (un)blocking by resources schema
+    - rewrited get_block_x (speed improved)
+
+16-04-2002
+    * q3.pl, qsupport.pm, tasks, block_cpu
+    - autockocking added (-a option in qclient)
+    - reasons for task blocking added (-O option in qclient)
+    - added ability to set/unset blocking as user (-S option in
+    qclient)
+    - added a pseudouser '__internal__', which is administrator
+    always. From its name tasks are autoblocked.
+    - new utility 'autoblock' created
+
+04-04-2002
+    * qsupport.pm
+    - fixed bug in send_to_channel
+    - fixed forgotten dumping blocked nodes
+
+03-04-2002
+    * qmon3.pl
+    - fixed saving pid bug
+    - minor fixes
+
+01-04-2002
+    * qsupport.pm, q3.pl
+    - improved send_to_channel: included dead mon test
+
+01-04-2002
+    * version 4.03
+
+01-04-2002
+    * q3.pl, qsupport.pm
+    - some bugfixes
+    - changed del_task_mon - now task is removed from queue at once
+
+29-03-2002
+    * q3.pl, qsupport.pm
+    - some bugfixes
+    - changed reconnection algotithm
+    - changed send_to_channel - now it sends faster and no retry in
+    one send is tryed
+
+20-03-2002
+    * qmon3.pl, q3.pl
+    - minor fixes in pseudo-rsh death processing
+
+20-03-2002
+    * version 4.02
+    - monitor too. For compatibility :)
+
+20-03-2002
+    * qmon3.pl, q3.pl
+    - changed running mechanism. 'run_sh' pseudo-request added (for
+    monitors). run_first not used now.
+    * qsupport.pm, q3.pl
+    - improved inter-queues protocol (auto-pack added)
+    * qsupport.pm
+    - changed load_state/save_state (as in inter-queues requests)
+
+14-03-2002
+    * qsuport.pm
+    - changed remove_id cause some tasks didnt actually removed...
+    - fixed qtype in load_state
+    - enlarged mon_run_timeout value and timeout scale for run_first request
+
+13-03-2002
+    * q3.pl
+    - added task blocking
+
+11-03-2002
+    * qsupport.pm, tasks
+    - added 'pre-runned' state in tasks output
+    * q3.pl
+    - uncommented auto-(un)blocking of nodes
+
+04-03-2002
+    * q3.pl, qsupport.pm
+    - fixed bug in recv_from_parent (old trash values eliminated)
+
+04-03-2002
+    * version 4.01
+
+04-03-2002
+    * q3.pl, qsupport.pm, qvars.pm
+    - updated reping mechanism
+    - changed run_first mechanism
+15-02-2002
+    * q3.pl
+    - fixed bug in flush_to_childs and flush_to_mons
+    (unwanted recipients adding)
+
+13-02-2002
+    * qmon3.pl
+    - corrected code for reconnection
+    * q3.pl, qsupport.pm
+    - kill_conn and get_line moved to qsupport.pm in the same block as
+    get_block_x. Now kill_conn deletes all unused send/recvd lines.
+    * qsupport.pm
+    - fixed incorrect saved tasks restoring
+    * qsupport.pm
+    - fixed (?) bug with frrezing after running task
+
+11-02-2002
+    * qclient3.pl
+    - test for no action moved before connection to server (nil
+    connections are eliminated).
+    * tasks
+    - some minor bugfixes
+
+11-02-2002
+    * version 3.714
+
+11-02-2002
+    * q3.pl
+    - 'mode' command reanimated.
+    - small changes in 'view' command.
+    * qclient3.pl
+    - changes for new 'mode' output.
+    * tasks
+    - fixed incorrect sorting of tasks
+    * q3.pl, qsupport.pm
+    - 'priority' command implemented fully
+
+11-02-2002
+    * q3.pl, qsupport.pm
+    - fixed bugs with processing deads of tasks in main queue in
+    sublusters
+
+08-02-2002
+    * vrsion 3.713
+    - 3.712 ommitted by weather and moon phases reason
+
+08-02-2002
+    * q3.pl, qmon3.pl, qsupport.pm
+    - completed whole 'run-attach-stop' cycle for tasks in main queue.
+    not tested on queues of 2nd level when 3rd level present
+
+05-02-2002
+    * q3.pl, qmon3.pl:
+    - fixed unexpedcted dying on alarm
+
+    * qmon3.pl:
+    - fixed infinite loop in attach_handler. Still not known why it was
+    exist
+
+04-02-2002
+    * q3.pl, qsupport.pm, qmon3.pl:
+    - fixed some minor bugs with deleting attached tasks
+
+    * q3.pl:
+    - fixed minor bug with multiple recipients in one message
+    from parent to childs
+
+01-02-2002
+    * version 3.711
+
+01-02-2002
+    * q3.pl:
+    - changes in get_parsed_block_x (code improved)
+
+    * qmon3.pl:
+    - changes in get_parsed_block according q3.pl
+
+    * q3.pl, qmon3.pl:
+    - fixed bug with deletion of attached tasks
+
+30-01-2002
+    * q3.pl:
+    - 'view' command implemented
+
+29-01-2002
+    * version 3.710
+
+29-01-2002
+    * q3.pl:
+    - fixed timelimit lossing in some cases
+
+    * q3.pl:
+    - fixed bug with 'fast' tasks timeout
+
+28-01-2002
+    * q3.pl:
+    - fixed bug with pinging monitors.
+
+28-01-2002
+    * q3.pl, qsupport.pm, qmon3.pl:
+    - fixed bugs with attaching to any executed process.
+
+23-01-2002
+    * qmon3.pl:
+    - added 'attach' and 'init_attach' reuests from master
+    and their handlers. Improved procedure for /proc processing.
+
+22-01-2002
+    * q3.pl:
+    - fixed timelimit reaction.
+
+22-01-2002
+    * version 3.700
+

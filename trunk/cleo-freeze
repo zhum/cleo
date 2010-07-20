@@ -1,0 +1,76 @@
+#!/usr/bin/perl
+
+use strict;
+
+use vars qw(@run $port $queue $arg $h $u $i $recurs $ret);
+
+sub max($$){
+    return $_[0]>$_[1]?$_[0]:$_[1];
+}
+
+GetOptsTillCan('q=s'=>\$queue,'P=i'=>\$port,
+               'r='=>\$recurs,'u='=>\$u,'h='=>\$h);
+
+if($h){
+  warn "Usage: $0 [-q queue][-P port] [-u] id {,id...}\n";
+  exit(1);
+}
+
+if(defined $port) {push @run, "-p", $port;}
+if(defined $queue){push @run, "-q", $queue;}
+if(defined $recurs){push @run, "-R";}
+
+push @run, '-G freeze';
+
+if(defined $u){
+    push @run, 'val 0';
+}
+else{
+    push @run, 'val 1';
+}
+
+$ret=0;
+
+for $i (@ARGV){
+    $i =~ s/\\//g;
+    $i =~ s/\'/\"/g;
+    $i =~ s/\0//g;
+
+    $arg=join(' ',@run, "id $i");
+
+    $ret=max($ret,system("__BIN__/cleo-client $arg"));
+}
+
+exit($ret);
+
+sub GetOptsTillCan{
+  my %args=@_;
+  my ($k,$nk,$nv,$a,$next,%types);
+
+  foreach $k (keys(%args)){
+    $k =~ /^(\S+)(\=)(.*)/ or next;
+    $nk=$1;
+    $nv=$args{$k};
+    $types{$nk} = $3;
+
+    delete $args{$k};
+    $args{$nk} = $nv;
+  }
+
+  while($next=shift @ARGV){
+    last if(substr($next,0,1) ne '-');
+    $a=substr($next,1);
+    last unless(exists $args{$a});
+    undef $next;
+    if($types{$a} eq 'i' || $types{$a} eq 's'){
+      $a=$args{$a};
+      $$a=shift @ARGV;
+    }
+    elsif($types{$a} eq ''){
+      $a=$args{$a};
+      $$a=1;
+    }
+  }
+  unshift @ARGV, $next if(defined $next);
+}
+
