@@ -1,0 +1,471 @@
+#!/usr/bin/perl
+#
+# Version 4
+#
+
+use strict;
+use vars qw($date_time $account_string $interval $prefix $err_name); 
+use vars qw($hold $join_list $keep_list $mail_options $mail_list $name);
+use vars qw($priority  $out_name $destination $restart $shell);
+use vars qw($variable_list $vars $no_number $res $extra);
+use vars qw(@arg, @attrs);
+
+if($#ARGV<1){
+	#!!!!!!!!!!!!!!!!!!!!!!!!!
+	print "Usage: qsub ....\n";
+	exit(1);
+}
+	
+
+GetOptsTillCan('a=s'          =>\$date_time,      #указать время, после которого задача может идти на счёт
+               'A=s'          =>\$account_string, #указать имя учётной записи, под которой будет запущено приложение
+               'c=i'          =>\$interval,       #указывает интервал постановки контрольных точек при выполнении задачи
+               'C=s'          =>\$prefix,         #префикс для поиска директив в скрипте запуска программы
+               'e=s'          =>\$err_name,       #указывает путь к файлу, куда будет перенаправлен поток вывода ошибок
+               'h='           =>\$hold,           #задача должны быть автоматически остановлена после постановки в очередь
+               'j=s'          =>\$join_list,      #указывает потоки, которые должны быть перенаправлены в стандартный поток вывода
+               'k=s'          =>\$keep_list,      #указывает, какие потоки вывода должны сохраняться на вычислительных узлах
+               'l=s'          =>\$res,
+               'm=s'          =>\$mail_options,   #указывает, в каких случаях система очередей должна оповещать пользователя по электронной почте об изменении статуса задачи
+               'M=s'          =>\$mail_list,      #задаёт список email-адресов для оповещения пользователей об изменении статуса задачи
+               'N=s'          =>\$name,           #задаёт имя задачи
+               'o=s'          =>\$out_name,       #задаёт путь к файлу, куда будет перенаправлен стандартный поток вывода
+               'p=i'          =>\$priority,       #задаёт приоритет задачи
+               'q=s'          =>\$destination,    #указывает имя очереди, куда будет поставлена задача
+               'r=s'          =>\$restart,        #y|n указывает, можно ли перезапускать задачу
+               'S=s'          =>\$shell,          #указывает программу оболочки (shell), под которой будет запущена задача
+               'v=s'          =>\$variable_list,  #список переменных, которые будут доступны задаче после запуска
+               'V='           =>\$vars,           #указывает, что все переменные окружения должны быть доступны задаче
+               'W=s'          =>\$extra,
+               'z='           =>\$no_number,      #предписывает не выводить номер задачи в стандартный поток вывода после постановки задачи в очередь
+               );
+
+if($date_time ne ''){
+	# time to start task after ( [[CC]YY]MMDDhhmm[.ss])
+	if($date_time =~ /(\d\d)?(\d\d)?(\d\d)(\d\d)(\d\d)(\d\d)(\.\d\d)?/){
+		my ($y,$m,$d,$h,$n)=($2,$3,$4,$5,$6);
+		if($y ne '' and $m eq ''){
+			$m=$y;
+			$y='';
+		}
+		my $time = timelocal($s,$n,$h,$d,$m,$y);
+	}
+	else{
+		die "Invalid -a time format. [[CC]YY]MMDDhhmm format must be used.\n";
+	}
+	
+	push @attrs, 'aftertime',$time;
+}
+
+if($account_string ne ''){
+	# use different account
+	warn "-A option is not implemented.\n";
+}
+
+if($interval >0){
+	# checkpoints interval
+	push @attrs, 'checkpoint_interval',$interval;
+}
+
+if($prefix eq ''){
+	# Use default prerix for options scanning in script body
+	$prefix=$ENV{PBS_DPREFIX} || '#PBS'; 
+}
+
+if($err_name ne ''){
+	# stderr redirect
+	push @arg, '-3', $err_name;
+}
+
+if($hold >0){
+	# hold task just after submit
+	push @arg, '-H';
+}
+
+if($join_list ne ''){
+	#!!!!!!!!!!!!!!!!!
+}
+
+if($keep_list ne ''){
+	warn "-k is not supported now.\n";
+}
+
+if($mail_options ne ''){
+	# set mailing options
+	$mail_options =~ y/#//d;
+	push @attrs, 'mailopts', $mail_options;
+}
+if($mail_list ne ''){
+	# set list of emails
+	$mail_list =~ y/#//d;
+	push @attrs, 'maillist', $mail_list;
+}
+
+if($name ne ''){
+	warn "-N option is not implemented\n";
+}
+
+if($out_name ne ''){
+	# stdout redirect
+	push @arg, '-2', $out_name;
+}
+
+if($priority >0 ){
+	# set priority
+	push @arg, '-P', $priority;
+}
+
+if($destination ne ''){
+	# set queue
+	push @arg, '-q', $destination;
+}
+if($restart eq 'y'){
+	# set restart mode
+	push @attrs, 'restart', 1;
+}
+
+if($shell ne ''){
+	# use custom shell
+	$shell =~ y/\n\r\0//d;
+	$first_line="#!$shell\n";
+}
+
+if($variable_list ne ''){
+	# export theese variable to task
+	push @arg, '-N', quotemeta($variable_list);
+}
+
+if($vars >0){
+	# export all variables
+	push @arg, '-E';
+}
+if($no_number >0){
+	#don't print task id to stdout
+	push @arg, '-Q';
+}
+
+if($res ne ''){
+	# add resources list...
+	foreach my $l (split(/,/, $res)){
+		add_res($l);
+	}
+}
+sub add_res($){
+	# add new resource
+	my ($name,$val);
+	if(/([^=]+)\s*=\s*(.*)/){
+		($name,$val)=($1,$2);
+		if($name eq 'arch'){
+			#ignore
+		}
+		elsif($name eq 'cput'){
+			if($value =~ /^((\d\d):)?((\d\d):)?(\d\d)/){
+				my ($HH, $MM, $SS)=($2,$4,$5);
+				if($MM eq ''){
+					$MM=$HH;
+					$HH=0;
+				}
+				$SS+=$MM*60+$HH*3600;
+				push @arg, '-l', $SS;
+			}
+			else{
+				warn "Illegal 'cput' resource: $value\n";
+			}
+		}
+		elsif($name eq 'epilogue'){
+		}
+		elsif($name eq ''){
+		}
+		elsif($name eq ''){
+		}
+		elsif($name eq ''){
+		}
+		elsif($name eq ''){
+		}
+		elsif($name eq ''){
+		}
+		elsif($name eq ''){
+		}
+		elsif($name eq ''){
+		}
+		elsif($name eq ''){
+		}
+epilogue 	string 	Specifies a user owned epilogue script which will be run before the system epilogue and epilogue.user scripts at the completion of a job. The syntax is epilogue=<file>. The file can be designated with an absolute or relative path.
+file 	size* 	The amount of total disk requested for the job. (Ignored on Unicos.)
+host 	string 	Name of the host on which the job should be run. This resource is provided for use by the site's scheduling policy. The allowable values and effect on job placement is site dependent.
+mem 	size* 	Maximum amount of physical memory used by the job. (Ignored on Darwin, Digital Unix, Free BSD, HPUX 11, IRIX, NetBSD, and SunOS. Also ignored on Linux if number of nodes is not 1. Not implemented on AIX and HPUX 10.)
+nice 	integer 	Number between -20 (highest priority) and 19 (lowest priority). Adjust the process execution priority.
+nodes 	{<node_count> | <hostname>} [:ppn=<ppn>][:<property>[:<property>]...] [+ ...] 	Number and/or type of nodes to be reserved for exclusive use by the job. The value is one or more node_specs joined with the + (plus) character: node_spec[+node_spec...]. Each node_spec is a number of nodes required of the type declared in the node_spec and a name of one or more properties desired for the nodes. The number, the name, and each property in the node_spec are separated by a : (colon). If no number is specified, one (1) is assumed.
+
+The name of a node is its hostname. The properties of nodes are:
+
+    * ppn=# - specify the number of processors per node requested. Defaults to 1.
+    * property - a string assigned by the system administrator specifying a node's features. Check with your administrator as to the node names and properties available to you.
+
+See Example 1 (-l nodes) for examples.
+
+Note 	By default, the node resource is mapped to a virtual node (that is, directly to a processor, not a full physical compute node). This behavior can be changed within Maui or Moab by setting the JOBNODEMATCHPOLICY parameter. See Appendix F of the Moab Workload Manager Administrator's Guide for more information.
+opsys 	string 	Specifies the administrator defined operating system as defined in the mom configuration file.
+other 	string 	Allows a user to specify site specific information. This resource is provided for use by the site's scheduling policy. The allowable values and effect on job placement is site dependent.
+pcput 	seconds, or [[HH:]MM:]SS 	Maximum amount of CPU time used by any single process in the job.
+pmem 	size* 	Maximum amount of physical memory used by any single process of the job. (Ignored on Fujitsu. Not implemented on Digital Unix and HPUX.)
+procs 	procs=<integer> 	(Applicable in version 2.5.0 and later.) The number of processors to be allocated to a job. The processors can come from one or more qualified node(s). Only one procs declaration may be used per submitted qsub command.
+
+> qsub -l nodes=3+procs=2
+
+procs_bitmap 	string 	A string made up of 1's and 0's in reverse order of the processor cores requested. A procs_bitmap=1110 means the job requests a node that has four available cores, but the job runs exclusively on cores two, three, and four. With this bitmap, core one is not used.
+prologue 	string 	Specifies a user owned prologue script which will be run after the system prologue and prologue.user scripts at the beginning of a job. The syntax is prologue=<file>. The file can be designated with an absolute or relative path.
+pvmem 	size* 	Maximum amount of virtual memory used by any single process in the job. (Ignored on Unicos.)
+software 	string 	Allows a user to specify software required by the job. This is useful if certain software packages are only available on certain systems in the site. This resource is provided for use by the site's scheduling policy. The allowable values and effect on job placement is site dependent. (See Scheduler License Management in the Moab Workload Manager Administrator's Guide for more information.)
+vmem 	size* 	Maximum amount of virtual memory used by all concurrent processes in the job. (Ignored on Unicos.)
+walltime 	seconds, or [[HH:]MM:]SS 	Maximum amount of real time during which the job can be in the running state.
+
+
+}
+
+if($extra ne ''){
+	# extra options
+depend=dependency_list
+		  Defines the dependency between this and other	jobs.
+		  The dependency_list is in the	form:
+		  type:argument[,type:argument[:argument...],...]
+		  The argument is either a numeric count or a PBS job
+		  id.  If argument is a	count, it must be greater than
+		  0.  If it is a job id, the job id must be fully
+		  specified in the form	seq_number.server.name.
+
+		      synccount:count
+			  This job is the first	in a set of jobs to be
+			  executed at the same time.  Count is the
+			  number of additional jobs in the set.
+
+		      syncwith:jobid
+			  This job is an additional member of a	set of
+			  jobs to be executed at the same time.	 In
+			  the above and	following dependency types,
+			  jobid	is the fully qualified job identifier,
+			  seq_number.server_name[@server], of the
+			  first	job in the set.
+
+		      after:jobid[:jobid...]
+			  This job may be scheduled for	execution at
+			  any point after jobs jobid have started
+			  execution.
+
+		      afterok:jobid[:jobid...]
+			  This job may be scheduled for	execution only
+			  after	jobs jobid have	terminated with	no
+			  errors.  See the csh warning under "Extended
+			  Description".
+
+		      afternotok:jobid[:jobid...]
+			  This job may be scheduled for	execution only
+			  after	jobs jobid have	terminated with
+			  errors.  See the csh warning under "Extended
+			  Description".
+
+		      afterany:jobid[:jobid...]
+			  This job may be scheduled for	execution
+			  after	jobs jobid have	terminated, with or
+			  without errors.
+
+		      on:count
+			  This job may be scheduled for	execution
+			  after	count dependencies on other jobs have
+			  been satisfied.  This	form is	used in
+			  conjunction with one of the before forms,
+			  see below.
+
+		      before:jobid[:jobid...]
+			  When this job	has begun execution, then jobs
+			  jobid... may begin.
+
+		      beforeok:jobid[:jobid...]
+			  If this job terminates execution without
+			  errors, then jobs jobid... may begin.	 See
+			  the csh warning under	"Extended
+			  Description".
+
+		      beforenotok:jobid[:jobid...]
+			  If this job terminates execution with
+			  errors, then jobs jobid... may begin.	 See
+			  the csh warning under	"Extended
+			  Description".
+
+		      beforeany:jobid[:jobid...]
+			  When this job	terminates execution, jobs
+			  jobid... may begin.
+
+			  If any of the	before forms are used, the
+			  jobs referenced by jobid must	have been
+			  submitted with a dependency type of on.
+
+			  If any of the	before forms are used, the
+			  jobs referenced by jobid must	have the same
+			  owner	as the job being submitted.
+			  Otherwise, the dependency is ignored.
+
+		      Error processing of the existence, state,	or
+		      condition	of the job on which the	newly
+		      submitted	job is a deferred service, i.e.	the
+		      check is performed after the job is queued.  If
+		      an error is detected, the	new job	will be
+		      deleted by the server.  Mail will	be sent	to the
+		      job submitter stating the	error.
+
+		      Dependency examples:
+		      qsub -W depend=afterok:123.big.iron.com
+		      /tmp/script
+		      qsub -W
+		      depend=before:234.hunk1.com:235.hunk1.com
+		      /tmp/script
+
+		  group_list=g_list
+		  Defines the group name under which the job is	to run
+		  on the execution system.  The	g_list argument	is of
+		  the form:
+		  group[@host][,group[@host],...]
+		  Only one group name may be given per specified host.
+		  Only one of the group	specifications may be supplied
+		  without the corresponding host specification.	 That
+		  group	name will used for execution on	any host not
+		  named	in the argument	list.  If not set, the
+		  group_list defaults to the primary group of the user
+		  under	which the job will be run.
+
+		  interactive=true
+		  If the interactive attribute is specified, the job
+		  is an	interactive job.  The -I option	is a
+		  alternative method of	specifying this	attribute.
+
+		  stagein=file_list
+		  stageout=file_list
+		  Specifies which files	are staged (copied) in before
+		  job start or staged out after	the job	completes
+		  execution.  On completion of the job,	all staged-in
+		  and staged-out files are removed from	the execution
+		  system.  The file_list is in the form:
+		  local_file@hostname:remote_file[,...]
+
+
+}
+
+
+
+if($ARGV[0] ne ''){
+	if($ARGV[0] eq '-'){
+		open(IN,"<&=STDIN");
+	}
+	else{
+		die "Cannot open '$ARGV[0]'\n"
+			unless(open(IN, "<$ARGV[0]"));
+	}
+}
+else{
+	open(IN,"<&=STDIN");
+}
+
+# read the script!
+while(<IN>){
+	if(/^$prefix/){
+	}
+	
+}
+
+	
+	
+	
+	
+
+
+
+push @arg, "-E", "-n", $np;
+#, "-e";
+if($port>0)       {push @arg, "-p", $port;}
+if($pri>0)        {push @arg, "-P", $pri;}
+if($queue ne '')  {push @arg, "-q", $queue;}
+if($limsec>0)     {push @arg, "-l", $limsec;}
+if($stdin)        {push @arg, "-1", $stdin;}
+if($stdout)       {push @arg, "-2", $stdout;}
+if($stderr)       {push @arg, "-3", $stderr;}
+if($pe_select)    {push @arg, "-k", $pe_select;}
+if($wd ne '')     {push @arg, "-w", $wd;}
+if($profile ne ''){push @arg, "-L", $profile;}
+if($run_list ne '') {push @arg, '-y', $run_list;}
+if($ok_list ne '')  {push @arg, '-Y', $ok_list;}
+if($fail_list ne ''){push @arg, '-Z', $fail_list;}
+if($logic ne '')    {push @arg, '-z', $logic;}
+
+# check for attributes
+if(@attrs>0){
+    foreach $i (@attrs){
+        $i .= '=0' if($i !~ /=/);
+        $i =~ y/#/_/; # sharps are not allowed
+        $i =~ s/=/#/; # replace only FIRST '='
+        push @arg, '-x', $i;
+    }
+}
+
+if($com_file eq ''){
+  push @arg, "-c", join(' ',@run);
+}
+else{
+  push @arg, "-Q", $com_file;
+}
+
+#$,='; ';
+#print "np=$np; q=$queue; p=$port\n";
+#print @arg,"\n";
+
+exec("__BIN__/cleo-client",@arg);
+warn "Cannot exec client application...\n";
+exit(10);
+
+#
+#  Gets opts like this: ('X=i', \$Xoption,...) (this means "option '-X 10' to variable $Xoption=10)
+#  The scans command line for options till founds argument '--' or non-specified
+#  option, or not '-' prefixed argument.
+#  Specifications of options (what goes after 'X='):
+#  i - integer
+#  s - string
+#  + - cumulative value (variable MUST be a list)
+#  nothing - flag
+#
+sub GetOptsTillCan{
+
+  my %args=@_;
+  my ($arg,$a_key,$a_value,$a,$next,%types);
+
+  foreach $arg (keys(%args)){
+    $arg =~ /^(\S+)(\=)(.*)/ or next;
+    $a_key=$1;
+    $a_value=$args{$arg};
+    $types{$a_key} = $3;
+
+    delete $args{$arg};
+    $args{$a_key} = $a_value;
+  }
+
+  while($next=shift @ARGV){
+    last if(substr($next,0,1) ne '-');
+    last if($next eq '--');
+    $a=substr($next,1);
+    last unless(exists $args{$a});
+    undef $next;
+    if(($types{$a} eq 'i') || ($types{$a} eq 's')){
+      $a=$args{$a};
+      $$a=shift @ARGV;
+    }
+    elsif($types{$a} eq ''){
+      $a=$args{$a};
+      $$a=1;
+    }elsif($types{$a} eq '+'){
+      $a=$args{$a};
+      push @$a, shift @ARGV;
+    }
+  }
+  unshift @ARGV, $next if(defined $next);
+}
+
+
+
