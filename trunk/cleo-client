@@ -28,6 +28,11 @@ $port = 5252;
 
 ######################################################################
 
+sub echo(@){
+	return if($opts{'Q'}>0);
+	print @_;
+}
+
 sub getline( $ ){
     my $conn=shift;
     my ($readed,$str);
@@ -85,8 +90,10 @@ GetOptsTillCan_hash(\%opts,
                     'G=s',
                     'L=s',
                     'M=s',
+                    'N=s',
                     'O=s',
                     'P=s',
+                    'Q=',
                     'R=',
                     'S=s',
                     'T=',
@@ -102,6 +109,7 @@ GetOptsTillCan_hash(\%opts,
                     'f=',
                     'g=s',
                     'h=',
+                    'H=',
                     'k=s',
                     'l=s',
                     'm=s',
@@ -120,81 +128,87 @@ GetOptsTillCan_hash(\%opts,
                     'z=s'
                    );
 
-$usage="Usage: $0 [-c .. -n ..|-v|-d|-m|-C] <options>\nOptions: -h      This message\n".
-"         -G comm Generic command. Send 'comm' to server.\n".
-"                 Rest arguments are treated as pairs parameter/value.\n".
-"         -v      View tasks\n".
-"         -V fl   View tasks (new version)\n".
-"                 flags:  f=foreign tasks, o=own tasks,\n".
-"                 p=processors stat, P=global processors stat,\n".
-"                 m=default timelimit, M=maximum timelimit,\n".
-"                 O=other stats, s=running mode, B=blocked pe,\n".
-"                 b=blocked tasks, u=u1;u2;... list of users,\n".
-"                 for every task: c=used cpus, C=custom fields,\n".
-"                 >=outfile, r=repfile, w=workdir, F=full task line\n".
-"         -s      View statistics\n".
-"         -R      Use recursion (for view, mode, and debug)\n".
-"         -F      Use full mode (for view)\n".
-"         -T      Use technical mode (for view)\n".
-"         -L list Use this list in command (via comma)\n".
-"         -b id   Block task <id>\n".
-"         -u id   Unblock task <id>\n".
-"         -a val  Autoblock tasks for users (see -L). Values 0-5\n".
-"                 (unblock/block/unnonblock/nonblock/allblock/unallblock)\n".
-"         -B p    Block processor <p>\n".
-"         -U p    Unblock processor <p>\n".
-"         -p port Use server port <port>\n".
-"         -d id(s) Delete task(s) <id(s)>\n".
-"         -f      Force deletion of task (dangerous!)\n".
-"         -L prof Use profile 'prof'\n".
-"         -c com  Add to queue task with command <com>\n".
-"         -A      Add to queue task. Task command line is taken\n".
-"                 from the rest of comand line\n".
-"         -C id   Change parameters for task with id=id\n".
-"         -q xxx  Add task to queue 'xxx'\n".
-"         -1 file Use file as stdin for added task\n".
-"         -2 file Use file as stdout for added task\n".
-"         -3 file Use file as stderr for added task\n".
-"         -n num  Use <num> processors\n".
-"         -w dir  Use <dir> as workdir\n".
-"         -N nice Use nice\n".
-"         -E      Pass all the environment for new task\n".
-"         -o out  Use output file out (template)\n".
-"         -r rep  Use report file rep (template)\n".
-"         -t tmp  Use temporary dir tmp (template)\n".
-"         -l lim  Use time limit as lim (seconds)\n".
-"         -P pri  Use priority pri for this task\n".
-"         -M str  gives additional parameters for mode, del, block_task, block_cpu or view\n".
-"         -O str  gives another parameters for block_task\n".
-"         -S name operate as user 'name' (block_task)\n".
-"         -y list wait for all tasks from list (via comma) to be runned\n".
-"         -Y list wait for all tasks from list (via comma) to be successfully completed\n".
-"         -Z list wait for all tasks from list (via comma) to be unsuccessfully completed\n".
-"         -z logical operation for wait conditions \'a\'[nd] or \'o\'[r]\n".
-"         -k str  choose the strategy of processor selection\n".
-"         -m mod  Change server operating mode:\n".
-"                   run    - allow to run new tasks\n".
-"                   norun  - allow only to queue new tasks\n".
-"                   sane   - activate autoreboot\n".
-"                   nosane - cancel autoreboot\n".
-"                   view   - DONT change mode, only view current mode\n".
-"                   queue_disable - disable to queue new tasks\n".
-"                   queue_enable  - enable to queue new tasks\n".
-"                   conf_reload   - reload config file\n".
-"                   update_pid    - update pid file\n".
-"                   version       - show version info\n".
-"                   newversion    - reload new version of server\n".
-"         -g command Debug command (for experts only)\n".
-"         -x str  Set attributes for task (-a/-A). Attributes names and\n".
-"                 values are delimited by '#'.\n\n".
-" You can set default values by environment variables:\n".
-" QS_PORT     : server port\n".
-" QS_QUEUE    : queue name\n".
-" QS_PRIORITY : default priority\n".
-" QS_TEMP     : temp dir template\n".
-" QS_OUT      : out file template\n".
-" QS_REP      : report file\n".
-" QS_TIMELIM  : default timelimit\n";
+$usage=<<_USAGE;
+Usage: $0 [-c .. -n ..|-v|-d|-m|-C] <options>
+       Options:
+       -h      This message
+       -Q      Quiet mode - don't print any diagnostics
+       -G comm Generic command. Send 'comm' to server.
+               Rest arguments are treated as pairs parameter/value.
+       -v      View tasks
+       -V fl   View tasks (new version)
+               flags:  f=foreign tasks, o=own tasks,
+               p=processors stat, P=global processors stat,
+               m=default timelimit, M=maximum timelimit,
+               O=other stats, s=running mode, B=blocked pe,
+               b=blocked tasks, u=u1;u2;... list of users,
+               for every task: c=used cpus, C=custom fields,
+               >=outfile, r=repfile, w=workdir, F=full task line
+       -s      View statistics
+       -R      Use recursion (for view, mode, and debug)
+       -F      Use full mode (for view)
+       -T      Use technical mode (for view)
+       -L list Use this list in command (via comma)
+       -b id   Block task <id>
+       -u id   Unblock task <id>
+       -a val  Autoblock tasks for users (see -L). Values 0-5
+               (unblock/block/unnonblock/nonblock/allblock/unallblock)
+       -B p    Block processor <p>
+       -U p    Unblock processor <p>
+       -p port Use server port <port>
+       -d id(s) Delete task(s) <id(s)>
+       -f      Force deletion of task (dangerous!)
+       -L prof Use profile 'prof'
+       -c com  Add to queue task with command <com>
+       -A      Add to queue task. Task command line is taken
+               from the rest of comand line
+       -H      hold task just after submit
+       -C id   Change parameters for task with id=id
+       -q xxx  Add task to queue 'xxx'
+       -1 file Use file as stdin for added task
+       -2 file Use file as stdout for added task
+       -3 file Use file as stderr for added task
+       -n num  Use <num> processors
+       -w dir  Use <dir> as workdir
+       -N list Theese environment variables list must be availeble for task  
+       -E      Pass all the environment for new task
+       -o out  Use output file out (template)
+       -r rep  Use report file rep (template)
+       -t tmp  Use temporary dir tmp (template)
+       -l lim  Use time limit as lim (seconds)
+       -P pri  Use priority pri for this task
+       -M str  gives additional parameters for mode, del, block_task, block_cpu or view
+       -O str  gives another parameters for block_task
+       -S name operate as user 'name' (block_task)
+       -y list wait for all tasks from list (via comma) to be runned
+       -Y list wait for all tasks from list (via comma) to be successfully completed
+       -Z list wait for all tasks from list (via comma) to be unsuccessfully completed
+       -z logical operation for wait conditions \'a\'[nd] or \'o\'[r]
+       -k str  choose the strategy of processor selection
+       -m mod  Change server operating mode:
+                 run    - allow to run new tasks
+                 norun  - allow only to queue new tasks
+                 sane   - activate autoreboot
+                 nosane - cancel autoreboot
+                 view   - DONT change mode, only view current mode
+                 queue_disable - disable to queue new tasks
+                 queue_enable  - enable to queue new tasks
+                 conf_reload   - reload config file
+                 update_pid    - update pid file
+                 version       - show version info
+                 newversion    - reload new version of server
+       -g command Debug command (for experts only)
+       -x str  Set attributes for task (-a/-A). Attributes names and
+               values are delimited by '#'.
+ You can set default values by environment variables:
+ QS_PORT     : server port
+ QS_QUEUE    : queue name
+ QS_PRIORITY : default priority
+ QS_TEMP     : temp dir template
+ QS_OUT      : out file template
+ QS_REP      : report file
+ QS_TIMELIM  : default timelimit
+_USAGE
 
 if ($opts{h})
 {
@@ -234,7 +248,7 @@ $!=3;
 $S = new Cleo::Conn('localhost', $port);
 
 unless(defined $S){
-  print "Cannot connect to server: $!\n";
+  echo "Cannot connect to server: $!\n";
   exit(3);
 }
 #$S->autoflush(1);
@@ -247,7 +261,7 @@ for($i=0;$i<100;++$i){
     select(undef,undef,undef,0.1);
 }
 if($i==100){
-  print "Cleo connection timed out...\n";
+  exho "Cleo connection timed out...\n";
   exit(3);
 }
 #unless(socket(S, PF_INET(), SOCK_STREAM(), getprotobyname('tcp'))){
@@ -292,7 +306,7 @@ eval{
       $mode='m';
       unless ($opts{'m'} eq 'view' || $opts{'m'} eq 'version' || $opts{'m'} eq 'update_pid')
       {
-        print "Changing server mode to $opts{'m'}\n";
+        echo "Changing server mode to $opts{'m'}\n";
       }
       $opts{'M'} ||= '1';
       $S->send("mode:$user:$$:+all\n");
@@ -327,8 +341,8 @@ eval{
     #
     elsif ($opts{'v'}){
       $mode='v';
-      print "Use recursion\n" if($opts{'R'});
-      print "Use full mode\n" if($opts{'F'});
+      echo "Use recursion\n" if($opts{'R'});
+      echo "Use full mode\n" if($opts{'F'});
 
       $S->send("view:$user:$$:+all\n");
       $S->send("queue: $opts{'q'}\n") if($opts{'q'});
@@ -342,8 +356,8 @@ eval{
     #
     elsif ($opts{'V'}){
       $mode='v';
-      print "Use recursion\n" if($opts{'R'});
-      print "Use full mode\n" if($opts{'F'});
+      echo "Use recursion\n" if($opts{'R'});
+      echo "Use full mode\n" if($opts{'F'});
 
       $S->send("view:$user:$$:+all\n");
       $S->send("queue: $opts{'q'}\n") if($opts{'q'});
@@ -356,7 +370,7 @@ eval{
     #
     elsif (defined $opts{'a'}){
       $mode='v';
-      print "Use recursion\n" if($opts{'R'});
+      echo "Use recursion\n" if($opts{'R'});
       $S->send("autoblock:$user:$$:+all\n");
       $S->send("queue: $opts{'q'}\n") if($opts{'q'});
       $S->send("recurse: 1\n") if($opts{'R'});
@@ -370,9 +384,9 @@ eval{
     elsif ($opts{'d'}){
       local $,=' ';
       $mode='d';
-      print "Del @ARGV";
-      print "for user(s) $opts{'L'}" if($opts{'L'});
-      print "\n";
+      echo "Del @ARGV";
+      echo "for user(s) $opts{'L'}" if($opts{'L'});
+      echo "\n";
       if($#ARGV<0){
         $status= "No task id!";
         die "No task id!\n";
@@ -401,7 +415,7 @@ eval{
     elsif ($opts{'g'})
     {
       $mode='C';
-      print "Debug\n";
+      echo "Debug\n";
       $opts{'g'} =~ tr/\n\r\0//d;
       $S->send("debug:$user:$$:+$opts{'b'}\n");
       $S->send("command:$opts{'g'}\n");
@@ -414,7 +428,7 @@ eval{
     #
     elsif ($opts{'b'}){
       $mode='C';
-      print "Block $opts{'b'}\n";
+      echo "Block $opts{'b'}\n";
       unless (($opts{'b'} =~ /^[0-9,]+$/) or ($opts{'b'} eq 'all'))
       {
         $status= "Illegal id!";
@@ -435,7 +449,7 @@ eval{
     #
     elsif ($opts{'u'}){
       $mode='C';
-      print "Unblock $opts{'u'}\n";
+      echo "Unblock $opts{'u'}\n";
       unless (($opts{'u'} =~ /^[0-9,]+$/)  or ($opts{'u'} eq 'all'))
       {
         $status= "Illegal id!";
@@ -456,7 +470,7 @@ eval{
     #
     elsif ($opts{'B'}){
       $mode='C';
-      print "Block processor(s) $opts{'B'} [$opts{'O'}]\n";
+      echo "Block processor(s) $opts{'B'} [$opts{'O'}]\n";
       unless ( $opts{'B'} =~ /^\S+$/ ){
         $status= "Illegal processor name!";
         die $status;
@@ -474,7 +488,7 @@ eval{
     #
     elsif ($opts{'U'}){
       $mode='C';
-      print "Unblock processor(s) $opts{'U'}\n";
+      echo "Unblock processor(s) $opts{'U'}\n";
       unless ( $opts{'U'} =~ /^\S+$/ )
       {
         $status= "Illegal processor name!";
@@ -516,7 +530,7 @@ eval{
       $opts{'P'} = $ENV{QS_PRIORITY} unless $opts{'P'} ne '';
       $opts{'l'} = $ENV{QS_TIMELIM} unless $opts{'l'} ne '';
 
-      print "Using queue $opts{'q'}\n";
+      echo "Using queue $opts{'q'}\n";
 
       $S->send("add:$user:$$:\+$opts{'n'}\n");
       $S->send("np:$opts{'n'}\n");
@@ -539,6 +553,7 @@ eval{
       $S->send("wait_for_fail:$opts{'Z'}\n") if($opts{'Z'});
       $S->send("wait_cond_type:$opts{'z'}\n") if($opts{'z'});
       $S->send("pe_select:$opts{'k'}\n") if($opts{'k'});
+      $S->send("hold:1\n") if($opts{'H'});
       $S->send("attributes:$opts{'x'}\n") if($opts{'x'});
       my $index=0;
       while(@ARGV){
@@ -558,6 +573,22 @@ eval{
         $e =~ s/\n//g;
         $S->send("env: $e\n");
       }
+      #send selected environment
+      elsif ($opts{'N'}){
+        my $e;
+        my $env;
+        foreach $e (split(/,/, $opts{'N'})){
+        	if($e =~ /=/){
+        		$env .= "$e\0";
+        	}
+        	else{
+        		$env .= "$e =$ENV{$e}\0";
+        	}
+        }
+        $e=pack("u",$env);
+        $e =~ s/\n//g;
+        $S->send("env: $e\n");
+      }
       $S->send("end\n");
     }
     else {
@@ -569,7 +600,7 @@ eval{
 #    $tmpfd=select(S);$| = 1; select STDOUT;
     $answer=getline($S);
     if(!defined($answer)){
-        print "Cleo server does not send the answer...\n";
+        echo "Cleo server does not send the answer...\n";
         exit(4);
     }
     chomp $answer;
@@ -603,9 +634,9 @@ eval{
         } elsif ($mode eq 'd' || $mode eq 'a' || $mode  eq 'C') {
           # del/add/change
           if ($1 eq '+') {
-            print "$2\n";
+            echo "$2\n";
 #            @answer=<S>;
-#            print join('',@answer);
+#            echo join('',@answer);
           } else {
             $status=$2;
           }
@@ -615,23 +646,23 @@ eval{
             $status=$2;
           }
 #          @answer=<S>;#chomp @answer;
-#          print join('',@answer);
+#          echo join('',@answer);
         } elsif ($mode eq 'G'){
           #generic
           if ($1 eq '-'){
             $status=$2;
           }
           else{
-              print "Command $opts{'G'} OK.\n";
+              echo "Command $opts{'G'} OK.\n";
           }
         } else {
           if ($1 eq '-'){
             $status=$2;
           } else {
-            print "Succeed. But what command it was?\n";
+            echo "Succeed. But what command it was?\n";
           }
         }
-        print join('',@answer,"\n") unless $status;
+        echo join('',@answer,"\n") unless $status;
       } else {
         $status = "oops. Internal error: server answered '$answer'\n";
       }
@@ -642,7 +673,7 @@ eval{
 if($status){
   syslog('info','Error: %s (%m)',$status);
   closelog();
-  print join('',"Error: $status\n",@answer,"\n");
+  echo join('',"Error: $status\n",@answer,"\n");
   exit(5);
 }
 
@@ -675,7 +706,7 @@ sub GetOptsTillCan_hash{
 
   while ($next=shift @ARGV)
   {
-    #    print ">>$next<[$ARGV[0]]\n";
+    #    echo ">>$next<[$ARGV[0]]\n";
     last if(substr($next,0,1) ne '-');
     last if($next eq '--');
     $a=substr($next,1);
