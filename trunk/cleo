@@ -7602,7 +7602,13 @@ sub after_death_user_part( $$$ ) {
             undef %subst_args;
             subst_task_prop( \$text, $entry, $entry->{time},
                 "$hour hours $min minutes $sec seconds" );
-            qlog "user exec post: $text\n";
+            qlog "user exec post: $text\n", LOG_INFO;
+            launch( 0, $text, '' );
+        }
+
+        # user epilogue script?
+        if ( $entry->{epilogue} ne '' ) {
+            qlog "user exec epilogue: $entry->{epilogue}\n", LOG_INFO;
             launch( 0, $text, '' );
         }
         #
@@ -8893,17 +8899,14 @@ sub user_add_processor( $$ ) {
     . ")("
     . join( ',', @{ $cluster_settings{ $args->{queue} }->{nousers} } )
     . ")\n", LOG_INFO;
-    if ( scalar( @{ $cluster_settings{ $args->{queue} }->{nousers} } ) > 0 ) {
-        if ( is_in_list( $args->{user},
-            \@{ $cluster_settings{ $args->{queue} }->{nousers} }
-            )
-            ) {
-        $ch->send(
-            "-You are not allowed to add tasks to queue $args->{queue}! (not valid user)\n"
-            );
-        $ch->disconnect;
-        return;
-            }
+    if(scalar(@{ $cluster_settings{$args->{queue}}->{nousers}})>0){
+        if(is_in_list( $args->{user}, \@{ $cluster_settings{ $args->{queue} }->{nousers}})) {
+        	$ch->send(
+        		"-You are not allowed to add tasks to queue $args->{queue}! (not valid user)\n"
+        		);
+        	$ch->disconnect;
+        	return;
+        }
     }
     if ( scalar( @{ $global_settings{nousers} } ) > 0 ) {
         if ( is_in_list( $args->{user}, \@{ $global_settings{nousers} } ) ) {
@@ -9017,7 +9020,7 @@ sub user_add_processor( $$ ) {
             undef $args->{task};
             $exe = $args->{task_args}->[0];
         }
-        $args->{np}        = $args->{np};
+        #$args->{np}        = $args->{np};
         $args->{npextra}   = 0;
         $args->{owner}     = $args->{queue};
         $args->{lastowner} = $args->{queue};

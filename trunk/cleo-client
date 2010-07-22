@@ -51,6 +51,19 @@ sub getline( $ ){
     }
 }
 
+sub pass_opts($$){
+	my ($S,$opts)=@_;
+	my ($arg,$val);
+
+	foreach my $i (split(/;/,$opts)){
+		if($i =~ /([^=]+)=(.*)/){
+			($arg,$val)=($1,$2);
+			$val =~ y/\n\r\0//d;
+			$S->send("$arg:$val\n");
+		}
+	}
+}
+
 
 if (open(CONF,"<__CONF__/cleo.conf"))
 {
@@ -99,9 +112,9 @@ GetOptsTillCan_hash(\%opts,
                     'T=',
                     'U=s',
                     'V=s',
+                    'X=s',
                     'Y=s',
                     'Z=s',
-
                     'a=s',
                     'b=s',
                     'c=s',
@@ -163,6 +176,7 @@ Usage: $0 [-c .. -n ..|-v|-d|-m|-C] <options>
        -A      Add to queue task. Task command line is taken
                from the rest of comand line
        -H      hold task just after submit
+       -X list pass extra arguments
        -C id   Change parameters for task with id=id
        -q xxx  Add task to queue 'xxx'
        -1 file Use file as stdin for added task
@@ -554,6 +568,7 @@ eval{
       $S->send("wait_cond_type:$opts{'z'}\n") if($opts{'z'});
       $S->send("pe_select:$opts{'k'}\n") if($opts{'k'});
       $S->send("hold:1\n") if($opts{'H'});
+      pass_opts($S, $opts{'X'}) if($opts{'X'});
       $S->send("attributes:$opts{'x'}\n") if($opts{'x'});
       my $index=0;
       while(@ARGV){
