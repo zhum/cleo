@@ -8,7 +8,7 @@ use vars qw($date_time $account_string $interval $prefix $err_name);
 use vars qw($hold $join_list $keep_list $mail_options $mail_list $name);
 use vars qw($priority  $out_name $destination $restart $shell);
 use vars qw($variable_list $vars $no_number $res $extra);
-use vars qw(@arg, @attrs);
+use vars qw(@arg @attrs $file);
 
 if($#ARGV<1){
 	#!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -150,207 +150,31 @@ if($res ne ''){
 		add_res($l);
 	}
 }
-sub add_res($){
-	# add new resource
-	my ($name,$val);
-	if(/([^=]+)\s*=\s*(.*)/){
-		($name,$val)=($1,$2);
-		if($name eq 'arch'){
-			#ignore
-		}
-		elsif($name eq 'cput'){
-			if($value =~ /^((\d\d):)?((\d\d):)?(\d\d)/){
-				my ($HH, $MM, $SS)=($2,$4,$5);
-				if($MM eq ''){
-					$MM=$HH;
-					$HH=0;
-				}
-				$SS+=$MM*60+$HH*3600;
-				push @arg, '-l', $SS;
-			}
-			else{
-				warn "Illegal 'cput' resource: $value\n";
-			}
-		}
-		elsif($name eq 'epilogue'){
-		}
-		elsif($name eq ''){
-		}
-		elsif($name eq ''){
-		}
-		elsif($name eq ''){
-		}
-		elsif($name eq ''){
-		}
-		elsif($name eq ''){
-		}
-		elsif($name eq ''){
-		}
-		elsif($name eq ''){
-		}
-		elsif($name eq ''){
-		}
-epilogue 	string 	Specifies a user owned epilogue script which will be run before the system epilogue and epilogue.user scripts at the completion of a job. The syntax is epilogue=<file>. The file can be designated with an absolute or relative path.
-file 	size* 	The amount of total disk requested for the job. (Ignored on Unicos.)
-host 	string 	Name of the host on which the job should be run. This resource is provided for use by the site's scheduling policy. The allowable values and effect on job placement is site dependent.
-mem 	size* 	Maximum amount of physical memory used by the job. (Ignored on Darwin, Digital Unix, Free BSD, HPUX 11, IRIX, NetBSD, and SunOS. Also ignored on Linux if number of nodes is not 1. Not implemented on AIX and HPUX 10.)
-nice 	integer 	Number between -20 (highest priority) and 19 (lowest priority). Adjust the process execution priority.
-nodes 	{<node_count> | <hostname>} [:ppn=<ppn>][:<property>[:<property>]...] [+ ...] 	Number and/or type of nodes to be reserved for exclusive use by the job. The value is one or more node_specs joined with the + (plus) character: node_spec[+node_spec...]. Each node_spec is a number of nodes required of the type declared in the node_spec and a name of one or more properties desired for the nodes. The number, the name, and each property in the node_spec are separated by a : (colon). If no number is specified, one (1) is assumed.
-
-The name of a node is its hostname. The properties of nodes are:
-
-    * ppn=# - specify the number of processors per node requested. Defaults to 1.
-    * property - a string assigned by the system administrator specifying a node's features. Check with your administrator as to the node names and properties available to you.
-
-See Example 1 (-l nodes) for examples.
-
-Note 	By default, the node resource is mapped to a virtual node (that is, directly to a processor, not a full physical compute node). This behavior can be changed within Maui or Moab by setting the JOBNODEMATCHPOLICY parameter. See Appendix F of the Moab Workload Manager Administrator's Guide for more information.
-opsys 	string 	Specifies the administrator defined operating system as defined in the mom configuration file.
-other 	string 	Allows a user to specify site specific information. This resource is provided for use by the site's scheduling policy. The allowable values and effect on job placement is site dependent.
-pcput 	seconds, or [[HH:]MM:]SS 	Maximum amount of CPU time used by any single process in the job.
-pmem 	size* 	Maximum amount of physical memory used by any single process of the job. (Ignored on Fujitsu. Not implemented on Digital Unix and HPUX.)
-procs 	procs=<integer> 	(Applicable in version 2.5.0 and later.) The number of processors to be allocated to a job. The processors can come from one or more qualified node(s). Only one procs declaration may be used per submitted qsub command.
-
-> qsub -l nodes=3+procs=2
-
-procs_bitmap 	string 	A string made up of 1's and 0's in reverse order of the processor cores requested. A procs_bitmap=1110 means the job requests a node that has four available cores, but the job runs exclusively on cores two, three, and four. With this bitmap, core one is not used.
-prologue 	string 	Specifies a user owned prologue script which will be run after the system prologue and prologue.user scripts at the beginning of a job. The syntax is prologue=<file>. The file can be designated with an absolute or relative path.
-pvmem 	size* 	Maximum amount of virtual memory used by any single process in the job. (Ignored on Unicos.)
-software 	string 	Allows a user to specify software required by the job. This is useful if certain software packages are only available on certain systems in the site. This resource is provided for use by the site's scheduling policy. The allowable values and effect on job placement is site dependent. (See Scheduler License Management in the Moab Workload Manager Administrator's Guide for more information.)
-vmem 	size* 	Maximum amount of virtual memory used by all concurrent processes in the job. (Ignored on Unicos.)
-walltime 	seconds, or [[HH:]MM:]SS 	Maximum amount of real time during which the job can be in the running state.
-
-
-}
 
 if($extra ne ''){
+	my ($var,$val);
 	# extra options
-depend=dependency_list
-		  Defines the dependency between this and other	jobs.
-		  The dependency_list is in the	form:
-		  type:argument[,type:argument[:argument...],...]
-		  The argument is either a numeric count or a PBS job
-		  id.  If argument is a	count, it must be greater than
-		  0.  If it is a job id, the job id must be fully
-		  specified in the form	seq_number.server.name.
-
-		      synccount:count
-			  This job is the first	in a set of jobs to be
-			  executed at the same time.  Count is the
-			  number of additional jobs in the set.
-
-		      syncwith:jobid
-			  This job is an additional member of a	set of
-			  jobs to be executed at the same time.	 In
-			  the above and	following dependency types,
-			  jobid	is the fully qualified job identifier,
-			  seq_number.server_name[@server], of the
-			  first	job in the set.
-
-		      after:jobid[:jobid...]
-			  This job may be scheduled for	execution at
-			  any point after jobs jobid have started
-			  execution.
-
-		      afterok:jobid[:jobid...]
-			  This job may be scheduled for	execution only
-			  after	jobs jobid have	terminated with	no
-			  errors.  See the csh warning under "Extended
-			  Description".
-
-		      afternotok:jobid[:jobid...]
-			  This job may be scheduled for	execution only
-			  after	jobs jobid have	terminated with
-			  errors.  See the csh warning under "Extended
-			  Description".
-
-		      afterany:jobid[:jobid...]
-			  This job may be scheduled for	execution
-			  after	jobs jobid have	terminated, with or
-			  without errors.
-
-		      on:count
-			  This job may be scheduled for	execution
-			  after	count dependencies on other jobs have
-			  been satisfied.  This	form is	used in
-			  conjunction with one of the before forms,
-			  see below.
-
-		      before:jobid[:jobid...]
-			  When this job	has begun execution, then jobs
-			  jobid... may begin.
-
-		      beforeok:jobid[:jobid...]
-			  If this job terminates execution without
-			  errors, then jobs jobid... may begin.	 See
-			  the csh warning under	"Extended
-			  Description".
-
-		      beforenotok:jobid[:jobid...]
-			  If this job terminates execution with
-			  errors, then jobs jobid... may begin.	 See
-			  the csh warning under	"Extended
-			  Description".
-
-		      beforeany:jobid[:jobid...]
-			  When this job	terminates execution, jobs
-			  jobid... may begin.
-
-			  If any of the	before forms are used, the
-			  jobs referenced by jobid must	have been
-			  submitted with a dependency type of on.
-
-			  If any of the	before forms are used, the
-			  jobs referenced by jobid must	have the same
-			  owner	as the job being submitted.
-			  Otherwise, the dependency is ignored.
-
-		      Error processing of the existence, state,	or
-		      condition	of the job on which the	newly
-		      submitted	job is a deferred service, i.e.	the
-		      check is performed after the job is queued.  If
-		      an error is detected, the	new job	will be
-		      deleted by the server.  Mail will	be sent	to the
-		      job submitter stating the	error.
-
-		      Dependency examples:
-		      qsub -W depend=afterok:123.big.iron.com
-		      /tmp/script
-		      qsub -W
-		      depend=before:234.hunk1.com:235.hunk1.com
-		      /tmp/script
-
-		  group_list=g_list
-		  Defines the group name under which the job is	to run
-		  on the execution system.  The	g_list argument	is of
-		  the form:
-		  group[@host][,group[@host],...]
-		  Only one group name may be given per specified host.
-		  Only one of the group	specifications may be supplied
-		  without the corresponding host specification.	 That
-		  group	name will used for execution on	any host not
-		  named	in the argument	list.  If not set, the
-		  group_list defaults to the primary group of the user
-		  under	which the job will be run.
-
-		  interactive=true
-		  If the interactive attribute is specified, the job
-		  is an	interactive job.  The -I option	is a
-		  alternative method of	specifying this	attribute.
-
-		  stagein=file_list
-		  stageout=file_list
-		  Specifies which files	are staged (copied) in before
-		  job start or staged out after	the job	completes
-		  execution.  On completion of the job,	all staged-in
-		  and staged-out files are removed from	the execution
-		  system.  The file_list is in the form:
-		  local_file@hostname:remote_file[,...]
-
-
+	while($extra =~ s/([^=]+)=([^,]+),?//){
+		$var=$1;
+		$val=$2;
+		
+		if($var eq 'depend'){
+			if($var =~ s/([^:]+)://){
+				my $dep=$1;
+				if($dep eq 'after' or $dep eq 'afterany'){
+					push @arg, '-z', 'a', '-y', split(/,/,$val);
+				}
+				elsif($def eq 'afterok'){
+					push @arg, '-z', 'a', '-Y', split(/,/,$val);
+				}
+				elsif($def eq 'afternotok'){
+					push @arg, '-z', 'a', '-Z', split(/,/,$val);
+				}
+			}
+		}
+		else{
+	}
 }
-
-
 
 if($ARGV[0] ne ''){
 	if($ARGV[0] eq '-'){
@@ -359,6 +183,7 @@ if($ARGV[0] ne ''){
 	else{
 		die "Cannot open '$ARGV[0]'\n"
 			unless(open(IN, "<$ARGV[0]"));
+		$file=$ARGV[0];
 	}
 }
 else{
@@ -367,14 +192,43 @@ else{
 
 # read the script!
 while(<IN>){
-	if(/^$prefix/){
-	}
-	
-}
+	push @script, $_ if($file eq '');
 
+	if(/^${prefix}\s+(.*)/){
+		add_res($1);
+	}
+}
+close IN;
+
+if($file eq ''){
+	$file="stdin.$$";
+	if(open(SCRIPT,">$file")){
+		print SCRIPT, @script;
+		close SCRIPT;
+	}
+	else{
+		die "Cannot create intermediate script file $file ($!)\n";
+	}
+}
 	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 
 
@@ -467,5 +321,100 @@ sub GetOptsTillCan{
   unshift @ARGV, $next if(defined $next);
 }
 
+
+sub add_res($){
+	# add new resource
+	my ($name,$val);
+	if($_[0] =~ /([^=]+)\s*=\s*(.*)/){
+		($name,$val)=($1,$2);
+		if($name eq 'arch'){
+			#ignore
+		}
+		elsif($name eq 'cput' or
+			  $name eq 'walltime' or
+			  $name eq 'pcput'){
+			if($value =~ /^((\d+):)?((\d\d):)?(\d\d)/){
+				my ($HH, $MM, $SS)=($2,$4,$5);
+				if($MM eq ''){
+					$MM=$HH;
+					$HH=0;
+				}
+				$SS+=$MM*60+$HH*3600;
+				push @arg, '-l', $SS;
+			}
+			else{
+				warn "Illegal 'cput' resource value: $value\n";
+			}
+		}
+		elsif($name eq 'epilogue'){
+			push @extra_args, "epilogue=$value";
+		}
+		elsif($name eq 'file'){
+			# ignore
+		}
+		elsif($name eq 'host'){
+			# ignore
+		}
+		elsif($name eq 'mem'){
+			# ignore
+		}
+		elsif($name eq 'nice'){
+			# ignore
+		}
+		elsif($name eq 'nodes'){
+			my $ppn=0;
+			my $np=0;
+			foreach my $spec (split(/\+/, $value)){
+				# simplify the request for now...
+				# !!!!!
+				# TASK: fix this in the future versions
+				if($spec =~ /ppn=(\d+)/){
+					$ppn=$1;
+				}
+				if($spec =~ /^(\d+)/){
+					$np+=$1;
+				}
+			}
+			if($np>0){
+				push @arg, '-n', $np;
+				if($ppn>0){
+					push @attrs, "ppn=$np";
+				}
+			}
+		}
+		elsif($name eq 'opsys'){
+			# ignore
+		}
+		elsif($name eq 'other'){
+			# ignore
+		}
+		elsif($name eq 'pmem'){
+			# ignore
+		}
+		elsif($name eq 'pvmem'){
+			# ignore
+		}
+		elsif($name eq 'vmem'){
+			# ignore
+		}
+		elsif($name eq 'software'){
+			# ignore
+		}
+		elsif($name eq 'procs'){
+			if($value =~ /^\d+$/){
+				push @arg, '-n', $value;
+			}
+			else{
+				warn "procs must be integer\n";
+			}
+		}
+		elsif($name eq 'prologue'){
+			push @extra_args, "epilogue=$value";
+		}
+	}
+	else{
+		warn("Bad resource request: $_[0]\n");
+	}
+}
 
 
