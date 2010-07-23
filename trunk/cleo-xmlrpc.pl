@@ -14,7 +14,7 @@ use Frontier::Client;
 use Date::Format;
 
 ($server_url) = get_settings('','url');
-$server_url ||= 'http://cluster.parallel.ru:8080/XMLRPC';
+#$server_url ||= 'http://cluster.parallel.ru:8080/XMLRPC';
 
 
 sub check_connection(){
@@ -41,17 +41,24 @@ sub post($){
   # logTaskStart (String cluster, String queue, int task_uid,
   # String processors, Date date, String user, int realCPU)
 
+  if($entry->{uniqid} eq ''){
+  	  $entry->{uniqid}="$entry->{id}_$entry->{queue}_$$entry->{added}";
+  }
+
   undef $@;
   eval{
     unless (my $result = $server->call(
            'ant.logTaskStart',
            $server->string($entry->{cluster}),
            $server->string($entry->{queue}),
-           $server->int($entry->{uid}),
-           $server->string($entry->{nodes}),
+           $server->string($entry->{uniqid}),
+           $server->int($entry->{id}),
+           $server->string($entry->{nodes}.
+           	   ($entry->{extranodes} eq ''?'':",$entry->{extranodes}")),
            $server->date_time(time2str('%Y%m%dT%X',$entry-{time})),
            $server->string($entry->{user}),
-           $server->int($entry->{np})
+           $server->int($entry->{np}),
+           $server->int($entry->{npextra})
             )){
         cleo_log 'Result from server: '.$result;
     }
@@ -74,15 +81,22 @@ sub ok($){
     return 0;
   }
   # logTaskEnd (String cluster, String queue, int task_uid, String processors, Date date)
-
+  
+  if($entry->{uniqid} eq ''){
+  	  $entry->{uniqid}="$entry->{id}_$entry->{queue}_$$entry->{added}";
+  }
+  	  
   undef $@;
   eval{
     unless (my $result = $server->call(
            'ant.logTaskEnd',
            $server->string($entry->{cluster}),
            $server->string($entry->{queue}),
-           $server->int($entry->{uid}),
-           $server->string($entry->{nodes}),
+           $server->string($entry->{uniqid}),
+           $server->int($entry->{id}),
+           $server->int($entry->{status}),
+           $server->string($entry->{nodes}.
+           	   ($entry->{extranodes} eq ''?'':",$entry->{extranodes}")),
            $server->date_time(time2str('%Y%m%dT%X',get_time()))
            )){
         cleo_log 'Result from server: '.$result;
@@ -112,6 +126,10 @@ sub add($){
   }
   # logTaskEnd (String cluster, String queue, int task_uid, String processors, Date date)
 
+  if($entry->{uniqid} eq ''){
+  	  $entry->{uniqid}="$entry->{id}_$entry->{queue}_$$entry->{added}";
+  }
+
   undef $@;
   eval{
     unless (my $result = $server->call(
@@ -119,7 +137,8 @@ sub add($){
            $server->string($entry->{cluster}),
            $server->string($entry->{queue}),
            $server->string($entry->{user}),
-           $server->int($entry->{uid}),
+           $server->string($entry->{uniqid}),
+           $server->int($entry->{id}),
            $server->string($entry->{np}),
            $server->date_time(time2str('%Y%m%dT%X',get_time()))
            )){
@@ -137,7 +156,7 @@ sub add($){
 
 # task del
 sub del($){
-  my ($entry)=@_;
+  my $entry=@_[0];
   undef $@;
   if(check_connection() eq undef){
     cleo_log "Cannot connect XML-RPC server";
@@ -145,13 +164,18 @@ sub del($){
   }
   # logTaskEnd (String cluster, String queue, int task_uid, String processors, Date date)
 
+  if($entry->{uniqid} eq ''){
+  	  $entry->{uniqid}="$entry->{id}_$entry->{queue}_$$entry->{added}";
+  }
+
   undef $@;
   eval{
     unless (my $result = $server->call(
            'ant.logTaskDel',
            $server->string($entry->{cluster}),
            $server->string($entry->{queue}),
-           $server->int($entry->{uid}),
+           $server->string($entry->{uniqid}),
+           $server->int($entry->{id}),
            $server->date_time(time2str('%Y%m%dT%X',get_time()))
            )){
         cleo_log 'Result from server: '.$result;
@@ -165,3 +189,4 @@ sub del($){
   }
   return 0;
 }
+
