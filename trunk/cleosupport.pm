@@ -1033,7 +1033,7 @@ sub count_user_np_used( ;$ ) {
 
 #
 #  returns count of runned and prerunned
-#  tazks of given user
+#  tasks of given user
 #  (all if arg is undef or '')
 #
 #####################################
@@ -2056,9 +2056,10 @@ sub save_xml_state( $ ){
             $writer->startTag('users');
             #            $XML->print("    <users>\n");
             foreach $j (split(/\s+/,$i->{users})){
-                $writer->startTag('name');
-                $writer->characters($j);
-                $writer->endTag('name');
+#                $writer->startTag('name');
+#                $writer->characters($j);
+#                $writer->endTag('name');
+                $writer->dataElement('name',$j);
                 #                $XML->print("     <name>$j</name>\n");
             }
             $writer->endTag('users');
@@ -2084,14 +2085,16 @@ sub save_xml_state( $ ){
             if ( ref( $i->{blocks} ) eq 'ARRAY' ) {
                 foreach $j (@{$i->{blocks}}){
                     $j =~ /(.*):(.*)/;
-                    $writer->startTag('block');
-                      $writer->startTag('who');
-                      $writer->characters($1);
-                      $writer->endTag('who');
-                    #                    $XML->print("  <block>\n   <who>$1</who>\n");
-                      $writer->startTag('reason');
-                      $writer->characters($2);
-                      $writer->endTag('reason');
+#                      $writer->startTag('block');
+#                      $writer->startTag('who');
+#                      $writer->characters($1);
+#                      $writer->endTag('who');
+                    $writer->dataElement('who',$1);
+#                    #                    $XML->print("  <block>\n   <who>$1</who>\n");
+#                      $writer->startTag('reason');
+#                      $writer->characters($2);
+#                      $writer->endTag('reason');
+                    $writer->dataElement('reason',$2);
                     $writer->endTag('block');
                     #                    $XML->print("   <reason>$2</reason>  </block>\n");
                 }
@@ -2164,10 +2167,10 @@ sub save_xml_state( $ ){
                 #            $XML->print(" of_week=\"$w\" hours=\"$hr\" minutes=\"$min\"");
                 #            $XML->print(" seconds=\"$sec\" year=\"$tmp\" unixtime=\"$i->{added}\" />\n");
 
-                #$writer->dataElement('task_code',$writer->characters($i->{task}));
-                $writer->startTag('task_code');
-                $writer->characters($i->{task});
-                $writer->endTag('task_code');
+                $writer->dataElement('task_code',$writer->characters($i->{task}));
+#                $writer->startTag('task_code');
+#                $writer->characters($i->{task});
+#                $writer->endTag('task_code');
                 #            $XML->print(" <task_code>$i->{task}</task_code>\n");
 
                 foreach $tmp ( keys(%$i) ) {
@@ -4755,12 +4758,14 @@ sub create_task_env( $ ){
 
     if(get_setting('pbs_compat')){
         $ENV{PBS_O_HOST}=$ENV{CLEO_RUN_HOST};
+        $ENV{PBS_SERVER}=$ENV{CLEO_RUN_HOST};
         $ENV{PBS_O_QUEUE}=$ENV{CLEO_QUEUE};
         $ENV{PBS_QUEUE}=$ENV{CLEO_QUEUE};
         $ENV{PBS_O_WORKDIR}=$ENV{CLEO_WORKDIR};
         $ENV{PBS_JOBID}=$ENV{CLEO_JOBID};
         $ENV{PBS_NODEFILE}=$ENV{CLEO_NODEFILE};
         $ENV{PBS_JOBNAME}=$ENV{CLEO_JOBNAME};
+        $ENV{PBS_ENVIRONMENT}='PBS_INTERACTIVE';
     }
 }
 
@@ -4830,7 +4835,7 @@ sub execute_task( $ ) {
                 block_task($q_entry->{id},1,'__internal__',$exec_mod_cancel);
             }
         }
-        # tazk cancelled, do not run!
+        # task cancelled, do not run!
         if($cancel==1){
             foreach my $i (@$t) {
                 do_exec_module( $i, 'cancel', $q_entry, $exec_mod_cancel);
@@ -5059,7 +5064,7 @@ sub execute_task( $ ) {
         # Change uid/gid and go to the workdir
         #
         $( = $gid;
-            $) = "$gid $gid $user_groups{$q_entry->{user}}";
+        $) = "$gid $gid $user_groups{$q_entry->{user}}";
         $> = get_uid( $q_entry->{user} );
         $< = $>;
         
@@ -5204,7 +5209,7 @@ sub execute_task( $ ) {
         fcntl( STDOUT, F_SETFL, O_WRONLY | O_LARGEFILE );
         
         if ( $q_entry->{stderr} ne '') {
-            $q_entry->{stderr} =~ tr/\|\`\&\#\$\@\<\>//;
+            $q_entry->{stderr} =~ tr/\|\`\&\#\$\@\<\>//; #`
             $empty_exe .= " -e $q_entry->{stderr}";
             #            $errfile=$q_entry->{stderr};
             if ( !open( STDERR, ">$q_entry->{stderr}" ) ) {
@@ -6793,9 +6798,10 @@ sub test_block( $$$ ) {
                             $del{$i} = 1;
                         }
                         foreach $i ( keys(%del) ) {
-                            del_task( $i, '__internal__', '', '', '', 0,
-                                "Node $pe has been blocked (most probably - failed)"
-                                );
+                            del_or_restart_task( $i, "Node $pe has been blocked");
+#                            del_or_restart_task( $i, '__internal__', '', '', '', 0,
+#                                "Node $pe has been blocked"
+#                            );
                         }
                     }
                     foreach $i (@reasons) {
@@ -7394,6 +7400,8 @@ sub load_exec_modules() {
                     #          qlog join('',"\npackage CleoExecModule::$m;\n",@content,"\n"), LOG_DEBUG2;
                     eval join( '',
                         "package CleoExecModule::$m;\n",
+                        "sub cleo_log( \$ ){cleosupport::qlog(\"MOD: \$_[0]\",cleovars::LOG_INFO);};\n",
+                        "sub get_time(){return \$cleovars::last_time;};\n",
                         "sub cancel_task( \$ ){ \$cleovars::exec_mod_cancel=\$_[0]; };\n",
                         "sub cancel( \$ ){ \$cleovars::exec_mod_cancel=\$_[0]; };\n",
                         $modules_prolog,
@@ -7587,6 +7595,34 @@ sub _unblock_reruned($$){
         block_task($_[0],0,'__internal__',$_[1]);
     }
 }
+####################################################
+#
+#  Delete or try to restart given task
+#
+#  args:  id       - task id (all - del all tasks)
+#         reason   - description of deletion
+#
+sub del_or_restart_task( $$ ) {
+    my ( $id, $reason ) = @_;
+
+    if(!exists($ids{$id})){
+        qlog "Cannot del or restart task $id - task does not exists\n", LOG_ERR;
+        return;
+    }
+
+    # check rerun attribute
+    my $a=$ids{$id}->{attrs}->{'restart'};
+    if($a==0){
+      # delete task
+      del_task($id,'__internal__', undef, undef, undef, 0, $reason);
+      return;
+    }
+
+    # rerun task!
+    rerun_task($id,$a==1?get_setting('rerun_delay'):$a,$reason);
+}
+
+
 #
 #  Cancel task running and redirect it in queue again
 #
@@ -7600,16 +7636,17 @@ sub rerun_task($$$){
     my ($id,$delay,$reason)=@_;
 
     if(!exists($ids{$id})){
-        qlog "Cannot rerun task $id - task does not exists\n", LOG_ERR;
+        qlog "Cannot restart task $id - task does not exists\n", LOG_ERR;
         return;
     }
-    #qlog "ERROR: Not implemented task rerun ($id)\n";
+    #qlog "ERROR: Not implemented task restart ($id)\n";
     #del_task($id,'__internal__', undef, undef, undef, 0, 'Fail to run, cannot rerun task');
 
     # delete id from queue/running
     remove_id($id);
 
     # restore it to queue
+    # skip already unshifted other tasks with the same reason!
     unshift @queue, $ids{$id};
     $ids{$id}->{state}='queued';
 
@@ -7863,7 +7900,7 @@ sub check_cpuh( $;$ ){
             next if ( $i->{user} ne $user );
             next if ( $i->{timelimit}==0 );
 
-            # tazks is startin/running/endind and belongs to user...
+            # tasks is startin/running/endind and belongs to user...
             # COUNT it!
             $real_np=$i->{np}+scalar(@{$i->{extranodes}});
             $ret += ($real_np*($i->{timelimit}-$i->{time}))/3600;

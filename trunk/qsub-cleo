@@ -1,21 +1,35 @@
 #!/usr/bin/perl
 #
-# Version 4
+# Version 5
 #
 
 use strict;
 use vars qw($date_time $account_string $interval $prefix $err_name); 
 use vars qw($hold $join_list $keep_list $mail_options $mail_list $name);
 use vars qw($priority  $out_name $destination $restart $shell);
-use vars qw($variable_list $vars $no_number $res $extra);
+use vars qw($variable_list $vars $no_number $res $extra $ignore);
 use vars qw(@arg @attrs $file);
 
 if($#ARGV<1){
-	#!!!!!!!!!!!!!!!!!!!!!!!!!
-	print "Usage: qsub ....\n";
+	print <<_Usage;
+Usage: qsub [-a date_time] [-A account_string] [-c checkpoint_options]
+       [-C directive_prefix] [-d path] [-e path] [-f] [-h]
+       [-I ] [-j join ] [-k keep ] [-l resource_list ]
+       [-m  mail_options] [-M user_list] [-N name] [-o path]
+       [-p priority] [-P user[:group]] [-q destination] [-r c] [-S path_list]
+       [-u  user_list] [-v  variable_list]
+       [-V ] [-W additional_attributes] [-X] [-z] [script|-] [args] 
+
+_Usage
 	exit(1);
 }
 	
+
+$ENV{PBS_O_HOST}=`hostname`;
+$ENV{PBS_SERVER}=$ENV{PBS_O_HOST};
+$ENV{PBS_O_WORKDIR}=`pwd`;
+$ENV{PBS_ENVIRONMENT}='PBS_INTERACTIVE';
+
 
 GetOptsTillCan('a=s'          =>\$date_time,      #указать время, после которого задача может идти на счёт
                'A=s'          =>\$account_string, #указать имя учётной записи, под которой будет запущено приложение
@@ -24,6 +38,7 @@ GetOptsTillCan('a=s'          =>\$date_time,      #указать время, п
                'e=s'          =>\$err_name,       #указывает путь к файлу, куда будет перенаправлен поток вывода ошибок
                'h='           =>\$hold,           #задача должны быть автоматически остановлена после постановки в очередь
                'j=s'          =>\$join_list,      #указывает потоки, которые должны быть перенаправлены в стандартный поток вывода
+               'I='           =>\$ignore,
                'k=s'          =>\$keep_list,      #указывает, какие потоки вывода должны сохраняться на вычислительных узлах
                'l=s'          =>\$res,
                'm=s'          =>\$mail_options,   #указывает, в каких случаях система очередей должна оповещать пользователя по электронной почте об изменении статуса задачи
@@ -54,7 +69,7 @@ if($date_time ne ''){
 		die "Invalid -a time format. [[CC]YY]MMDDhhmm format must be used.\n";
 	}
 	
-	push @attrs, 'aftertime',$time;
+	push @attrs, "aftertime#${time}";
 }
 
 if($account_string ne ''){
@@ -64,12 +79,13 @@ if($account_string ne ''){
 
 if($interval >0){
 	# checkpoints interval
-	push @attrs, 'checkpoint_interval',$interval;
+	push @attrs, "checkpoint_interval#${interval}";
 }
 
 if($prefix eq ''){
 	# Use default prerix for options scanning in script body
-	$prefix=$ENV{PBS_DPREFIX} || '#PBS'; 
+	$prefix=$ENV{PBS_DPREFIX};
+	$prefix ||= '#PBS'; 
 }
 
 if($err_name ne ''){
@@ -93,12 +109,12 @@ if($keep_list ne ''){
 if($mail_options ne ''){
 	# set mailing options
 	$mail_options =~ y/#//d;
-	push @attrs, 'mailopts', $mail_options;
+	push @attrs, "mailopts#${mail_options}";
 }
 if($mail_list ne ''){
 	# set list of emails
 	$mail_list =~ y/#//d;
-	push @attrs, 'maillist', $mail_list;
+	push @attrs, "maillist#${mail_list}";
 }
 
 if($name ne ''){
@@ -121,7 +137,7 @@ if($destination ne ''){
 }
 if($restart eq 'y'){
 	# set restart mode
-	push @attrs, 'restart', 1;
+	push @attrs, 'restart#1';
 }
 
 if($shell ne ''){
@@ -132,7 +148,7 @@ if($shell ne ''){
 
 if($variable_list ne ''){
 	# export theese variable to task
-	push @arg, '-N', quotemeta($variable_list);
+	push @arg, '-N', quotemeta("PBS_O_HOST,PBS_SERVER,PBS_O_WORKDIR,PBS_ENVIRONMENT,TZ,HOME,LANG,LOGNAME,PATH,MAIL,SHELL,$variable_list");
 }
 
 if($vars >0){
@@ -173,7 +189,13 @@ if($extra ne ''){
 			}
 		}
 		else{
+			warn "$var is not implemented\n";
+		}
 	}
+}
+
+if($first_line ne ''){
+	push @script, $first_line;
 }
 
 if($ARGV[0] ne ''){
@@ -200,8 +222,10 @@ while(<IN>){
 }
 close IN;
 
-if($file eq ''){
-	$file="stdin.$$";
+# create new script file, if needed
+if($file eq '' or $first_line ne ''){
+	$file="stdin.$$" if($file eq '');
+
 	if(open(SCRIPT,">$file")){
 		print SCRIPT, @script;
 		close SCRIPT;
@@ -210,67 +234,19 @@ if($file eq ''){
 		die "Cannot create intermediate script file $file ($!)\n";
 	}
 }
-	
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-
-
-
-push @arg, "-E", "-n", $np;
-#, "-e";
-if($port>0)       {push @arg, "-p", $port;}
-if($pri>0)        {push @arg, "-P", $pri;}
-if($queue ne '')  {push @arg, "-q", $queue;}
-if($limsec>0)     {push @arg, "-l", $limsec;}
-if($stdin)        {push @arg, "-1", $stdin;}
-if($stdout)       {push @arg, "-2", $stdout;}
-if($stderr)       {push @arg, "-3", $stderr;}
-if($pe_select)    {push @arg, "-k", $pe_select;}
-if($wd ne '')     {push @arg, "-w", $wd;}
-if($profile ne ''){push @arg, "-L", $profile;}
-if($run_list ne '') {push @arg, '-y', $run_list;}
-if($ok_list ne '')  {push @arg, '-Y', $ok_list;}
-if($fail_list ne ''){push @arg, '-Z', $fail_list;}
-if($logic ne '')    {push @arg, '-z', $logic;}
-
-# check for attributes
-if(@attrs>0){
-    foreach $i (@attrs){
-        $i .= '=0' if($i !~ /=/);
-        $i =~ y/#/_/; # sharps are not allowed
-        $i =~ s/=/#/; # replace only FIRST '='
-        push @arg, '-x', $i;
-    }
+# add attributes...
+if($#attrs>=0){
+	push @arg, '-x', join('#', @attrs);
 }
 
-if($com_file eq ''){
-  push @arg, "-c", join(' ',@run);
-}
-else{
-  push @arg, "-Q", $com_file;
-}
+# and scriptname and args!
+shift @ARGV;
 
-#$,='; ';
-#print "np=$np; q=$queue; p=$port\n";
-#print @arg,"\n";
+push @arg, $file, @ARGV;
 
+
+# submit!
 exec("__BIN__/cleo-client",@arg);
 warn "Cannot exec client application...\n";
 exit(10);

@@ -194,7 +194,7 @@ Usage: $0 [-c .. -n ..|-v|-d|-m|-C] <options>
        -M str  gives additional parameters for mode, del, block_task, block_cpu or view
        -O str  gives another parameters for block_task
        -S name operate as user 'name' (block_task)
-       -y list wait for all tasks from list (via comma) to be runned
+       -y list wait for all tasks from list (via comma) to be completed
        -Y list wait for all tasks from list (via comma) to be successfully completed
        -Z list wait for all tasks from list (via comma) to be unsuccessfully completed
        -z logical operation for wait conditions \'a\'[nd] or \'o\'[r]
