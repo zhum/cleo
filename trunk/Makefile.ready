@@ -64,6 +64,7 @@ emptyfiles:
 	cd ../empty; $(MAKE); cd ..
 
 install:
+	groupadd -f -r $(MPIGROUP)
 	install $(INSTALL_FLAGS) -m 0755 -d $(THEBINDIR) $(THESHAREDDIR) \
 	  $(THESBINDIR) $(THERCDIR) $(THEDOCDIR) $(THEETCDIR) $(THEMANDIR)/man1 $(THESHAREDDIR)/Cleo
 #	cp ../cleo-conn.pm Conn.pm
@@ -78,12 +79,12 @@ install:
 	install $(INSTALL_MANS) -m 0644 *.1.gz $(THEMANDIR)/man1
 
 	chgrp $(MPIGROUP) $(THEBINDIR)/cleo-submit $(THEBINDIR)/mpirun || true
-	chmod 0750 $(THEBINDIR)/cleo-submit
+	chmod 0755 $(THEBINDIR)/cleo-submit
 	chmod 0745 $(THEBINDIR)/mpirun
 
 	(cd ..; install $(INSTALL_FLAGS) -m 0644 $(DOCS) $(THEDOCDIR))
-	if [ $(RCINSTALL) == "1" ]; then \
-          /usr/lib/lsb/install_initd  $(THERCRDIR)/cleo $(THERCRDIR)/S90cleo; \
+	if [ $(RCINSTALL) = "1" ]; then \
+          /usr/lib/lsb/install_initd  $(THERCDIR)/cleo $(THERCDIR)/S90cleo; \
 	fi
 	for i in $(NODES); do \
           echo "Copying to $$i"; \

@@ -275,7 +275,7 @@ for($i=0;$i<100;++$i){
     select(undef,undef,undef,0.1);
 }
 if($i==100){
-  exho "Cleo connection timed out...\n";
+  echo "Cleo connection timed out...\n";
   exit(3);
 }
 #unless(socket(S, PF_INET(), SOCK_STREAM(), getprotobyname('tcp'))){

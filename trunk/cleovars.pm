@@ -89,7 +89,7 @@ BEGIN{
 
              $sched_alarm %sched_user_info %sched_data
 
-             $exec_mod_cancel $exec_queue
+             $exec_mod_cancel $exec_queue %mod_timers
 
              &LOG_DEBUG2 &LOG_DEBUG &LOG_INFO &LOG_WARN &LOG_ERR &LOG_ALL
              &NO_DEL_TASKS
@@ -111,7 +111,7 @@ use vars qw($root_pid $is_master $parent_name $parent_pid $cluster_name
 use vars qw(
             %profile_settings %global_settings %user_settings %cluster_settings
             %def_global_settings
-            %user_conf_time
+            %user_conf_time %mod_timers
             @runned_list $runned_list_len
             %acc_user_all %acc_user
            );
