@@ -511,18 +511,18 @@ my $log_time;
 my $scheduler_prolog = <<_SCHED_PROLOG;
 # id,pe_list
 sub run( \$;\@ ){
-unless(defined(\$cleovars::ids{\$_[0]})){
-cleosupport::qlog("Bad id given by scheduler to run (\$_[0]). Ignore.\n", &cleovars::LOG_ERR());
-\$__cleo_mod_error=1;
-return;
-}
-\$cleovars::may_go=1;
-my \$id=shift \@_;
-if(main::try_to_run(\$cleovars::ids{\$id},\$cleovars::ids{\$id}->{gummy},\\\@_)){
-cleosupport::block_task(\$id, 1, '__scheduler__', 'Unsuccesfull run');
-}
-\$cleovars::q_change=1;
-return;
+  unless(defined(\$cleovars::ids{\$_[0]})){
+    cleosupport::qlog("Bad id given by scheduler to run (\$_[0]). Ignore.\\n", &cleovars::LOG_ERR());
+    \$__cleo_mod_error=1;
+    return;
+  }
+  \$cleovars::may_go=1;
+  my \$id=shift \@_;
+  if(main::try_to_run(\$cleovars::ids{\$id},\$cleovars::ids{\$id}->{gummy},\\\@_)){
+    cleosupport::block_task(\$id, 1, '__scheduler__', 'Unsuccesfull run');
+  }
+  \$cleovars::q_change=1;
+  return;
 }
 _SCHED_PROLOG
 
@@ -534,7 +534,7 @@ sub block( \$\$ ){
 my (\$id,\$reason)=\@_;
 
 unless(defined(\$cleovars::ids{\$_[0]})){
-cleosupport::qlog("Bad id given by scheduler to block (\$_[0]). Ignore.\n", &cleovars::LOG_ERR());
+cleosupport::qlog("Bad id given by scheduler to block (\$_[0]). Ignore.\\n", &cleovars::LOG_ERR());
 \$__cleo_mod_error=1;
 return;
 }
@@ -548,7 +548,7 @@ sub unblock( \$\$ ){
 my (\$id,\$reason)=\@_;
 
 unless(defined(\$cleovars::ids{\$_[0]})){
-cleosupport::qlog("Bad id given by scheduler to unblock (\$_[0]). Ignore.\n", &cleovars::LOG_ERR());
+cleosupport::qlog("Bad id given by scheduler to unblock (\$_[0]). Ignore.\\n", &cleovars::LOG_ERR());
 \$__cleo_mod_error=1;
 return;
 }
@@ -563,12 +563,12 @@ my (\$i,\$j)=\@_;
 
 return if (\$i==\$j);
 unless(defined(\$cleovars::ids{\$_[0]})){
-cleosupport::qlog("Bad id given by scheduler to move (\$_[0]). Ignore.\n", &cleovars::LOG_ERR());
+cleosupport::qlog("Bad id given by scheduler to move (\$_[0]). Ignore.\\n", &cleovars::LOG_ERR());
 \$__cleo_mod_error=1;
 return;
 }
 if(\$_[1]<\$#cleovars::queue){
-cleosupport::qlog("Bad position given by scheduler to move (\$_[1]). Ignore.\n", &cleovars::LOG_ERR());
+cleosupport::qlog("Bad position given by scheduler to move (\$_[1]). Ignore.\\n", &cleovars::LOG_ERR());
 \$__cleo_mod_error=1;
 return;
 }
@@ -577,7 +577,7 @@ for(\$i=0; \$i<\$#cleovars::queue; ++\$i){
 last if(\$cleovars::queue[\$i]->{id} == \$_[0]);
 }
 if(\$i>=\$#cleovars::queue){
-cleosupport::qlog("Scheduler move: id not found in queue (\$_[0]). Ignore.\n", &cleovars::LOG_ERR());
+cleosupport::qlog("Scheduler move: id not found in queue (\$_[0]). Ignore.\\n", &cleovars::LOG_ERR());
 \$__cleo_mod_error=1;
 return;
 }
@@ -586,7 +586,7 @@ for(\$j=0; \$j<\$#cleovars::queue; ++\$j){
 last if(\$cleovars::queue[\$j]->{id} == \$_[1]);
 }
 if(\$j>=\$#cleovars::queue){
-cleosupport::qlog("Scheduler move: second id not found in queue (\$_[1]). Ignore.\n", &cleovars::LOG_ERR());
+cleosupport::qlog("Scheduler move: second id not found in queue (\$_[1]). Ignore.\\n", &cleovars::LOG_ERR());
 \$__cleo_mod_error=1;
 return;
 }
@@ -625,7 +625,7 @@ return Storable::thaw(Storable::freeze(\$cleovars::ids{\$_[0]}->{\$_[1]}));
 return \$cleovars::ids{\$_[0]}->{\$_[1]};
 }
 }
-cleosupport::qlog("Scheduler gets invalid task field (\$_[0]/\$_[1]).\n", &cleovars::LOG_DEBUG());
+cleosupport::qlog("Scheduler gets invalid task field (\$_[0]/\$_[1]).\\n", &cleovars::LOG_DEBUG());
 return undef;
 }
 
@@ -638,11 +638,11 @@ return cleosupport::get_free_cpus();
 sub set_task_info( \$\$\$ ){
 if(exists(\$cleovars::ids{\$_[0]}) and
 exists(\$cleovars::ids{\$_[0]}->{\$_[1]})){
-cleosupport::qlog("Scheduler sets task's '\$_[0]' field '\$_[1]' into '\$_[2]'.\n", &cleovars::LOG_DEBUG());
+cleosupport::qlog("Scheduler sets task's '\$_[0]' field '\$_[1]' into '\$_[2]'.\\n", &cleovars::LOG_DEBUG());
 \$cleovars::ids{\$_[0]}->{"\$_[1]"}=\$_[2];
 return;
 }
-cleosupport::qlog("Scheduler sets invalid task field (\$_[0]/\$_[1]).\n", &cleovars::LOG_DEBUG());
+cleosupport::qlog("Scheduler sets invalid task field (\$_[0]/\$_[1]).\\n", &cleovars::LOG_DEBUG());
 return;
 }
 
@@ -662,11 +662,11 @@ return undef;
 # id, field, value
 sub set_task_attr( \$\$\$ ){
 if(exists(\$cleovars::ids{\$_[0]})){
-cleosupport::qlog("Scheduler sets task's '\$_[0]' attr '\$_[1]' into '\$_[2]'.\n", &cleovars::LOG_DEBUG());
+cleosupport::qlog("Scheduler sets task's '\$_[0]' attr '\$_[1]' into '\$_[2]'.\\n", &cleovars::LOG_DEBUG());
 \$cleovars::ids{\$_[0]}->{attrs}->{"\$_[1]"}=\$_[2];
 return;
 }
-cleosupport::qlog("Scheduler sets attr for invalid task (\$_[0]/\$_[1]).\n", &cleovars::LOG_DEBUG());
+cleosupport::qlog("Scheduler sets attr for invalid task (\$_[0]/\$_[1]).\\n", &cleovars::LOG_DEBUG());
 return;
 }
 
@@ -676,7 +676,7 @@ if(exists(\$cleovars::useruid{\$_[0]})){
 my \$ret=cleosupport::get_setting(\$_[2],\$_[0],\$_[1]);
 return \$ret;
 }
-cleosupport::qlog("Scheduler gets info about nonuser (\$_[0]/\$_[1],\$_[2]).\n", &cleovars::LOG_DEBUG());
+cleosupport::qlog("Scheduler gets info about nonuser (\$_[0]/\$_[1],\$_[2]).\\n", &cleovars::LOG_DEBUG());
 return undef;
 }
 
@@ -723,7 +723,7 @@ elsif(\$_[1] eq 'max'){
 return \$cleovars::pe{\$_[0]}->{max};
 }
 }
-cleosupport::qlog("Scheduler gets info about bad pe (\$_[0]/\$_[1]).\n", &cleovars::LOG_DEBUG());
+cleosupport::qlog("Scheduler gets info about bad pe (\$_[0]/\$_[1]).\\n", &cleovars::LOG_DEBUG());
 return undef;
 }
 
@@ -814,7 +814,7 @@ return \@out;
 
 # just fool-protect
 sub alarm(){
-cleosupport::qlog("Module tries to call alarm function.\n", &cleovars::LOG_ERR());
+cleosupport::qlog("Module tries to call alarm function.\\n", &cleovars::LOG_ERR());
 }
 
 # NEXT LINE 318
@@ -2085,7 +2085,7 @@ sub save_xml_state( $ ){
             if ( ref( $i->{blocks} ) eq 'ARRAY' ) {
                 foreach $j (@{$i->{blocks}}){
                     $j =~ /(.*):(.*)/;
-#                      $writer->startTag('block');
+                      $writer->startTag('block');
 #                      $writer->startTag('who');
 #                      $writer->characters($1);
 #                      $writer->endTag('who');
@@ -2167,7 +2167,9 @@ sub save_xml_state( $ ){
                 #            $XML->print(" of_week=\"$w\" hours=\"$hr\" minutes=\"$min\"");
                 #            $XML->print(" seconds=\"$sec\" year=\"$tmp\" unixtime=\"$i->{added}\" />\n");
 
-                $writer->dataElement('task_code',$writer->characters($i->{task}));
+                my $quoted_task = $i->{task};                                                                                           
+                $quoted_task =~ tr{<>&%$}{~~~~~~};
+                $writer->dataElement('task_code',$quoted_task);
 #                $writer->startTag('task_code');
 #                $writer->characters($i->{task});
 #                $writer->endTag('task_code');
@@ -4083,19 +4085,17 @@ sub create_config( $$$ ) {
         return;
     }
 
-    $t=get_setting( 'use_file', $q_entry->{user}, $q_entry->{profile});
+    $t=$q_entry->{use_file};
     if($t ne ''){
         #use config file
 
-        undef %subst_args;
-        subst_task_prop( \$t, $q_entry, 0, 0 );
         foreach $i ( @{$work_pe} ) {
             $i =~ /^([^:]+):(.*)/;
             push @p, $1;
             push @{ $nids{$1} }, $2;
         }
         $q_entry->{nodes}    = join( ',', @p );
-        $q_entry->{use_file} = $t;
+#        $q_entry->{use_file} = $t;
 
         return unless ($doit);
 
@@ -4211,167 +4211,176 @@ sub create_config( $$$ ) {
             @{ $ids{$id}->{shared} },
             @{ $ids{$id}->{own} },
             @{ $ids{$id}->{extranodes} }
-            ) {
-        $pe{$pe}->{ids}->{ $ids{$id}->{id} } =
-        $remote_pid;    # add to processors pid of new task
-            }
-            if ( $ids{$id}->{owner} ne $cluster_name ) {
-                foreach my $pe ( @{ $ids{$id}->{shared} } ) {
-                    $shared{$pe}->{ids}->{ $ids{$id}->{id} } =
-                    $remote_pid;    # add to processors pid of new task
-                }
-                foreach my $pe ( @{ $ids{$id}->{own} } ) {
-                    $own{$pe}->{ids}->{ $ids{$id}->{id} } =
-                    $remote_pid;    # add to processors pid of new task
-                }
-            }
-
-            my @work_pe = sort( @{ $ids{$id}->{shared} }, @{ $ids{$id}->{own} } );
-            qlog "SHARED: @{$ids{$id}->{shared}}; OWN: @{$ids{$id}->{own}}\n",
-            LOG_DEBUG;
-
-            sub_exec(get_uid($ids{$id}->{user}), $usergid{$ids{$id}->{user}},
-                \&create_config, $ids{$id}, \@work_pe, 1 );
-            $childs_info{$id}->{node} = $work_pe[0];
-
-            $childs_info{$id}->{nodes} = join( ',',
-                sort( @{ $ids{$id}->{shared} }, @{ $ids{$id}->{own} } ) );
-            $childs_info{$id}->{extranodes} = $ids{$id}->{extranodes};
-            $childs_info{$id}->{npextra}    = $ids{$id}->{npextra};
-            $childs_info{$id}->{state}      = 'prerun';
-            $ids{$id}->{state}              = 'prerun';
-            qlog "PID=$remote_pid  $childs_info{$id}->{nodes}\n", LOG_DEBUG;
-
-            $pids{$id} = $remote_pid;
-
-            #    {
-            #      local $,=';'; print "+> ",%pids,"\n";
-            #    }
-
-            #    if (@{$q_entry->{shared}}>0) {
-            #      #      my %args=('id' => $id);
-            #      my %answ=('id'=>$id,'nodes'=>join(',',@{$q_entry->{shared}}));
-            #      # tell children about run
-            #      main::new_req_to_child('run_pre',\%answ,'__all__',0,SUCC_ALL|SUCC_OK,
-            #                             \&nil_sub,\&every_nil_sub,
-            #                             0,\&nil_sub
-            #                            );
-            #    }
-            slog "RUN $id->{uniqid}; $ids{$id}->{user}; $ids{$id}->{np}; ".
-                join(' ',@{$ids{$id}->{task_args}})."\n";
-            slog "RUN_NODES $id->{uniqid}; $ids{$id}->{user}; $ids{$id}->{np}; ".
-                "$ids{$id}->{npextra}; $childs_info{$id}->{nodes}; ".
-                join(',',@{$ids{$id}->{extranodes}})."\n";
-
-            if ( $cluster_name eq cleosupport::get_setting('root_cluster_name') )
-            {
-
-                #      move_to_queue($id,RUNNING_QUEUE);
-                $ids{$id}->{state}         = 'run';
-                $childs_info{$id}->{state} = 'run';
-
-                remove_id($id);
-                push @running, $ids{$id};
-
-                $ids{$id}->{time} = $last_time;
-                if ( $ids{$id}->{timelimit} > 0 ) {
-                    $ids{$id}->{timelimit} += $ids{$id}->{time};
-                    qlog
-                    "TIMELIMIT: $ids{$id}->{timelimit} ($ids{$id}->{time})\n",
-                    LOG_DEBUG;
-                } else {
-                    qlog "TIMELIMIT: UNLIMITED\n", LOG_DEBUG;
-                }
-
-                #$ids{$id}->{timelimit}+=$ids{$id}->{time};
-
-                $main::rsh_data{"$ids{$id}->{id}::$ids{$id}->{owner}"}
-                ->{"np_free"} = $ids{$id}->{np} - 1;
-                $main::rsh_data{"$ids{$id}->{id}::$ids{$id}->{owner}"}
-                ->{"master"} = $work_pe[0];
-                my %cpus;
-                map { $cpus{$_} = 1 } map { /^([^:]+)/; $1; } @work_pe;
-                @{ $main::rsh_data{"$ids{$id}->{id}::$ids{$id}->{owner}"}
-            ->{"nodesb"} } = keys(%cpus);
-
-            if (    ( $ids{$id}->{use_rsh_filter} ne '' )
-                and ( $ids{$id}->{second_run} eq '' ) ) {
-            $ids{$id}->{file_mask} = cleosupport::get_setting(
-                'file_mask',          $ids{$id}->{user},
-                $ids{$id}->{profile}, $ids{$id}->{owner} );
-            $ids{$id}->{count_first} = cleosupport::get_setting(
-                'count_first',        $ids{$id}->{user},
-                $ids{$id}->{profile}, $ids{$id}->{owner} );
-            subst_task_prop( \$ids{$id}->{com_line}, $ids{$id}, 0, "" );
-            @work_pe =
-            sort( @{ $ids{$id}->{shared} }, @{ $ids{$id}->{own} } );
-            $ids{$id}->{rsh_num} = $ids{$id}->{np};
-            $ids{$id}->{node}    = $work_pe[0];
-            qlog "RF1\n", LOG_DEBUG;
-
-            my $groups;
-            foreach my $g ( split( /\s+/, $ids{$id}->{group} ) ) {
-                if ( $g =~ /^\d+$/ ) {
-                    $groups .= "$g ";
+            )
+        {
+        	$pe{$pe}->{ids}->{ $ids{$id}->{id} } =
+        	$remote_pid;    # add to processors pid of new task
+        }
+        if ( $ids{$id}->{owner} ne $cluster_name ) {
+        	foreach my $pe ( @{ $ids{$id}->{shared} } ) {
+        		$shared{$pe}->{ids}->{ $ids{$id}->{id} } =
+        		$remote_pid;    # add to processors pid of new task
+        	}
+        	foreach my $pe ( @{ $ids{$id}->{own} } ) {
+        		$own{$pe}->{ids}->{ $ids{$id}->{id} } =
+        		$remote_pid;    # add to processors pid of new task
+        	}
+        }
+        
+        my @work_pe = sort( @{ $ids{$id}->{shared} }, @{ $ids{$id}->{own} } );
+        qlog "SHARED: @{$ids{$id}->{shared}}; OWN: @{$ids{$id}->{own}}\n",
+        LOG_DEBUG;
+        
+        my $t=get_setting('use_file_simple',$ids{$id}->{user},$ids{$id}->{profile});
+        if($t eq ''){
+        	$t=get_setting( 'use_file', $ids{$id}->{user}, $ids{$id}->{profile});
+        }
+        undef %subst_args;
+        subst_task_prop( \$t, $ids{$id}, 0, 0 );
+        $ids{$id}->{use_file} = $t;
+        
+        sub_exec(get_uid($ids{$id}->{user}), $usergid{$ids{$id}->{user}},
+        	\&create_config, $ids{$id}, \@work_pe, 1 );
+        $childs_info{$id}->{node} = $work_pe[0];
+        
+        $childs_info{$id}->{nodes} = join( ',',
+        	sort( @{ $ids{$id}->{shared} }, @{ $ids{$id}->{own} } ) );
+        $childs_info{$id}->{extranodes} = $ids{$id}->{extranodes};
+        $childs_info{$id}->{npextra}    = $ids{$id}->{npextra};
+        $childs_info{$id}->{state}      = 'prerun';
+        $ids{$id}->{state}              = 'prerun';
+        qlog "PID=$remote_pid  $childs_info{$id}->{nodes}\n", LOG_DEBUG;
+        
+        $pids{$id} = $remote_pid;
+        
+        #    {
+        #      local $,=';'; print "+> ",%pids,"\n";
+        #    }
+        
+        #    if (@{$q_entry->{shared}}>0) {
+        #      #      my %args=('id' => $id);
+        #      my %answ=('id'=>$id,'nodes'=>join(',',@{$q_entry->{shared}}));
+        #      # tell children about run
+        #      main::new_req_to_child('run_pre',\%answ,'__all__',0,SUCC_ALL|SUCC_OK,
+        #                             \&nil_sub,\&every_nil_sub,
+        #                             0,\&nil_sub
+        #                            );
+        #    }
+        slog "RUN $id->{uniqid}; $ids{$id}->{user}; $ids{$id}->{np}; ".
+        	join(' ',@{$ids{$id}->{task_args}})."\n";
+        slog "RUN_NODES $id->{uniqid}; $ids{$id}->{user}; $ids{$id}->{np}; ".
+        	"$ids{$id}->{npextra}; $childs_info{$id}->{nodes}; ".
+        	join(',',@{$ids{$id}->{extranodes}})."\n";
+        
+        if ( $cluster_name eq cleosupport::get_setting('root_cluster_name') )
+        {
+        	
+        	#      move_to_queue($id,RUNNING_QUEUE);
+        	$ids{$id}->{state}         = 'run';
+        	$childs_info{$id}->{state} = 'run';
+        	
+        	remove_id($id);
+        	push @running, $ids{$id};
+        	
+        	$ids{$id}->{time} = $last_time;
+        	if ( $ids{$id}->{timelimit} > 0 ) {
+        		$ids{$id}->{timelimit} += $ids{$id}->{time};
+        		qlog
+        		"TIMELIMIT: $ids{$id}->{timelimit} ($ids{$id}->{time})\n",
+        		LOG_DEBUG;
+        	} else {
+        		qlog "TIMELIMIT: UNLIMITED\n", LOG_DEBUG;
+        	}
+        	
+        	#$ids{$id}->{timelimit}+=$ids{$id}->{time};
+        	
+        	$main::rsh_data{"$ids{$id}->{id}::$ids{$id}->{owner}"}
+        	->{"np_free"} = $ids{$id}->{np} - 1;
+        	$main::rsh_data{"$ids{$id}->{id}::$ids{$id}->{owner}"}
+        	->{"master"} = $work_pe[0];
+        	my %cpus;
+        	map { $cpus{$_} = 1 } map { /^([^:]+)/; $1; } @work_pe;
+        	@{ $main::rsh_data{"$ids{$id}->{id}::$ids{$id}->{owner}"}
+        ->{"nodesb"} } = keys(%cpus);
+        
+        if (    ( $ids{$id}->{use_rsh_filter} ne '' )
+        	and ( $ids{$id}->{second_run} eq '' ) ) {
+        $ids{$id}->{file_mask} = cleosupport::get_setting(
+        	'file_mask',          $ids{$id}->{user},
+        	$ids{$id}->{profile}, $ids{$id}->{owner} );
+        $ids{$id}->{count_first} = cleosupport::get_setting(
+        	'count_first',        $ids{$id}->{user},
+        	$ids{$id}->{profile}, $ids{$id}->{owner} );
+        subst_task_prop( \$ids{$id}->{com_line}, $ids{$id}, 0, "" );
+        @work_pe =
+        sort( @{ $ids{$id}->{shared} }, @{ $ids{$id}->{own} } );
+        $ids{$id}->{rsh_num} = $ids{$id}->{np};
+        $ids{$id}->{node}    = $work_pe[0];
+        qlog "RF1\n", LOG_DEBUG;
+        
+        my $groups;
+        foreach my $g ( split( /\s+/, $ids{$id}->{group} ) ) {
+        	if ( $g =~ /^\d+$/ ) {
+        		$groups .= "$g ";
                     } elsif ( exists $user_groups{$g} ) {
                         $groups .= "$user_groups{$g} ";
                     }
-            }
-            $ids{$id}->{group} = $groups;
-            undef
-            %main::rsh_cmd_lines; #!!!! bugfix code. make it better...
-            $ids{$id}->{suexec_gid} = $work_pe[0];
-
-            qlog ">ADD NODES for $ids{$id}->{id}::$ids{$id}->{owner}: "
-            . join( ';', keys(%cpus) )
-            . "\n", LOG_DEBUG;
-            qlog ">MASTER    for $ids{$id}->{id}::$ids{$id}->{owner}: "
-            . $main::rsh_data{"$ids{$id}->{id}::$ids{$id}->{owner}"}
-            ->{"master"} . "\n", LOG_DEBUG;
-
-            my $request = Storable::thaw( Storable::freeze( $ids{$id} ) );
-            main::new_req_to_mon(
-                'run',                          $request,
-                $work_pe[0],                    SUCC_ALL | SUCC_OK,
-                \&main::mon_run_handler,        undef,
-                get_setting('mon_run_timeout'), \&main::mon_run_handler );
-            $main::rsh_pids{"$ids{$id}->{id}::$ids{$id}->{owner}"}
-            ->{master} = $work_pe[0];
-                } else {
-                    my $tmp = $ids{$id}->{com_line};
-                    foreach my $i ( split( /\,/, $childs_info{$id}->{nodes} ) ) {
-                        undef %subst_args if ( $ids{$id}->{second_run} eq '' );
-                        $ids{$id}->{node}     = $i;
-                        $ids{$id}->{com_line} = $tmp;
-                        subst_task_prop( \$ids{$id}->{com_line},
-                            $ids{$id}, 0, "" );
-                        {
-                            my $request =
-                            Storable::thaw( Storable::freeze( $ids{$id} ) );
-                            qlog "REQUESTING3($i): $request->{com_line}\n",
-                            LOG_DEBUG;
-                            main::new_req_to_mon(
-                                'run',
-                                $request,
-                                $i,
-                                SUCC_ALL | SUCC_OK,
-                                \&main::mon_run_handler,
-                                undef,
-                                get_setting('mon_run_timeout'),
-                                \&main::mon_run_handler );
-                        }
-                    }
-                }
+        }
+        $ids{$id}->{group} = $groups;
+        undef
+        %main::rsh_cmd_lines; #!!!! bugfix code. make it better...
+        $ids{$id}->{suexec_gid} = $work_pe[0];
+        
+        qlog ">ADD NODES for $ids{$id}->{id}::$ids{$id}->{owner}: "
+        . join( ';', keys(%cpus) )
+        . "\n", LOG_DEBUG;
+        qlog ">MASTER    for $ids{$id}->{id}::$ids{$id}->{owner}: "
+        . $main::rsh_data{"$ids{$id}->{id}::$ids{$id}->{owner}"}
+        ->{"master"} . "\n", LOG_DEBUG;
+        
+        my $request = Storable::thaw( Storable::freeze( $ids{$id} ) );
+        main::new_req_to_mon(
+        	'run',                          $request,
+        	$work_pe[0],                    SUCC_ALL | SUCC_OK,
+        	\&main::mon_run_handler,        undef,
+        	get_setting('mon_run_timeout'), \&main::mon_run_handler );
+        $main::rsh_pids{"$ids{$id}->{id}::$ids{$id}->{owner}"}
+        ->{master} = $work_pe[0];
+        	} else {
+        		my $tmp = $ids{$id}->{com_line};
+        		foreach my $i ( split( /\,/, $childs_info{$id}->{nodes} ) ) {
+        			undef %subst_args if ( $ids{$id}->{second_run} eq '' );
+        			$ids{$id}->{node}     = $i;
+        			$ids{$id}->{com_line} = $tmp;
+        			subst_task_prop( \$ids{$id}->{com_line},
+        				$ids{$id}, 0, "" );
+        			{
+        				my $request =
+        				Storable::thaw( Storable::freeze( $ids{$id} ) );
+        				qlog "REQUESTING3($i): $request->{com_line}\n",
+        				LOG_DEBUG;
+        				main::new_req_to_mon(
+        					'run',
+        					$request,
+        					$i,
+        					SUCC_ALL | SUCC_OK,
+        					\&main::mon_run_handler,
+        					undef,
+        					get_setting('mon_run_timeout'),
+        					\&main::mon_run_handler );
+        			}
+        		}
+        	}
     } else {
-
+    	
         # Not root queue. Send request to main.
-
+        
         #      move_to_queue($id,PENDING_QUEUE);
-
+        
         remove_id($id);
         push @running, $ids{$id};
         $ids{$id}->{state} = 'run';
-
+        
         $ids{$id}->{time} = time;
         if ( $ids{$id}->{timelimit} > 0 ) {
             $ids{$id}->{timelimit} += $ids{$id}->{time};
@@ -4381,7 +4390,7 @@ sub create_config( $$$ ) {
         } else {
             qlog "TIMELIMIT: UNLIMITED\n", LOG_DEBUG;
         }
-
+        
         main::answer_to_parent(
             cleosupport::get_setting('root_cluster_name'),
             0, 'run_via_mons', SUCC_OK, %{ $childs_info{$id} } );
@@ -4792,6 +4801,14 @@ sub execute_task( $ ) {
     #
     my @work_pe = sort( @{ $q_entry->{shared} }, @{ $q_entry->{own} } );
     $q_entry->{node} = $work_pe[0];
+    my $t=get_setting('use_file_simple',$q_entry->{user},$q_entry->{profile});
+    if($t eq ''){
+    	$t=get_setting( 'use_file', $q_entry->{user}, $q_entry->{profile});
+    }
+    undef %subst_args;
+    subst_task_prop( \$t, $q_entry, 0, 0 );
+    $q_entry->{use_file} = $t;
+
     sub_exec(get_uid($q_entry->{user}), $usergid{$q_entry->{user}},
         \&create_config, $q_entry, \@work_pe, 1 );
 
@@ -7398,7 +7415,7 @@ sub load_exec_modules() {
 
                     #          chomp @content;
                     #          qlog join('',"\npackage CleoExecModule::$m;\n",@content,"\n"), LOG_DEBUG2;
-                    eval join( '',
+                    my $ev=join( '',
                         "package CleoExecModule::$m;\n",
                         "sub cleo_log( \$ ){cleosupport::qlog(\"MOD: \$_[0]\",cleovars::LOG_INFO);};\n",
                         "sub get_time(){return \$cleovars::last_time;};\n",
@@ -7407,9 +7424,14 @@ sub load_exec_modules() {
                         $modules_prolog,
                         @content,
                         "\n" );
+                    eval $ev;
                     $v = "CleoExecModule::" . $m;
                     if ($@) {
-                        qlog "Failed to load $i: $@\n", LOG_WARN;
+                        qlog "Failed to load $i: $@; Dumping to /tmp/$$-$m.pl\n", LOG_WARN;
+                        if(open DUMP, ">/tmp/$$-$m.pl"){
+                        	print DUMP $ev;
+                        	close DUMP;
+                        }
                     } elsif ( defined ${ $v . "::cleo" } ) {
                         qlog "Loaded exec module $i (version "
                         . ${ $v . "::cleo" }
@@ -7548,12 +7570,18 @@ sub load_schedulers( ) {
 
                     #          chomp @content;
                     #          qlog join('',"\npackage CleoScheduler::$m;\n",@content,"\n");
-                    eval join( '',
+                    my $ev=join( '',
                         "package CleoScheduler::$m;\n",
                         $modules_prolog, $scheduler_prolog, @content, "\n" );
+                    eval $ev;
                     $v = "CleoScheduler::" . $m;
                     if ($@) {
-                        qlog "Failed to load $i: $@\n", LOG_WARN;
+                        qlog "Failed to load $i: $@; Dumping to /tmp/$$-$m.pl\n", LOG_WARN;
+                        if(open DUMP, ">/tmp/$$-$m.pl"){
+                        	print DUMP $ev;
+                        	close DUMP;
+                        }
+
                     } elsif ( defined ${ $v . "::cleo" } ) {
                         qlog "Loaded scheduler $i (version "
                         . ${ $v . "::cleo" }
@@ -8298,34 +8326,34 @@ sub every_nil_sub( $$$$ ) {
 #        add/delete - 1 = add timer, 0 = delete all timers, matching mask
 #        data     - any data to be passed into waked function
 ######################################################################
-sub set_mod_timer( $$$$$$$ ){
+sub set_mod_timer( $;$$$$$$ ){
     my ($pack,$min,$hour,$wday,$mday,$mon,$add,$data)=@_;
 
     if($add){
         # adding new timer
-        push @{$mod_timers{$pack}}, [$min,$hour,$wday,$mday,$mon,$add,$data,0]);
+        push @{$mod_timers{$pack}}, [$min,$hour,$wday,$mday,$mon,$add,$data,0];
     }
     else{
         # delete timer(s)
         my @tmp;
         foreach my $t (@{$mod_timers{$pack}}){
             # test mask
-            if(($t->[0] == $min  or $min  == '') &&
-                ($t->[1] == $hour or $hour == '') &&
-                ($t->[2] == $wday or $wday == '') &&
-                ($t->[3] == $mday or $mday == '') &&
-                ($t->[4] == $mon  or $mon  == '') &&
-                ($t->[5] == $data or $data == '')
-                ){
-            # delete timer = just skip adding...
-            next
-                }
-                else{
-                    # add to new timers list
-                    push @tmp, $t;
-                }
+            if(($t->[0] == $min  or $min  == '') and
+                ($t->[1] == $hour or $hour == '') and
+                ($t->[2] == $wday or $wday == '') and
+                ($t->[3] == $mday or $mday == '') and
+                ($t->[4] == $mon  or $mon  == '') and
+                ($t->[5] == $data or $data == ''))
+            {
+            	# delete timer = just skip adding...
+            	next;
+            }
+            else{
+            	# add to new timers list
+            	push @tmp, $t;
+            }
         }
-        @{$mod_timers{$pack}}=@t;
+        @{$mod_timers{$pack}}=@tmp;
     }
     check_mod_timer($pack);
 }
@@ -8381,7 +8409,7 @@ sub check_mod_timer($){
             no strict "refs";
             alarm get_setting('exec_modules_timeout');
             my $m   = $exec_modules{ $mod };
-            $res = ( $m . "::wake" )->($t->[5]);
+            my $res = ( $m . "::wake" )->($t->[5]);
         };
         alarm 0;
         $mod_timers{$mod}->[$i]->[6]=$last_time;
@@ -8394,8 +8422,7 @@ sub check_mod_timer($){
 #
 ##############################################################
 sub check_all_mod_timers(){
-    my $modlist = get_setting( 'use_exec_modules', $user,
-        $entry->{profile} );
+    my $modlist = get_setting( 'use_exec_modules' );
     if ( defined(@$modlist) ) {
         foreach my $i (@$modlist) {
             check_mod_timer( $i);

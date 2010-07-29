@@ -10,6 +10,9 @@ my %tests=(
     timelocal=>'Your system does not have Time::Local perl module',
     syswait=>'Your perl does not understand POSIX ":sys_wait_h"',
     refhash=>'Your system does not have Tie::RefHash perl module',
+    xml    =>'Your system does not have XML::Writer perl module',
+    mailer =>'Your system does not have Mail::Mailer perl module',
+    gcc    =>'No gcc found'
     );
 
 eval "
@@ -47,6 +50,21 @@ eval "
 eval "
     use Tie::RefHash;
     delete \$tests{refhash};
+";
+
+eval "
+    use XML::Writer;
+    delete \$tests{xml};
+";
+
+eval "
+    use Mail::Mailer;
+    delete \$tests{mailer};
+";
+
+eval "
+    system 'gcc --version >/dev/null 2>/dev/null';
+    delete \$tests{gcc} if \$? == 0;
 ";
 
 if(scalar %tests > 0){

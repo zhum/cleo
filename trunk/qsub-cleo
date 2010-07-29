@@ -8,7 +8,7 @@ use vars qw($date_time $account_string $interval $prefix $err_name);
 use vars qw($hold $join_list $keep_list $mail_options $mail_list $name);
 use vars qw($priority  $out_name $destination $restart $shell);
 use vars qw($variable_list $vars $no_number $res $extra $ignore);
-use vars qw(@arg @attrs $file);
+use vars qw(@arg @attrs $file $first_line @script);
 
 if($#ARGV<1){
 	print <<_Usage;
@@ -56,6 +56,7 @@ GetOptsTillCan('a=s'          =>\$date_time,      #указать время, п
                );
 
 if($date_time ne ''){
+	my $time;
 	# time to start task after ( [[CC]YY]MMDDhhmm[.ss])
 	if($date_time =~ /(\d\d)?(\d\d)?(\d\d)(\d\d)(\d\d)(\d\d)(\.\d\d)?/){
 		my ($y,$m,$d,$h,$n)=($2,$3,$4,$5,$6);
@@ -63,7 +64,7 @@ if($date_time ne ''){
 			$m=$y;
 			$y='';
 		}
-		my $time = timelocal($s,$n,$h,$d,$m,$y);
+		$time = timelocal(0,$n,$h,$d,$m,$y);
 	}
 	else{
 		die "Invalid -a time format. [[CC]YY]MMDDhhmm format must be used.\n";
@@ -180,10 +181,10 @@ if($extra ne ''){
 				if($dep eq 'after' or $dep eq 'afterany'){
 					push @arg, '-z', 'a', '-y', split(/,/,$val);
 				}
-				elsif($def eq 'afterok'){
+				elsif($dep eq 'afterok'){
 					push @arg, '-z', 'a', '-Y', split(/,/,$val);
 				}
-				elsif($def eq 'afternotok'){
+				elsif($dep eq 'afternotok'){
 					push @arg, '-z', 'a', '-Z', split(/,/,$val);
 				}
 			}
@@ -227,7 +228,7 @@ if($file eq '' or $first_line ne ''){
 	$file="stdin.$$" if($file eq '');
 
 	if(open(SCRIPT,">$file")){
-		print SCRIPT, @script;
+		print SCRIPT @script;
 		close SCRIPT;
 	}
 	else{
@@ -243,7 +244,7 @@ if($#attrs>=0){
 # and scriptname and args!
 shift @ARGV;
 
-push @arg, $file, @ARGV;
+push @arg, '-L', 'script', '-c', join(' ',$file,@ARGV);
 
 
 # submit!
@@ -309,7 +310,7 @@ sub add_res($){
 		elsif($name eq 'cput' or
 			  $name eq 'walltime' or
 			  $name eq 'pcput'){
-			if($value =~ /^((\d+):)?((\d\d):)?(\d\d)/){
+			if($val =~ /^((\d+):)?((\d\d):)?(\d\d)/){
 				my ($HH, $MM, $SS)=($2,$4,$5);
 				if($MM eq ''){
 					$MM=$HH;
@@ -319,11 +320,11 @@ sub add_res($){
 				push @arg, '-l', $SS;
 			}
 			else{
-				warn "Illegal 'cput' resource value: $value\n";
+				warn "Illegal 'cput' resource value: $val\n";
 			}
 		}
 		elsif($name eq 'epilogue'){
-			push @extra_args, "epilogue=$value";
+			push @attrs, "epilogue#${val}";
 		}
 		elsif($name eq 'file'){
 			# ignore
@@ -340,7 +341,7 @@ sub add_res($){
 		elsif($name eq 'nodes'){
 			my $ppn=0;
 			my $np=0;
-			foreach my $spec (split(/\+/, $value)){
+			foreach my $spec (split(/\+/, $val)){
 				# simplify the request for now...
 				# !!!!!
 				# TASK: fix this in the future versions
@@ -377,15 +378,15 @@ sub add_res($){
 			# ignore
 		}
 		elsif($name eq 'procs'){
-			if($value =~ /^\d+$/){
-				push @arg, '-n', $value;
+			if($val =~ /^\d+$/){
+				push @arg, '-n', $val;
 			}
 			else{
 				warn "procs must be integer\n";
 			}
 		}
 		elsif($name eq 'prologue'){
-			push @extra_args, "epilogue=$value";
+			push @attrs, "epilogue#${val}";
 		}
 	}
 	else{

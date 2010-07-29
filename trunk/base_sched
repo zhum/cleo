@@ -37,7 +37,7 @@ $cleo=2.2;
 $thresh=1.01;    # 1%
 $addtime=5*60;   # 15 minutes
 
-my $def_ppn=0;    # use full nodes by default
+my $def_ppn=-1;    # use full nodes by default
 
 
 my $debug=get_settings('','debug');
@@ -195,7 +195,7 @@ sub do_schedule(){
   ++$i;
   $future_kills=list_future();
   cleo_log("Future kills: ".
-      join(';', map( {"$_ => $future_kills->{$_}"},
+      join(';', map( {"$_ => $future_kills->{$_}"}
                 sort(keys(%$future_kills))))) if($debug);
 
 
@@ -311,16 +311,17 @@ sub check_ppn($$$$){
             next if($np>max($ppn,$cpus_per_node->{$j}));
             cleo_log("Check_ppn last2");
 
-            my $ppn_temp=$ppn;
-            while($ppn_temp>$np){
-                my @temp=sort(keys(%{$nodes->{$j}}));
-                @temp=map {"$j:$_"} @temp;
-                push @selected_cpus, @temp;
-                $ppn_temp-=$np;
-            }
+#            my $ppn_temp=$ppn;
+#            while($ppn_temp>$np){
+#                my @temp=sort(keys(%{$nodes->{$j}}));
+#                @temp=map {"$j:$_"} @temp;
+#                push @selected_cpus, @temp;
+#                $ppn_temp-=$np;
+#            }
             #get first NP cpus...
             my @temp=sort(keys(%{$nodes->{$j}}));
-            @temp=splice(@temp,0,$ppn_temp);
+#            @temp=splice(@temp,0,$ppn_temp);
+            @temp=splice(@temp,0,$np);
             @temp=map {"$j:$_"} @temp;
             push @selected_cpus, @temp;
             
@@ -400,7 +401,7 @@ sub select_cpus($$$){
     cleo_log("id=$id, np=$np, PPN=$ppn") if($debug);
 
     # try to get cpus list
-    if($ppn>0){
+    if($ppn!=0){
         my $cpu_list=check_ppn($np,\%nodes,\%cpus_per_node,$ppn);
         if(ref($cpu_list) ne 'ARRAY'){
             undef $cpu_list;

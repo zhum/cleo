@@ -19,9 +19,10 @@ one_report     = 0
 repfile        = $dir/$sexe.rep-$id
 outfile        = $dir/$sexe.out-$id
 post_exec      =
-post_exec_write = Your task '$task" finished with code $status
+post_exec_write = Your task '$task' finished with code $status
 
-#  Uncomment it if you want enable listfile (see README-listfile)
+#  Uncomment it if you want enable listfile
+#  (see README-listfile before!!!)
 #
 # exec_modules     = listfile_mod
 # use_exec_modules = listfile_mod
@@ -31,12 +32,15 @@ occupy_full_node = 1
 
 use_file  = $dir/machinefile-$id
 coll_nodes = 1
+
+# mpich-style config
 file_head = #machine file for $task\n
 file_tail = #end\n
-file_line = $node:$n\n
+file_line = $node\n
 
 # to run mpich tasks
-exec_line = /opt/mpich/bin/mpirun -machinefile $dir/machinefile-$id -np $np -nolocal $task
+exec_line = mpirun -machinefile $dir/machinefile-$id -np $np -nolocal $task
+
 
 # to run mvapich tasks
 #exec_line = /usr/mpi/mvapich/bin/mpirun_rsh -hostfile $dir/machinefile-$id -np $np $task
@@ -44,10 +48,10 @@ exec_line = /opt/mpich/bin/mpirun -machinefile $dir/machinefile-$id -np $np -nol
 # to run impi tasks
 #exec_line = /opt/intel/impi/bin/mpirun -f $dir/machinefile-$id -r ssh -np $np $task
 
-#  for one-processor tasks
+#  for one-processor LOCAL tasks
 #exec_line = $task
 
-pe_select      = random_hosts
+pe_select      = scheduler
 
 attach_mask     = .*
 
@@ -67,7 +71,8 @@ main.pe = node2:1  node2:2
 main.pe = node3:1  node3:2
 main.pe = node4:1  node4:2
 
-main.users  = +powers
+# uncomment to restrict queue access with group 'powers'
+# main.users  = +powers
 
 #
 #  Sub queue example
@@ -93,4 +98,7 @@ dummy.exec_line=echo $task >>/tmp/dummy.log
 #
 #  use: mpirun -as single -np 1 ./my-serial-task
 #
-single.exec_line = ssh -t $nodes 'cd $dir; $task'
+single.exec_line = ssh -o StrictHostKeyChecking=no -t $node 'cd $dir; $task'
+
+script.exec_line = /usr/sbin/cleo-script-run $np $file $task
+

@@ -37,7 +37,7 @@ BEGIN {
     use cleosupport $VERSION;";
     die $@ if ($@);
 }
-$VARIANT = 'a';
+$VARIANT = 'b';
 
 use locale;
 use IO::Socket;    #::INET;

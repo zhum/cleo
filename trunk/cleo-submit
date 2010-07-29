@@ -46,10 +46,8 @@ if($h || $np<1){
 }
 
 for $i (@ARGV){
-  $i =~ s/\\//g;
-  $i =~ s/\'/\"/g;
-  $i =~ s/\0//g;
-  push @run, $i;
+	$i =~ y{'\0\\}{"}d; #"'
+    push @run, $i;
 }
 
 if($lim>0){$limsec=$lim*60;}

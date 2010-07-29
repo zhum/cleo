@@ -8,7 +8,5 @@ shift
 export NP
 export FILE
 
-#export >/tmp/111222
 exec "$@"
-#>/tmp/111 2>/tmp/222
 

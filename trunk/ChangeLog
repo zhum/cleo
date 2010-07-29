@@ -1,3 +1,35 @@
+2010-07-29    Sergey Zhumatiy  <serg@parallel.ru>
+* version 5.24b
+
+2010-07-29    Sergey Zhumatiy  <serg@parallel.ru>
+* Makefile.conf
+	- cleo-script-run and qsub-cleo added
+* Makefile.ready
+	- some mistypings fixed
+	- added mpi group creation
+* base_sched
+	- default ppn is -1 now
+* cleo-submit
+	- some code optimisations
+* cleo.conf.example
+	- mpich-style example improved
+	- 'single' profile optimized
+	- 'script' profile added
+* cleosupport.pm
+	- xml export bugs fixed
+	- $file pseudo-variable works now
+	- use_file_simple option added
+	- modules and schedulers loading fail now dumps source file for debug
+	- set_/check_all_mod_timers fixed
+* cleovars.pm
+	- new variables added
+* compat-test.pl
+	- gcc, XML::Writer and Mail::Mailer checks added
+* mkdistr
+	- cleo-script-run and qsub-cleo added
+* qsub-cleo
+	- bugfixes
+	
 2010-07-20    Sergey Zhumatiy  <serg@parallel.ru>
 * base_sched
     - fixed forgotten ppn in second pass
