@@ -228,6 +228,9 @@ if($file eq '' or $first_line ne ''){
 	$file="stdin.$$" if($file eq '');
 
 	if(open(SCRIPT,">$file")){
+		if( $first_line ne '' ){
+			print SCRIPT $first_line;
+		}
 		print SCRIPT @script;
 		close SCRIPT;
 	}

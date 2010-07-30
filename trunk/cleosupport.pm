@@ -235,7 +235,13 @@ use vars qw($STATUS $SHORT_LOG %loaded_vars);
     pe_select            => 'random',
     pid_file             => '/var/run/cleo.pid',
     port                 => 5252,
+    post_abort_subj      => 'Task $sexe ($id) aborted',
+    post_abort_text      => 'Your task $sexe ($id) is aborted.',
+    post_exec_subj       => 'Task $sexe ($id) finished',
+    post_exec_text       => 'Your task $sexe ($id) is finished with code $status. Worked: $time.',
     post_exec_write      => '',
+    pre_exec_subj        => 'Task $sexe ($id) started',
+    pre_exec_text        => 'Your task $sexe ($id) is started.',
     priority             => 10,
     q_fail_exec          => '',
     q_just_exec          => '',
@@ -407,7 +413,13 @@ use vars qw($STATUS $SHORT_LOG %loaded_vars);
     pid_file             => [ 't', 'y', 'g' ],
     port                 => [ 'n', 'y', 'g' ],
     post_exec            => [ 't', 'y', '' ],
+    post_abort_subj      => [ 't', 'y', '' ],
+    post_abort_text      => [ 't', 'y', '' ],
+    post_exec_subj       => [ 't', 'y', '' ],
+    post_exec_text       => [ 't', 'y', '' ],
     post_exec_write      => [ 't', 'y', '' ],
+    pre_exec_subj        => [ 't', 'y', '' ],
+    pre_exec_text        => [ 't', 'y', '' ],
     priority             => [ 'n', 'y', '' ],
     q_fail_exec          => [ 't', 'y', 'gqpUu' ],
     q_just_exec          => [ 't', 'y', 'gqpUu' ],
@@ -4825,14 +4837,17 @@ sub execute_task( $ ) {
         foreach my $i (@$t) {
             do_exec_module( $i, 'pre', $q_entry );
             if($exec_mod_cancel eq 'restart'){
-                qlog "RESTART by EXEC_MODULE ($i). Not implemented now... Blocking.\n", LOG_INFO;
+            	my $tm=get_setting('def_restart_timeout');
+            	$tm=10 if($tm==0);
+            	rerun_task($q_entry,$tm,"RESTART by EXEC_MODULE ($i)");
+                #qlog "RESTART by EXEC_MODULE ($i). Not implemented now... Blocking.\n", LOG_INFO;
                 #my $str="$q_entry->{id}:restart";
                 #msgsnd($exec_queue, pack("l! a*",length($str),$str),1);
                 $cancel=1;
                 #!
                 #!  Workaround ONLY!!!!
                 #!
-                block_task($q_entry->{id},1,'__internal__','restart');
+                #block_task($q_entry->{id},1,'__internal__','restart');
             }
             elsif($exec_mod_cancel eq 'cancel'){
                 qlog "CANCEL by EXEC_MODULE ($i).\n", LOG_INFO;
@@ -4864,6 +4879,28 @@ sub execute_task( $ ) {
         }
     }
 
+    # mail to user, if it is required
+    if($entry->{attrs}->{mailopts} =~ /b/){
+    	my $subject=cleosupport::get_setting( 'pre_exec_mail_subj', $username,
+    		$entry->{profile} );
+    	$text = cleosupport::get_setting( 'pre_exec_mail_text', $username,
+    		$entry->{profile} );
+
+	    undef %subst_args;
+        subst_task_prop( \$subject, $entry, $entry->{time},
+            "$hour hours $min minutes $sec seconds" );
+        subst_task_prop( \$text, $entry, $entry->{time},
+            "$hour hours $min minutes $sec seconds" );
+
+    	if($entry->{attrs}->{maillist} eq ''){
+    		send_mail($username,$subject,$text);
+    	}
+    	else{
+    		foreach my $addr (split(/,/,$entry->{attrs}->{maillist})){
+    			send_mail($addr,$subject,$text);
+    		}
+    	}
+    }
 
 
     #
@@ -5638,7 +5675,9 @@ sub del_task( $$;$$$$$ ) {
                     $ch->{special} = $reason;
                 } else {
                     $ch->{special} = "Deleted by $user ";
+                    $ch->{aborted}=1;
                 }
+                $ch->{aborted}=1;
 
                 $ch->{substate} = 'deleting';
                 if ( $ch->{run_via_mons} ) {
@@ -7990,14 +8029,15 @@ sub log_rotate(){
                         if(rename($report_file,"$report_file.rot")){
                             $STATUS->close;
                             unless($STATUS->open($report_file,
-                                O_WRONLY | O_CREAT | O_APPEND | O_LARGEFILE )){
-                            $STATUS->open('/dev/null', O_WRONLY);
-                            send_mail(get_setting('adm_email'),'cleo error',
-                                'Cannot recreate log file');
-                            #my $mailcmd='mail -s "" '.get_setting('adm_email');
-                            #launch(0,"echo 'Cannot recreate log file' | $mailcmd",'mail');
-                                }
-                                do_rotate($report_file);
+                                O_WRONLY | O_CREAT | O_APPEND | O_LARGEFILE ))
+                            {
+                            	$STATUS->open('/dev/null', O_WRONLY);
+                            	send_mail(get_setting('adm_email'),'cleo error',
+                            		'Cannot recreate log file');
+                            	#my $mailcmd='mail -s "" '.get_setting('adm_email');
+                            	#launch(0,"echo 'Cannot recreate log file' | $mailcmd",'mail');
+                            }
+                            do_rotate($report_file);
                         }
                         else{
                             qlog "Cannot rename '$report_file'\n", LOG_ERR;
@@ -8011,21 +8051,22 @@ sub log_rotate(){
                         if(rename($report_file,"$report_file.rot")){
                             $STATUS->close;
                             unless($STATUS->open($report_file,
-                                O_WRONLY | O_CREAT | O_APPEND | O_LARGEFILE )){
-                            $STATUS->open('/dev/null', O_WRONLY);
-                            send_mail(get_setting('adm_email'),'cleo error',
-                                'Cannot recreate log file');
-                            #my $mailcmd='mail -s "cleo error" '.get_setting('adm_email');
-                            #launch(0,"echo 'Cannot recreate log file' | $mailcmd",'mail');
-                                }
-                                do_rotate($report_file);
+                                O_WRONLY | O_CREAT | O_APPEND | O_LARGEFILE ))
+                            {
+                            	$STATUS->open('/dev/null', O_WRONLY);
+                            	send_mail(get_setting('adm_email'),'cleo error',
+                            		'Cannot recreate log file');
+                            	#my $mailcmd='mail -s "cleo error" '.get_setting('adm_email');
+                            	#launch(0,"echo 'Cannot recreate log file' | $mailcmd",'mail');
+                            }
+                            do_rotate($report_file);
                         }
                         else{
                             qlog "Cannot rename '$report_file'\n", LOG_ERR;
                         }
                     }
                 }
-
+                
                 # do time check for short log
                 $time=get_setting('max_short_log_days');
                 $size=get_setting('max_short_log_size');
@@ -8035,14 +8076,15 @@ sub log_rotate(){
                         if(rename($short_rep_file,"$short_rep_file.rot")){
                             $SHORT_LOG->close;
                             unless($SHORT_LOG->open($short_rep_file,
-                                O_WRONLY | O_CREAT | O_APPEND | O_LARGEFILE )){
-                            $SHORT_LOG->open('/dev/null', O_WRONLY);
-                            send_mail(get_setting('adm_email'),'cleo error',
-                                'Cannot recreate log file');
-                            #my $mailcmd='mail -s "cleo error" '.get_setting('adm_email');
-                            #launch(0,"echo 'Cannot recreate log file' | $mailcmd",'mail');
-                                }
-                                do_rotate($short_rep_file);
+                                O_WRONLY | O_CREAT | O_APPEND | O_LARGEFILE ))
+                            {
+                            	$SHORT_LOG->open('/dev/null', O_WRONLY);
+                            	send_mail(get_setting('adm_email'),'cleo error',
+                            		'Cannot recreate log file');
+                            	#my $mailcmd='mail -s "cleo error" '.get_setting('adm_email');
+                            	#launch(0,"echo 'Cannot recreate log file' | $mailcmd",'mail');
+                            }
+                            do_rotate($short_rep_file);
                         }
                         else{
                             qlog "Cannot rename '$short_rep_file'\n", LOG_ERR;
@@ -8056,14 +8098,15 @@ sub log_rotate(){
                         if(rename($short_rep_file,"$short_rep_file.rot")){
                             $SHORT_LOG->close;
                             unless($SHORT_LOG->open($short_rep_file,
-                                O_WRONLY | O_CREAT | O_APPEND | O_LARGEFILE )){
-                            $SHORT_LOG->open('/dev/null', O_WRONLY);
-                            send_mail(get_setting('adm_email'),'cleo error',
-                                'Cannot recreate log file');
-                            #my $mailcmd='mail -s "cleo error" '.get_setting('adm_email');
-                            #launch(0,"echo 'Cannot recreate log file' | $mailcmd",'mail');
-                                }
-                                do_rotate($short_rep_file);
+                                O_WRONLY | O_CREAT | O_APPEND | O_LARGEFILE ))
+                            {
+                            	$SHORT_LOG->open('/dev/null', O_WRONLY);
+                            	send_mail(get_setting('adm_email'),'cleo error',
+                            		'Cannot recreate log file');
+                            	#my $mailcmd='mail -s "cleo error" '.get_setting('adm_email');
+                            	#launch(0,"echo 'Cannot recreate log file' | $mailcmd",'mail');
+                            }
+                            do_rotate($short_rep_file);
                         }
                         else{
                             qlog "Cannot rename '$short_rep_file'\n", LOG_ERR;
@@ -8074,7 +8117,7 @@ sub log_rotate(){
             if($@){
                 qlog "ROTATING ERROR: $!\n";
             }
-
+            
 } # ~log_rotate
 
 #
@@ -8094,73 +8137,81 @@ sub violates( $;$ ){
     if(exists($ids{$_[0]})){
         my ($tmp, $np_real);
         my $q_entry=$ids{$_[0]};
-
+        
         # is blocked?
         return 1 if((ref($q_entry->{blocks}) eq 'ARRAY')
             and scalar(@{$q_entry->{blocks}})>0);
-
+        
         # not fits?
         if($q_entry->{lastowner} eq $cluster_name
-            and count_enabled_cpus()<$q_entry->{np}){
-        block_task($q_entry->{id},1,'__internal__','wait for blocked cpus')
-        if($_[1]);
-
-        return 1;
-            }
-
-            # is time restriced?
-            if (main::check_time_restrictions($q_entry)) {
-                block_task($q_entry->{id},1,'__internal__','time restrictions')
-                if($_[1]);
-
-                return 1;
-            }
-
-            # is cpu limited by system?
-            $tmp=get_setting('max_sum_np',$q_entry->{user},$q_entry->{profile});
-            if ($tmp>0 and $user_np_used{$q_entry->{user}}+$q_entry->{np}>$tmp) {
-                if($_[1]){
-                    block_task($q_entry->{id},1,'__internal__','maximum np reached');
-                }
-                return 1;
-            }
-
-            # is cpu*hours limited by system?
-
-            $tmp=check_cpuh($q_entry->{user});
-            $np_real=$q_entry->{np}+scalar(@{$q_entry->{extranodes}});
-            if ($tmp>-1 and ($q_entry->{timelimit}*$np_real)>$tmp*3600) {
-                if($_[1]){
-                    block_task($q_entry->{id},1,'__internal__','maximum cpu*hours reached');
-                }
-                return 1;
-            }
-
-
-            $tmp=get_setting('max_run',$q_entry->{user},$q_entry->{profile});
-            if ($tmp>0 and count_runned($q_entry->{user})>$tmp) {
-                if($_[1]){
-                    block_task($q_entry->{id},1,'__internal__','maximum runned reached');
-                }
-                return 1;
-            }
-
-            if(main::can_run($q_entry)) {
-                my $dep=main::test_dependencies($q_entry);
-                if ($dep==1) {
-                    if($_[1]){
-                        block_task($q_entry->{id},1,'__internal__','wait for dependency');
-                        #          move_to_queue($q_entry->{id},PENDING_QUEUE());
-                    }
-                    return 1;
-                }
-                if($dep==2) {
-                    qlog("Delete by dependency\n");
-                    del_task($q_entry->{id},'__internal__');
-                    return 2;
-                }
-            }
-            return 0;
+        	and count_enabled_cpus()<$q_entry->{np})
+        {
+        	block_task($q_entry->{id},1,'__internal__','wait for blocked cpus')
+        	if($_[1]);
+        	
+        	return 1;
+        }
+        
+        # is time restriced?
+        if (main::check_time_restrictions($q_entry)) {
+        	block_task($q_entry->{id},1,'__internal__','time restrictions')
+        	if($_[1]);
+        	
+        	return 1;
+        }
+        
+        # is cpu limited by system?
+        $tmp=get_setting('max_sum_np',$q_entry->{user},$q_entry->{profile});
+        if ($tmp>0 and $user_np_used{$q_entry->{user}}+$q_entry->{np}>$tmp) {
+        	if($_[1]){
+        		block_task($q_entry->{id},1,'__internal__','maximum np reached');
+        	}
+        	return 1;
+        }
+        
+        # is cpu*hours limited by system?
+        
+        $tmp=check_cpuh($q_entry->{user});
+        $np_real=$q_entry->{np}+scalar(@{$q_entry->{extranodes}});
+        if ($tmp>-1 and ($q_entry->{timelimit}*$np_real)>$tmp*3600) {
+        	if($_[1]){
+        		block_task($q_entry->{id},1,'__internal__','maximum cpu*hours reached');
+        	}
+        	return 1;
+        }
+        
+        
+        $tmp=get_setting('max_run',$q_entry->{user},$q_entry->{profile});
+        if ($tmp>0 and count_runned($q_entry->{user})>$tmp) {
+        	if($_[1]){
+        		block_task($q_entry->{id},1,'__internal__','maximum runned reached');
+        	}
+        	return 1;
+        }
+        
+        if(main::can_run($q_entry)) {
+        	if($q_entry->{attrs}->{aftertime}>$last_time){
+        		if($_[1]){
+        			block_task($q_entry->{id},1,'__internal__','aftertime attribute restriction');
+        		}
+        		return 1;
+        	}        		
+        	
+        	my $dep=main::test_dependencies($q_entry);
+        	if ($dep==1) {
+        		if($_[1]){
+        			block_task($q_entry->{id},1,'__internal__','wait for dependency');
+        			#          move_to_queue($q_entry->{id},PENDING_QUEUE());
+        		}
+        		return 1;
+        	}
+        	if($dep==2) {
+        		qlog("Delete by dependency\n");
+        		del_task($q_entry->{id},'__internal__');
+        		return 2;
+        	}
+        }
+        return 0;
     }
 }
 

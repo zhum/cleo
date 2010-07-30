@@ -1,5 +1,12 @@
-2010-07-29    Sergey Zhumatiy  <serg@parallel.ru>
 * version 5.24b
+2010-07-30    Sergey Zhumatiy  <serg@parallel.ru>
+* cleo
+	- aftertime attribute processing added
+	- user maling (maillist/mailopts attrs) added
+	- slog END_TASK total time fix
+	- tasks restart actualized (not tested)
+* qsub-cleo
+	- first line fix
 
 2010-07-29    Sergey Zhumatiy  <serg@parallel.ru>
 * Makefile.conf

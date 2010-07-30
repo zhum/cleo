@@ -1637,6 +1637,12 @@ sub check_blocked_by_res() {
         my $not_blocked_cpus = count_enabled_cpus();
         foreach $i (@queue) {
             $u = '__internal__';
+            $r = 'aftertime attribute restriction';
+            if ( cleosupport::test_block( $i->{id}, \$u, \$r ) ) {
+                if ( $i->{attrs}->{aftertime}<=$last_time ) {
+                    block_task( $i->{id}, 0, $u, $r );
+                }
+            }
             $r = 'wait for blocked cpus';
             if ( cleosupport::test_block( $i->{id}, \$u, \$r ) ) {
                 if ( $i->{np} <= $not_blocked_cpus ) {
@@ -1647,10 +1653,11 @@ sub check_blocked_by_res() {
             if ( cleosupport::test_block( $i->{id}, \$u, \$r ) ) {
                 $tmp = cleosupport::get_setting( 'max_sum_np', $i->{user},
                     $i->{profile} );
-                if (     $tmp > 0
-                    and $user_np_used{ $i->{user} } + $i->{np} <= $tmp ) {
-                block_task( $i->{id}, 0, $u, $r );
-                    }
+                if ($tmp > 0
+                    and $user_np_used{ $i->{user} } + $i->{np} <= $tmp )
+                {
+                	block_task( $i->{id}, 0, $u, $r );
+                }
             }
             $r = 'maximum runned reached';
             if ( cleosupport::test_block( $i->{id}, \$u, \$r ) ) {
@@ -7354,7 +7361,7 @@ sub get_io_handler($$$$ ) {
 ######################################################################
 sub task_after_death($$ ) {
     my ( $theid, $entry ) = @_;
-    my ( $username, $sec, $min, $hour, $text, $text2 );
+    my ( $username, $sec, $min, $hour, $yday, $text, $text2 );
 
     $username = $entry->{user};
 
@@ -7362,6 +7369,11 @@ sub task_after_death($$ ) {
         qlog "After death failed\n", LOG_ERR;
         return;
     }
+
+    ( $sec, $min, $hour, undef, undef, undef, undef, $yday ) =
+    	gmtime( $last_time - $entry->{time} );
+    $hour+=3600*yday;
+    $worktime=sprintf('%02d:%02d:%02d',$hour,$min,$sec);
 
     # read status from file, if empty-cleo was used
     if ( $entry->{use_empty} ne '' ) {
@@ -7389,6 +7401,7 @@ sub task_after_death($$ ) {
             $entry->{profile} );
         if ( $text ne '' ) {
             undef %subst_args;
+            $subst_args{time}=$worktime;
             subst_task_prop( \$text, $entry, $entry->{time}, "" );
             qlog "run q_fail_exec: '$text'\n", LOG_INFO;
             launch( 0, "$text", '' );
@@ -7400,6 +7413,7 @@ sub task_after_death($$ ) {
             $entry->{profile} );
         if ( $text ne '' ) {
             undef %subst_args;
+            $subst_args{time}=$worktime;
             subst_task_prop( \$text, $entry, $entry->{time}, "" );
             qlog "run q_ok_exec: '$text'\n", LOG_INFO;
             launch( 0, "$text", '' );
@@ -7417,7 +7431,8 @@ sub task_after_death($$ ) {
     qlog( "!!! " . join( '#', %$entry, "\n" ), LOG_DEBUG )
     if ( $debug{'tsk'} );
     if ( $text ne '' ) {
-        undef %subst_args;
+    	undef %subst_args;
+    	$subst_args{time}=$worktime;
         subst_task_prop( \$text, $entry, $entry->{time},
             "$hour hours $min minutes $sec seconds" );
         qlog "run killscript: '$text'\n", LOG_INFO;
@@ -7473,6 +7488,38 @@ sub task_after_death($$ ) {
     #         else{
     #           $text=$post_exec_write;
     #         }
+    
+    # mail to user, if it is required
+    if($entry->{attrs}->{mailopts} =~ /a|e/){
+    	if($entry->{attrs}->{mailopts} =~ /a/){
+    		my $subject=cleosupport::get_setting( 'post_abort_mail_subj', $username,
+    			$entry->{profile} );
+    		$text = cleosupport::get_setting( 'post_abort_mail_text', $username,
+    			$entry->{profile} );
+    	}
+    	else{
+    		my $subject=cleosupport::get_setting( 'post_exec_mail_subj', $username,
+    			$entry->{profile} );
+    		$text = cleosupport::get_setting( 'post_exec_mail_text', $username,
+    			$entry->{profile} );
+    	}
+    	undef %subst_args;
+    	$subst_args{time}=$worktime;
+        subst_task_prop( \$subject, $entry, $entry->{time},
+            "$hour hours $min minutes $sec seconds" );
+        subst_task_prop( \$text, $entry, $entry->{time},
+            "$hour hours $min minutes $sec seconds" );
+
+    	if($entry->{attrs}->{maillist} eq ''){
+    		send_mail($username,$subject,$text);
+    	}
+    	else{
+    		foreach my $addr (split(/,/,$entry->{attrs}->{maillist})){
+    			send_mail($addr,$subject,$text);
+    		}
+    	}
+    }
+    
     $text = cleosupport::get_setting( 'post_exec_write', $username,
         $entry->{profile} );
     if ( $text ne '' ) {
@@ -7505,12 +7552,12 @@ sub task_after_death($$ ) {
     . ( $entry->{signal} ? "signalled by $entry->{signal}" : '' )
     . "\n", LOG_INFO;
     slog "END_TASK $entry->{uniqid}; $entry->{user}; "
-    . "$entry->{status}; $entry->{signal}; $hour:$min:$sec\n";
+    . "$entry->{status}; $entry->{signal}; $worktime\n";
     slog "END_TASK_NODES $entry->{uniqid}; $entry->{nodes}\n";
     actualize_cpu_blocks( split( /,/, $entry->{nodes} ) );
 
     scheduler_event( 'event',
-        {  type      => 'finish',
+         {  type      => 'finish',
             id        => $entry->{id},
             user      => $entry->{user},
             signal    => $entry->{signal},
