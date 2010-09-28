@@ -64,7 +64,7 @@ emptyfiles:
 	cd ../empty; $(MAKE); cd ..
 
 install:
-	groupadd -f -r $(MPIGROUP)
+	groupadd -f -r $(MPIGROUP) || true
 	install $(INSTALL_FLAGS) -m 0755 -d $(THEBINDIR) $(THESHAREDDIR) \
 	  $(THESBINDIR) $(THERCDIR) $(THEDOCDIR) $(THEETCDIR) $(THEMANDIR)/man1 $(THESHAREDDIR)/Cleo
 #	cp ../cleo-conn.pm Conn.pm

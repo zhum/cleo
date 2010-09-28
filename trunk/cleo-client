@@ -212,7 +212,7 @@ Usage: $0 [-c .. -n ..|-v|-d|-m|-C] <options>
                  version       - show version info
                  newversion    - reload new version of server
        -g command Debug command (for experts only)
-       -x str  Set attributes for task (-a/-A). Attributes names and
+       -x str  Set attributes for task (-c/-A). Attributes names and
                values are delimited by '#'.
  You can set default values by environment variables:
  QS_PORT     : server port
@@ -538,7 +538,11 @@ eval{
     #
     #  ADD TASK
     #
-    elsif (($opts{'c'} ne '' or $opts{'A'}) and $opts{'n'} ne ''){
+    elsif ($opts{'c'} ne '' or $opts{'A'}){
+      if($opts{'n'} eq ''){
+        $status= "No processors number specified!";
+        die $status;
+      }
       $mode='a';
 
       $opts{'P'} = $ENV{QS_PRIORITY} unless $opts{'P'} ne '';
