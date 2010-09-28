@@ -249,6 +249,8 @@ sub user_priority_processor( $$ );
 sub user_view_processor( $$ );
 sub user_freeze_processor( $$ );
 
+sub check_timed_out_mon($);
+
 my $cccount;           # DEBUG!
 my $already_runned;    # DEBUG!
 my $last_mon_ping;     # DEBUG!
@@ -743,7 +745,7 @@ if ( $is_master and $use_monitors ) {
             $fake->{node} = $i;
             $rs = $runstring;
             undef %subst_args;
-            subst_task_prop( \$rs, $fake, '', '' );
+            subst_task_prop( \$rs, $fake);
             launch( 0, $rs, "MON_$i" );
         }
         $mons{$i}->{last_response} = 0;
@@ -975,6 +977,7 @@ sub check_children() {
         $num,   $pid,    $time, $starttime );
     my $q_entry;
     my $theid;
+    my $resurected;
 
     if ($check_running) {
 
@@ -988,9 +991,8 @@ sub check_children() {
 
         foreach $child ( keys(%childs_info) ) {
             next unless $childs_info{$child}{pid};
-            next
-            if (    $childs_info{$child}{pid} < 0
-                or $childs_info{$child}{pid} >= MAX_CLEO_ID );
+            next if ( $childs_info{$child}{pid} < 0 or
+            		  $childs_info{$child}{pid} >= MAX_CLEO_ID );
 
         }
     }
@@ -1000,9 +1002,15 @@ sub check_children() {
     #delete all dead children...
     #
     while ( $theid = shift @dead ) {    #dead cleaning
-        unless ( exists( $childs_info{$theid} ) ) {
-            qlog "ALREADY DEAD: $theid. Skip.\n", LOG_DEBUG;
-            next;
+        unless(exists( $childs_info{$theid} ) ) {
+        	qlog "ALREADY DEAD: $theid. Skip.\n", LOG_DEBUG;
+        	next;
+        }
+        if($childs_info{$theid}->{substate} eq 'restarting'){
+        	
+        	# was cleaned already?
+        	next if($childs_info{$theid}->{cleaned});
+        	$childs_info{$theid}->{cleaned}=1;
         }
         if ( $log_level >= LOG_DEBUG2 ) {
             qlog "_DEAD: $theid; CHILDS_INFOS2: "
@@ -1020,113 +1028,108 @@ sub check_children() {
         $sec + $min * 60 + $hour * 3600 + $yday * 3600 * 24;
 
         if ( $childs_info{$theid}->{attach_mask} ne ''
-            and get_setting('use_monitors')>0) {
-        qlog "del_mon_task3\n", LOG_DEBUG;
-        if ( $childs_info{$theid}->{owner} eq
-            cleosupport::get_setting('root_cluster_name') ) {
-        my @nodes = cpulist2nodes( $childs_info{$theid}->{nodes} );
-
-        #                my ( $n, %n );
-        #                my @nodes;
-        #                foreach $i ( split( /\,/, $childs_info{$theid}->{nodes} ) ) {
-        #                    ($n) = ( $i =~ /^([^:]+)/ );
-        #                    next if $n eq '';
-        #                    ++$n{$n};
-        #                }
-        #                @nodes = keys(%n);
-        main::new_req_to_mon( 'kill',
-            $childs_info{$theid},
-            \@nodes,
-            SUCC_ALL | SUCC_OK,
-            \&main::mon_kill_handler,
-            undef,
-            cleosupport::get_setting(
-                'mon_run_timeout'),
-            \&main::mon_kill_handler );
-
-            } else {
-                answer_to_parent( cleosupport::get_setting(
-                    'root_cluster_name'),
-                    0,
-                    'del_mon_task',
-                    SUCC_OK, 'id', $theid, 'mons',
-                    $childs_info{$theid}->{nodes} );
-            }
-            }
-
-            foreach $i ( @{ $ids{$theid}->{own} },
-                @{ $ids{$theid}->{shared} },
-                @{ $ids{$theid}->{extranodes} }
-                ) {
-            delete $pe{$i}->{ids}->{$theid};
-            qlog "_freeing $i of $theid res=$reserved_shared\n", LOG_DEBUG;
-                }
-
-                unless ( exists( $childs_info{$theid} ) ) {
-                    qlog "Task is deleted already!!! ($theid)\n", LOG_WARN;
-                    next;
-                }
-
-                $extra_nodes_used -= $childs_info{$theid}->{npextra};
-
-                #
-                # write report file & exec killscript
-                #
-                if ( $childs_info{$theid}->{lastowner} eq $cluster_name ) {
-
-                    #we must report
-                    if ( $log_level >= LOG_DEBUG2 ) {
-                        qlog ":: " . join( ";", %{ $childs_info{$theid} } ) . "\n",
-                        LOG_DEBUG2;
-                    }
-                    task_after_death( $theid, $childs_info{$theid} );
-                }    # ~ process dead children...
-                else {
-                    qlog
-                    "NOT own child ($theid) - lastowner is $childs_info{$theid}->{lastowner}, owner - $childs_info{$theid}->{owner}\n",
-                    LOG_INFO;
-                }
-
-                #
-                # Correct the runned list
-                #
-                $i = cleosupport::find_runned($theid);
-                if ( $i < 0 ) {
-                    qlog
-                    "Dead id is not found in runned_list!!! ($theid,state=$childs_info{$theid}->{status})\n",
-                    LOG_WARN;
-                    new_runned( $theid, $childs_info{$theid}->{status} );
-                } else {
-                    $runned_list[$i]->{exitcode} = $childs_info{$theid}->{status};
-                }
-
-                account_end($theid);
-
-                del_from_queue($theid);
-
-                for $i ( keys(%wait_run) ) {
-                    for $j ( keys( %{ $wait_run{$i} } ) ) {
-                        delete $wait_run{$i}->{$j}
-                        if ( $wait_run{$i}->{$j} == $theid );
-                    }
-                }
-
-                delete $pids{$theid};
-
-                # is made by del_from_queue  delete $childs_info{$theid};
-                #                            delete $ids{$theid};
-                qlog "Erased: $theid\n", LOG_INFO;
-                $dump_flag=1;
-    }
-
+            and get_setting('use_monitors')>0)
+        {
+        	qlog "del_mon_task3\n", LOG_DEBUG;
+        	if ( $childs_info{$theid}->{owner} eq
+        		cleosupport::get_setting('root_cluster_name') )
+        	{
+        		my @nodes = cpulist2nodes( $childs_info{$theid}->{nodes} );
+        		
+        		main::new_req_to_mon( 'kill',
+        			$childs_info{$theid},
+        			\@nodes,
+        			SUCC_ALL | SUCC_OK,
+        			\&main::mon_kill_handler,
+        			undef,
+        			cleosupport::get_setting(
+        				'mon_run_timeout'),
+        			\&main::mon_kill_handler );
+        		
+        	} else {
+        		answer_to_parent( cleosupport::get_setting(
+        			'root_cluster_name'),
+        			0,
+        			'del_mon_task',
+        			SUCC_OK, 'id', $theid, 'mons',
+        			$childs_info{$theid}->{nodes} );
+        	}
+        }
+        
+        foreach $i ( @{ $ids{$theid}->{own} },
+        	@{ $ids{$theid}->{shared} },
+        	@{ $ids{$theid}->{extranodes} }
+        	)
+        {
+        	delete $pe{$i}->{ids}->{$theid};
+        	qlog "_freeing $i of $theid res=$reserved_shared\n", LOG_DEBUG;
+        }
+        
+        unless ( exists( $childs_info{$theid} ) ) {
+        	qlog "Task is deleted already!!! ($theid)\n", LOG_WARN;
+        	next;
+        }
+        
+        $extra_nodes_used -= $childs_info{$theid}->{npextra};
+        
+        $resurected=0;
+        #
+        # write report file & exec killscript
+        #
+        if ( $childs_info{$theid}->{lastowner} eq $cluster_name ) {
+        	
+        	#we must report
+        	if ( $log_level >= LOG_DEBUG2 ) {
+        		qlog ":: " . join( ";", %{ $childs_info{$theid} } ) . "\n",
+        		LOG_DEBUG2;
+        	}
+        	task_after_death( $theid, $childs_info{$theid} );
+        	$resurected=1 if $childs_info{$theid}->{state} eq 'queued';
+        }    # ~ process dead children...
+        else {
+        	qlog
+        	"NOT own child ($theid) - lastowner is $childs_info{$theid}->{lastowner}, owner - $childs_info{$theid}->{owner}\n",
+        	LOG_INFO;
+        }
+        
+        #
+        # Correct the runned list
+        #
+        $i = cleosupport::find_runned($theid);
+        if ( $i < 0 ) {
+        	qlog
+        	"Dead id is not found in runned_list!!! ($theid,state=$childs_info{$theid}->{status})\n",
+        	LOG_WARN;
+        	new_runned( $theid, $childs_info{$theid}->{status} );
+        } else {
+        	$runned_list[$i]->{exitcode} = $childs_info{$theid}->{status};
+        }
+        
+        account_end($theid);
+        
+        for $i ( keys(%wait_run) ) {
+        	for $j ( keys( %{ $wait_run{$i} } ) ) {
+        		delete $wait_run{$i}->{$j}
+        		if ( $wait_run{$i}->{$j} == $theid );
+        	}
+        }
+        delete $pids{$theid};
+        
+        unless($resurected){
+        	del_from_queue($theid) unless $resurected;
+        	qlog "Erased: $theid\n", LOG_INFO;
+        }
+        $dump_flag=1;
+    }  # @dead processing
+    
     #########################################################
     #
     #       check ability to run new tasks...
     #
     #########################################################
-
+    
     my $not_infinite = 15;    #Maximal number of tasks to run at once
-
+    
     if ($q_change) {
         count_user_np_used();
         save_state($cluster_name);
@@ -1327,32 +1330,30 @@ sub check_children() {
         $last_cin = keys(%childs_info);
         while ( ( $cur_ch, $child ) = each(%childs_info) ) {
             next if ( $child->{state} ne 'run' );
-            if (    $child->{time_to_delete} > 0
-                && $child->{time_to_delete} < $last_time ) {
-            qlog
-            "Task didnt send me SIGCHLD. Delete it... ($child->{pid} / $child->{id}))\n",
-            LOG_WARN;
-            push @dead, $child->{id};
-            $child->{status}     = 0;
-            $child->{core}       = 0;
-            $child->{signal}     = 9;
-            $child->{final_kill} = 1;
-            } elsif (    $child->{timelimit} > 0
-                && $child->{timelimit} < $last_time ) {
-            next if ( $child->{substate} eq 'deleting' );
-            qlog "Task $child->{id} timed out.\n", LOG_INFO;
-            if ( $child->{timelimit} + get_setting('hard_kill_delay') <
-                $last_time ) {
-            $child->{final_kill} = 1;
-            qlog "HARDKILL! $child->{pid} $child->{id}\n", LOG_INFO;
-                } else {
-                    qlog
-                    "KILL! $child->{pid} $child->{id} ($child->{timelimit} < $last_time) $child->{state}\n",
-                    LOG_INFO;
+            if($child->{time_to_delete}>0 and $child->{time_to_delete}<$last_time) {
+            	qlog
+            	"Task didnt send me SIGCHLD. Delete it... ($child->{pid} / $child->{id}))\n",
+            	LOG_WARN;
+            	push @dead, $child->{id};
+            	$child->{status}     = 0;
+            	$child->{core}       = 0;
+            	$child->{signal}     = 9;
+            	$child->{final_kill} = 1;
+            }
+            elsif($child->{timelimit}>0 and $child->{timelimit}<$last_time) {
+            	next if($child->{substate} eq 'deleting' or $child->{substate} eq 'restarting');
+            	qlog "Task $child->{id} timed out.\n", LOG_INFO;
+            	if($child->{timelimit} + get_setting('hard_kill_delay')<$last_time) {
+            		$child->{final_kill} = 1;
+            		qlog "HARDKILL! $child->{pid} $child->{id}\n", LOG_INFO;
+            	} else {
+            		qlog
+            		"KILL! $child->{pid} $child->{id} ($child->{timelimit} < $last_time) $child->{state}\n",
+            		LOG_INFO;
                 }
                 del_task( $child->{id}, '__internal__', undef, undef, undef,
                     undef, 'Time limit exceeded' );
-                }
+            }
         }    #checking all running children
         $check_time = $last_time + cleosupport::get_setting('time_qcheck');
     }
@@ -1452,7 +1453,7 @@ sub try_to_run($;$$ ) {
     }
 
     # is nodes list given to us?
-    if ( scalar(@$cpus_list)>0 ) {
+    if ( ref($cpus_list) eq 'ARRAY' and scalar(@$cpus_list)>0 ) {
         my ( $cpu, $n );
 
         # add cpus.
@@ -3119,6 +3120,7 @@ sub rcv_from_mon() {
                 $mons{ $entry->{_from} }->{last_response}    = $last_time;
                 $mons{ $entry->{_from} }->{fast_raise_count} = 0;
                 $mons{ $entry->{_from} }->{state}            = 'active';
+                $mons{ $entry->{_from} }->{timed_out}        = 0;
 
                 if ( $entry->{_to} eq $cluster_name )
                 {    #Yahoo! A message for me!
@@ -3373,33 +3375,16 @@ sub rcv_from_mon() {
             qlog(
                 "MON DELETING REQUEST[M] ENTRY TIMED OUT ($mons_wait{$i}->{hash})\n",
                 LOG_DEBUG
-                ) unless ( $_d_nolog_type{ $mons_wait{$i}->{type} } );
-
-                # check timed out mons!
-                for $j ( @{ $mons_wait{$i}->{_to} } ) {
-                    if($mons{$j}->{last_response}>0){
-                        if($mons{$j}->{last_response}+$max_mon_timeout<$last_time){
-
-                            # whole monitor timed out!!!
-                            qlog "MON TIMED OUT: $j (req $i, type $mons_wait{$i}->{type})\n",
-                            LOG_DEBUG2;
-                            on_mon_timed_out($j);
-                            $mons{$j}->{last_response}=0;
-                        }
-                    }
-                    elsif($mons{$j}->{last_connect}>0){
-                        if($mons{$j}->{last_connect}+$max_mon_timeout<$last_time){
-                            # whole monitor timed out!!!
-                            qlog "MON TIMED OUT WITHOUT RESPONSE: $j\n", LOG_DEBUG2;
-                            on_mon_timed_out($j);
-                            $mons{$j}->{last_connect}=0;
-                        }
-                    }
-                }
-                delete $mons_wait{$i};
+            ) unless ( $_d_nolog_type{ $mons_wait{$i}->{type} } );
+            
+            # check timed out mons!
+            for $j ( @{ $mons_wait{$i}->{_to} } ) {
+            	check_timed_out_mon($j);
+            }
+            delete $mons_wait{$i};
         }
     }
-
+    
     # check for bad connections
     @ready = $Mons_select->has_exception(0.01);
     foreach $i (@ready) {
@@ -3423,6 +3408,42 @@ sub rcv_from_mon() {
 
     @ready = ();
 }    # rcv_from_mon
+
+
+#
+#  Check if the monitor is timed out and block it if needed 
+#
+#  Args: mon   - monitor name
+#
+#
+sub check_timed_out_mon($){
+	my ($mon)=@_;
+
+	return if $mons{$mon}->{timed_out};
+	
+	my $alive=max($mons{$mon}->{last_response},$mons{$mon}->{last_alive});
+	if($alive>0){
+		if($alive+$max_mon_timeout<$last_time){
+			
+			# whole monitor timed out!!!
+			qlog "MON TIMED OUT: $mon\n", LOG_DEBUG2;
+			on_mon_timed_out($mon);
+			$mons{$mon}->{last_response}=0;
+			$mons{$mon}->{timed_out}=1;
+		}
+	}
+	elsif($mons{$mon}->{last_connect}>0){
+		if($mons{$mon}->{last_connect}+$max_mon_timeout<$last_time){
+			# whole monitor timed out!!!
+			qlog "MON TIMED OUT WITHOUT RESPONSE: $mon\n", LOG_DEBUG2;
+			on_mon_timed_out($mon);
+			$mons{$mon}->{last_connect}=0;
+			$mons{$mon}->{timed_out}=1;
+		}
+	}
+	
+}
+
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -4718,17 +4739,19 @@ sub mon_kill_handler($$$$$$ ) {
         }
     }
 
-    if ( $args->{owner} eq cleosupport::get_setting('root_cluster_name') ) {
-        push @dead, $args->{id};
-    } else {
-
-        #        qlog "ABC2 '$args->{owner}'\n", LOG_DEBUG;
-        $args->{success} = ( $succ ? SUCC_OK : SUCC_FAIL );
-        new_req_to_child( 'del_mon_task',     $args,
-            $args->{owner},     0,
-            SUCC_ANY | SUCC_OK, \&nil_sub,
-            \&every_nil_sub,    1,
-            \&nil_sub );
+    if(exists($childs_info{$args->{id}})){
+    	if($childs_info{$args->{id}}->{state} eq 'run'){
+    		if ( $args->{owner} eq cleosupport::get_setting('root_cluster_name') ) {
+        		push @dead, $args->{id};
+        	}
+        } else {
+        	$args->{success} = ( $succ ? SUCC_OK : SUCC_FAIL );
+        	new_req_to_child( 'del_mon_task',     $args,
+        		$args->{owner},     0,
+        		SUCC_ANY | SUCC_OK, \&nil_sub,
+        		\&every_nil_sub,    1,
+        		\&nil_sub );
+        }
     }
     return $user_v;
 }
@@ -4774,10 +4797,14 @@ sub mon_init_attach_handler($$$$$$ ) {
                 undef);
 
             # rerun task
-            rerun_task( $args->{id},
-                get_setting( 'rerun_delay', $user_v->{user},
-                    '',            $user_v->{owner} ),
-                'init nodes timed out' );
+            #rerun_task( $args->{id},
+            #    get_setting( 'rerun_delay', $user_v->{user},
+            #        '',            $user_v->{owner} ),
+            #    'init nodes timed out' );
+            if(exists($childs_info{$args->{id}})){
+            	$childs_info{$args->{id}}->{restart}=1;
+            }
+            del_or_restart_task($args->{id});
         } else {
             new_req_to_child(
                 'attach',              $args,
@@ -4952,51 +4979,45 @@ elsif ( $what eq 'finished' ) {    # the task or rshell ended
             qlog
             "FINished task $args->{id}::$args->{owner} on $from with code $args->{code}\n",
             LOG_INFO;
-            if ( defined(
-                $rsh_pids{"$args->{id}::$args->{owner}"}->{master}
-                )
-                ) {
-
-            #
-            #  Delete all 'bored' rshell processes...
-            #
-            qlog "Kill child rsh\n", LOG_DEBUG;
-            foreach my $i (
-                keys( %{ $rsh_pids{"$args->{id}::$args->{owner}"} } )
-                ) {
-            $i =~ /^\S+::\S+$/;
-            next if ( $1 eq '' );
-            my %req = (
-                'pid' => $2,
-                'wait_secs' =>
-                get_setting('wait_secs_to_kill_base_rsh')
-                );
-            new_req_to_mon( 'kill_pid', \%req, $1,
-                SUCC_ANY | SUCC_OK,
-                \&nil_sub, undef, 0, \&nil_sub );
-                }
-                delete $rsh_pids{"$args->{id}::$args->{owner}"};
-                }
-                qlog join( ';', %$args, "\n" ), LOG_DEBUG;
-                $answer{id} = $args->{id};
-                if ( $args->{owner} eq
-                    cleosupport::get_setting('root_cluster_name') ) {
-
-                # our task is dead (one of its nodes)...
-                $childs_info{ $args->{id} }->{status} = $args->{code}
-                if exists $childs_info{ $args->{id} };
-                task_node_dead( $args->{id}, $from );
-                    } else {
-                        qlog "!!! ($args->{owner})\n", LOG_DEBUG;
-                        $answer{id}   = $args->{id};
-                        $answer{node} = $from;
-                        $answer{code} = $args->{code};
-                        new_req_to_child( 'finished',         \%answer,
-                            $args->{owner},     0,
-                            SUCC_ANY | SUCC_OK, \&nil_sub,
-                            \&every_nil_sub,    0,
-                            \&nil_sub );
-                    }
+            if (defined($rsh_pids{"$args->{id}::$args->{owner}"}->{master})) {
+            	
+            	#
+            	#  Delete all 'bored' rshell processes...
+            	#
+            	qlog "Kill child rsh\n", LOG_DEBUG;
+            	foreach my $i (
+            		keys( %{ $rsh_pids{"$args->{id}::$args->{owner}"} } ))
+            	{
+            		$i =~ /^\S+::\S+$/;
+            		next if ( $1 eq '' );
+            		my %req = (
+            			'pid' => $2,
+            			'wait_secs' => get_setting('wait_secs_to_kill_base_rsh'));
+            		new_req_to_mon( 'kill_pid', \%req, $1,
+            			SUCC_ANY | SUCC_OK,
+            			\&nil_sub, undef, 0, \&nil_sub );
+            	}
+            	delete $rsh_pids{"$args->{id}::$args->{owner}"};
+            }
+            qlog join( ';', %$args, "\n" ), LOG_DEBUG;
+            $answer{id} = $args->{id};
+            if($args->{owner} eq cleosupport::get_setting('root_cluster_name')){
+            	
+            	# our task is dead (one of its nodes)...
+            	$childs_info{ $args->{id} }->{status} = $args->{code}
+            	if exists $childs_info{ $args->{id} };
+            	task_node_dead( $args->{id}, $from );
+            } else {
+            	qlog "!!! ($args->{owner})\n", LOG_DEBUG;
+            	$answer{id}   = $args->{id};
+            	$answer{node} = $from;
+            	$answer{code} = $args->{code};
+            	new_req_to_child( 'finished',         \%answer,
+            		$args->{owner},     0,
+            		SUCC_ANY | SUCC_OK, \&nil_sub,
+            		\&every_nil_sub,    0,
+            		\&nil_sub );
+            }
         } else {
             qlog
             "Another finished from $from for $args->{id}::$args->{owner}\n",
@@ -5529,7 +5550,7 @@ sub child_message_process( $$$$ ) {
                 $entry->{com_line} = $tmp;
                 $entry->{n}        = $n{$i};
                 $entry->{nid}      = $j;
-                subst_task_prop( \$entry->{com_line}, $entry, 0, "" );
+                subst_task_prop( \$entry->{com_line}, $entry);
                 {
                     my %request = %$entry;
                     qlog "REQUESTING2($i): $request{com_line}\n",
@@ -5551,7 +5572,7 @@ sub child_message_process( $$$$ ) {
                 #
                 #  USE PSEUDO_RSHELLS (Then run only on first node)
                 #
-                subst_task_prop( \$entry->{com_line}, $entry, 0, "" );
+                subst_task_prop( \$entry->{com_line}, $entry);
                 main::new_req_to_mon( 'run',
                     $entry,
                     $nodes[0],
@@ -5589,15 +5610,6 @@ sub child_message_process( $$$$ ) {
             #
     } elsif ( $type eq 'del_mon_task' ) {
 
-        #        my ( %n, @nodes );
-        #        my ( $i, $n );
-        #
-        #        foreach $i ( split( ',', $entry->{mons} ) ) {
-        #            ($n) = ( $i =~ /^([^:]+)/ );
-        #            next if $n eq '';
-        #            ++$n{$n};
-        #        }
-        #        @nodes = keys(%n);
         my @nodes = cpulist2nodes( $entry->{mons} );
 
         qlog "$from requests del on mons task $entry->{id} (nodes: "
@@ -6694,16 +6706,14 @@ sub attach_handler($$$$ ) {
     if ( $args->{status} eq 'timed out' ) {
         qlog "INIT_ATTACH: timed out $id\n", LOG_DEBUG;
         answer_to_parent( cleosupport::get_setting('root_cluster_name'),
-            0,
-            'del_mon_task',
-            SUCC_OK,
-            'id',
-            $id,
-            'mons',
-            $childs_info{$id}->{nodes} );
-        rerun_task( $id,
-            get_setting( 'rerun_delay', $childs_info{$id}->{user} ),
-            'attach on nodes timed out' );
+            0,'del_mon_task', SUCC_OK,
+            'id', $id,
+            'mons', $childs_info{$id}->{nodes} );
+        #        rerun_task( $id,
+        #            get_setting( 'rerun_delay', $childs_info{$id}->{user} ),
+        #            'attach on nodes timed out' );
+        $childs_info{$id}->{restart}=1;
+        del_or_restart_task($id);
         return;
     }
     &cleosupport::execute_task( $childs_info{$id} );
@@ -6898,8 +6908,10 @@ sub rvm_handler($$$$ ) {
 
             $childs_info{ $args->{id} }->{time} = $last_time;
             if ( $childs_info{ $args->{id} }->{timelimit} ) {
+                $childs_info{$args->{id}}->{orig_timelimit} =
+                	$childs_info{$args->{id}}->{timelimit};
                 $childs_info{ $args->{id} }->{timelimit} +=
-                $childs_info{ $args->{id} }->{time};
+                	$childs_info{ $args->{id} }->{time};
                 qlog
                 "TIMELIMIT: $childs_info{$args->{id}}->{timelimit} ($childs_info{$args->{id}}->{time})\n",
                 LOG_DEBUG;
@@ -6908,10 +6920,13 @@ sub rvm_handler($$$$ ) {
             }
         }
     } else {
+    	if(exists $childs_info{ $args->{id} }){
+    		del_or_restart_task($args->{id});
 
-        # simply delete it...
-        $childs_info{ $args->{id} }->{status} = -1;
-        push @dead, $args->{id};
+    		# simply delete it...
+    		#$childs_info{ $args->{id} }->{status} = -1;
+    		#push @dead, $args->{id};
+    	}
     }
 
     $dump_flag=1;
@@ -6969,8 +6984,10 @@ sub dmt_handler($$$$ ) {
         qlog "Del mon task: $args->{id} succesfull\n", LOG_INFO;
     } else {
         if ( exists( $childs_info{ $args->{id} } ) ) {
-            del_task( $args->{id}, '__internal__' );
-            push @dead, $args->{id};
+        	if($childs_info{$args->{id}}->{state} eq 'run'){
+        		del_task( $args->{id}, '__internal__' );
+        		push @dead, $args->{id};
+            }
         }
     }
 }
@@ -7017,9 +7034,11 @@ sub run_handler($$$$ ) {
     } else {
         qlog "Task $args->{id}: node '$args->{node}' run failed.\n", LOG_INFO;
         if ( exists( $childs_info{ $args->{id} } ) ) {
-            del_task( $args->{id}, '__internal__', '', '', '', 0,
-                'Run on node failed' );
-            push @dead, $args->{id};
+        	if($childs_info{$args->{id}}->{state} eq 'run'){
+        		del_task( $args->{id}, '__internal__', '', '', '', 0,
+        			'Run on node failed' );
+        		push @dead, $args->{id};
+        	}
         }
     }
 }
@@ -7262,8 +7281,10 @@ sub run_pre_handler($$$$ ) {
                 #        $childs_info{$id}->{timelimit}+=$last_time;
                 $childs_info{$id}->{time} = $last_time;
                 if ( $childs_info{$id}->{timelimit} ) {
+                	$childs_info{$id}->{orig_timelimit} =
+                		$childs_info{$id}->{timelimit};
                     $childs_info{$id}->{timelimit} +=
-                    $childs_info{$id}->{time};
+                    	$childs_info{$id}->{time};
                     qlog
                     "TIMELIMIT: $childs_info{$id}->{timelimit} ($childs_info{$id}->{time})\n",
                     LOG_DEBUG;
@@ -7361,20 +7382,20 @@ sub get_io_handler($$$$ ) {
 ######################################################################
 sub task_after_death($$ ) {
     my ( $theid, $entry ) = @_;
-    my ( $username, $sec, $min, $hour, $yday, $text, $text2 );
-
+    my ( $username, $sec, $min, $hour, $yday, $text, $text2, $worktime, $subject );
+    
     $username = $entry->{user};
-
+    
     unless ( exists $entry->{id} ) {
         qlog "After death failed\n", LOG_ERR;
         return;
     }
-
+    
     ( $sec, $min, $hour, undef, undef, undef, undef, $yday ) =
     	gmtime( $last_time - $entry->{time} );
-    $hour+=3600*yday;
+    $hour+=3600*$yday;
     $worktime=sprintf('%02d:%02d:%02d',$hour,$min,$sec);
-
+    
     # read status from file, if empty-cleo was used
     if ( $entry->{use_empty} ne '' ) {
         if ( open( PIDFILE, "<$entry->{pidfile}" ) ) {
@@ -7391,35 +7412,35 @@ sub task_after_death($$ ) {
         }
     }
     unlink "/tmp/cleo-launch.just-$cluster_name.$theid";  # cancel just_exec
-    unlink
-    "/tmp/cleo-launch.q_just-$cluster_name.$theid";   # cancel q_just_exec
-
+    unlink "/tmp/cleo-launch.q_just-$cluster_name.$theid";# cancel q_just_exec
+    
     if ( $entry->{status} > 0 ) {
         do_all_exec_modules('ok', $entry, $username);
-
+        
         $text = cleosupport::get_setting( 'q_fail_exec', $username,
             $entry->{profile} );
         if ( $text ne '' ) {
             undef %subst_args;
             $subst_args{time}=$worktime;
-            subst_task_prop( \$text, $entry, $entry->{time}, "" );
+            subst_task_prop( \$text, $entry);
             qlog "run q_fail_exec: '$text'\n", LOG_INFO;
             launch( 0, "$text", '' );
         }
-    } else {
+    }
+    else {
         do_all_exec_modules('fail', $entry, $username);
-
+        
         $text = cleosupport::get_setting( 'q_ok_exec', $username,
             $entry->{profile} );
         if ( $text ne '' ) {
             undef %subst_args;
             $subst_args{time}=$worktime;
-            subst_task_prop( \$text, $entry, $entry->{time}, "" );
+            subst_task_prop( \$text, $entry);
             qlog "run q_ok_exec: '$text'\n", LOG_INFO;
             launch( 0, "$text", '' );
         }
     }
-
+    
     #
     # exec kill script
     #
@@ -7428,13 +7449,11 @@ sub task_after_death($$ ) {
     $text2 = cleosupport::get_setting( 'user_kill_script', $username,
         $entry->{profile} );
     qlog "KILLSCRIPT='$text' USER_KILLSCRIPT='$text2'\n", LOG_DEBUG;
-    qlog( "!!! " . join( '#', %$entry, "\n" ), LOG_DEBUG )
-    if ( $debug{'tsk'} );
+    qlog( "!!! " . join( '#', %$entry, "\n" ), LOG_DEBUG )if ( $debug{'tsk'} );
     if ( $text ne '' ) {
-    	undef %subst_args;
-    	$subst_args{time}=$worktime;
-        subst_task_prop( \$text, $entry, $entry->{time},
-            "$hour hours $min minutes $sec seconds" );
+    	%subst_args=('time'=>$worktime,
+    		'work_time'=>"$hour hours $min minutes $sec seconds");
+        subst_task_prop( \$text, $entry);
         qlog "run killscript: '$text'\n", LOG_INFO;
         launch( 0, $text, '' );
     } elsif ( $entry->{run_via_mons} ) {
@@ -7449,17 +7468,17 @@ sub task_after_death($$ ) {
             }
         }
     }
-
+    
     qlog "Kill rshells, if they were\n", LOG_DEBUG2;
     if ( exists( $entry->{rsh_was_used} ) ) {
         answer_to_parent( cleosupport::get_setting('root_cluster_name'),
             0, 'clean_task', SUCC_OK, 'id', $entry->{id} );
     }
-
-    qlog
-    "Was used by $username: $user_np_used{$username} ($entry->{np}+$entry->{npextra})\n",
-    LOG_DEBUG;
-
+    
+    qlog(
+    	"Was used by $username: $user_np_used{$username} ($entry->{np}+$entry->{npextra})\n",
+    	LOG_DEBUG);
+    
     #  $user_np_used{$username}-=$entry->{np}+$entry->{npextra};
     #  $user_np_used{$username}=0 if $user_np_used{$username}<0;
     qlog "Will be used by $username NOW: "
@@ -7472,44 +7491,32 @@ sub task_after_death($$ ) {
             LOG_WARN;
         }
     }
-
+    
     sub_exec( get_uid( $entry->{user} ),
         $usergid{ $entry->{user} },
         \&after_death_user_part, $theid, $entry, $text2 );
-
-    #
-    # report user about task end
-    #
-    #       if(exists($user_post_exec_write{$username}) || $post_exec_write){
-    #         my $text;
-    #         if(exists $user_post_exec_write{$username}){
-    #           $text=$user_post_exec_write{$username};
-    #         }
-    #         else{
-    #           $text=$post_exec_write;
-    #         }
     
     # mail to user, if it is required
     if($entry->{attrs}->{mailopts} =~ /a|e/){
     	if($entry->{attrs}->{mailopts} =~ /a/){
-    		my $subject=cleosupport::get_setting( 'post_abort_mail_subj', $username,
+    		$subject=cleosupport::get_setting( 'post_abort_subj', $username,
     			$entry->{profile} );
-    		$text = cleosupport::get_setting( 'post_abort_mail_text', $username,
+    		$text = cleosupport::get_setting( 'post_abort_text', $username,
     			$entry->{profile} );
     	}
     	else{
-    		my $subject=cleosupport::get_setting( 'post_exec_mail_subj', $username,
+    		$subject=cleosupport::get_setting( 'post_exec_subj', $username,
     			$entry->{profile} );
-    		$text = cleosupport::get_setting( 'post_exec_mail_text', $username,
+    		$text = cleosupport::get_setting( 'post_exec_text', $username,
     			$entry->{profile} );
     	}
-    	undef %subst_args;
-    	$subst_args{time}=$worktime;
-        subst_task_prop( \$subject, $entry, $entry->{time},
-            "$hour hours $min minutes $sec seconds" );
-        subst_task_prop( \$text, $entry, $entry->{time},
-            "$hour hours $min minutes $sec seconds" );
-
+    	%subst_args=('time'=>$worktime,
+    		'work_time'=>"$hour hours $min minutes $sec seconds");
+    	subst_task_prop( \$subject, $entry);
+    	%subst_args=('time'=>$worktime,
+    		'work_time'=>"$hour hours $min minutes $sec seconds");
+        subst_task_prop( \$text, $entry);
+        
     	if($entry->{attrs}->{maillist} eq ''){
     		send_mail($username,$subject,$text);
     	}
@@ -7523,9 +7530,9 @@ sub task_after_death($$ ) {
     $text = cleosupport::get_setting( 'post_exec_write', $username,
         $entry->{profile} );
     if ( $text ne '' ) {
-        undef %subst_args;
-        subst_task_prop( \$text, $entry, $entry->{time},
-            "$hour hours $min minutes $sec seconds" );
+    	%subst_args=('time'=>$worktime,
+    		         'work_time'=>"$hour hours $min minutes $sec seconds");
+        subst_task_prop( \$text, $entry);
         $text =~ s/\0//g;
 
         qlog "echo '$text' | /usr/bin/write $username &\n";
@@ -7538,9 +7545,9 @@ sub task_after_death($$ ) {
     $text = cleosupport::get_setting( 'q_post_exec', $username,
         $entry->{profile} );
     if ( $text ne '' ) {
-        undef %subst_args;
-        subst_task_prop( \$text, $entry, $entry->{time},
-            "$hour hours $min minutes $sec seconds" );
+    	%subst_args=('time'=>$worktime,
+    		         'work_time'=>"$hour hours $min minutes $sec seconds");
+    	subst_task_prop( \$text, $entry);
         qlog "exec q_post: $text\n";
         launch( 0, "$text", '' );
     }
@@ -7574,12 +7581,20 @@ sub task_after_death($$ ) {
             ? 1
             : 0,
         nodes => $entry->{nodes} } );
+
+    if($entry->{substate} eq 'restarting'){
+    	resurect_task($entry->{id});
+    }
 }
 
 sub after_death_user_part( $$$ ) {
 
     my ( $theid, $entry, $text2 ) = @_;
-    my ( $text, $sec, $min, $hour, $yday );
+    my ( $text, $sec, $min, $hour, $yday, $worktime );
+    ( $sec, $min, $hour, undef, undef, undef, undef, $yday ) =
+    	gmtime( $last_time - $entry->{time} );
+    $hour+=3600*$yday;
+    $worktime=sprintf('%02d:%02d:%02d',$hour,$min,$sec);
 
     #  $>=$useruid{$entry->{user}};
     #  $)=$usergid{$entry->{user}};
@@ -7646,9 +7661,9 @@ sub after_death_user_part( $$$ ) {
         $text = cleosupport::get_setting( 'user_post_exec', $entry->{user},
             $entry->{profile} );
         if ( $text ne '' ) {
-            undef %subst_args;
-            subst_task_prop( \$text, $entry, $entry->{time},
-                "$hour hours $min minutes $sec seconds" );
+        	%subst_args=('time'=>$worktime,
+        		'work_time'=>"$hour hours $min minutes $sec seconds");
+            subst_task_prop( \$text, $entry);
             qlog "user exec post: $text\n", LOG_INFO;
             launch( 0, $text, '' );
         }
@@ -7662,9 +7677,9 @@ sub after_death_user_part( $$$ ) {
         # Exec users killscript
         #
         if ( $text2 ne '' ) {
-            undef %subst_args;
-            subst_task_prop( \$text2, $entry, $entry->{time},
-                "$hour hours $min minutes $sec seconds" );
+        	%subst_args=('time'=>$worktime,
+        		'work_time'=>"$hour hours $min minutes $sec seconds");
+            subst_task_prop( \$text2, $entry);
             qlog "run users killscript: '$text2'\n", LOG_INFO;
             launch( 0, $text2, '' );
         }
@@ -7673,7 +7688,7 @@ sub after_death_user_part( $$$ ) {
                 $entry->{profile} );
             if ( $text ne '' ) {
                 undef %subst_args;
-                subst_task_prop( \$text, $entry, $entry->{time}, "" );
+                subst_task_prop( \$text, $entry);
                 qlog "run user_fail_exec: '$text'\n", LOG_INFO;
                 launch( 0, "$text", '' );
             }
@@ -7682,7 +7697,7 @@ sub after_death_user_part( $$$ ) {
                 $entry->{profile} );
             if ( $text ne '' ) {
                 undef %subst_args;
-                subst_task_prop( \$text, $entry, $entry->{time}, "" );
+                subst_task_prop( \$text, $entry);
                 qlog "run user_ok_exec: '$text'\n", LOG_INFO;
                 launch( 0, "$text", "$cluster_name.uu-$theid" );
             }
@@ -7696,7 +7711,7 @@ sub after_death_user_part( $$$ ) {
     my $conf_file = get_setting( 'use_file',
         $entry->{user}, $entry->{profile} );
     undef %subst_args;
-    subst_task_prop( \$conf_file, $entry, 0, 0 );
+    subst_task_prop( \$conf_file, $entry);
     
     if ( ( $conf_file ne '' ) and ( -f $conf_file ) ) {
         if ( unlink $conf_file ) {
@@ -8182,9 +8197,9 @@ sub check_time_restrictions( $ ) {
 
     foreach $i (@time_restrictions) {
         if (( $i->{timeb} > $i->{timee} )
-            ||                              # restriction is in action now
+            or                              # restriction is in action now
             (  ( $i->{timeb} <= $last_time + $q->{timelimit} )
-                &&                              # restriction will affect task
+                and                              # restriction will affect task
                 ( $i->{timee} > $last_time )    # surely will
                 )
             ) {
@@ -9926,6 +9941,7 @@ sub mons_connecter( $ ) {
         # Cannot connect at all. Let's try later...
         sc_task_in( get_setting('mon_connect_interval'),
             \&mons_connecter, $_[0] );
+        check_timed_out_mon($_[0]);
     }
 
     # check if connected...
@@ -9933,7 +9949,7 @@ sub mons_connecter( $ ) {
 }
 
 #
-#  Called if mon is disconnected. Check is connection was successfull.
+#  Called if mon is disconnected. Check if connection was successfull.
 #
 #  Args: mon - monitor name
 #
@@ -10001,19 +10017,19 @@ sub on_mon_disconnect( $ ) {
     my $i = $_[0];
     my $mon;
 
-    return
-    if (    ( $mons{$i}->{state} eq 'fail' )
-        or ( $mons{$i}->{state} eq 'dead' ) );
+    return if (($mons{$i}->{state} eq 'fail') or
+    	       ($mons{$i}->{state} eq 'dead'));
 
     qlog( "Disconnected node $i\n", LOG_WARN );
 
     if($mons{$i}->{last_response}>0){
+    	$mons{$i}->{last_alive}=$mons{$i}->{last_response};
         # make extern action
         my $text = cleosupport::get_setting( 'mon_fail_exec', '', '' );
         if ( $text ne '' ) {
             undef %subst_args;
             $subst_args{node} = $i;
-            subst_task_prop( \$text, undef, 0, "" );
+            subst_task_prop( \$text, undef);
             qlog "exec monfail: $text\n", LOG_INFO;
             launch( 0, $text, "$cluster_name-$i-fail" );
         }
@@ -10026,7 +10042,7 @@ sub on_mon_disconnect( $ ) {
 
             undef %subst_args;
             $subst_args{node} = $i;
-            subst_task_prop( \$mail, undef, 0, "" );
+            subst_task_prop( \$mail, undef);
             send_mail('', $subj, $mail );
         }
     }
@@ -10126,8 +10142,8 @@ sub on_mon_timed_out( $ ) {
     my $i = $_[0];
     my $mon;
 
-    return if (( $mons{$i}->{state} eq 'fail' )
-        or ( $mons{$i}->{state} eq 'dead' ) );
+#    return if ( $mons{$i}->{state} eq 'fail' );
+    return if ( $mons{$i}->{state} eq 'dead' );
 
     qlog( "Timed out node $i\n", LOG_WARN );
 
@@ -10135,7 +10151,7 @@ sub on_mon_timed_out( $ ) {
     $Mons_select->remove($mons{$i}->{conn}->get_h);
     $mons{$i}->{conn}->disconnect;
     # soft block node
-    block_pe($i, NO_DEL_TASKS, 0, 'Timed out');
+    block_pe($i, 1, 0, 'Timed out');
 
     if($mons{$i}->{last_response}>0){
         # make extern action
@@ -10143,7 +10159,7 @@ sub on_mon_timed_out( $ ) {
         if ( $text ne '' ) {
             undef %subst_args;
             $subst_args{node} = $i;
-            subst_task_prop( \$text, undef, 0, "" );
+            subst_task_prop( \$text, undef);
             qlog "exec monfail: $text\n", LOG_INFO;
             launch( 0, $text, "$cluster_name-$i-fail" );
         }
@@ -10156,7 +10172,7 @@ sub on_mon_timed_out( $ ) {
 
             undef %subst_args;
             $subst_args{node} = $i;
-            subst_task_prop( \$mail, undef, 0, "" );
+            subst_task_prop( \$mail, undef);
             send_mail('', $subj, $mail );
         }
     }
@@ -10165,19 +10181,6 @@ sub on_mon_timed_out( $ ) {
     mon_fast_raise_check($i);
     sc_task_in( 0, \&mons_connecter, $i );
 
-    #    # check "fast raise"
-    #    if ( ++$mons{ $_[0] }->{fast_raise_count} >
-    #         get_setting('mon_fast_raise_count') ) {
-    #        qlog "Monitor $i raises too silently. Block it.\n", LOG_WARN;
-    #        on_mon_dead( $i, 'Node is suspended' );
-    #    } else {
-    #
-    #        # schedule monitor blocking
-    #            sc_task_in( get_setting('mon_block_delay') *
-    #                            get_setting('mon_fail_interval'),
-    #                        \&on_mon_dead,
-    #                        $i );
-    #    }
 }    # ~on_mon_timed_out
 
 #
@@ -10189,6 +10192,8 @@ sub on_mon_timed_out( $ ) {
 #        reason - optional reason of blocking (Default is 'Timed out')
 #
 #########################################
+
+# !!!!!!!!!!!!! not used
 sub on_mon_dead( $;$ ) {
     my $i = $_[0];
 
@@ -10202,7 +10207,7 @@ sub on_mon_dead( $;$ ) {
     if ( $text ne '' ) {
         undef %subst_args;
         $subst_args{node} = $i;
-        subst_task_prop( \$text, undef, 0, "" );
+        subst_task_prop( \$text, undef);
         qlog "exec mondead: $text\n", LOG_INFO;
         launch( 0, $text, "$cluster_name-$i-dead" );
     }
@@ -10216,7 +10221,7 @@ sub on_mon_dead( $;$ ) {
 
         undef %subst_args;
         $subst_args{node} = $i;
-        subst_task_prop( \$mail, undef, 0, "" );
+        subst_task_prop( \$mail, undef);
         send_mail('', $subj, $mail );
     }
 
@@ -10262,7 +10267,7 @@ sub on_mon_raise_back( $ ) {
     if ( $text ne '' ) {
         undef %subst_args;
         $subst_args{node} = $i;
-        subst_task_prop( \$text, undef, 0, "" );
+        subst_task_prop( \$text, undef);
         qlog "exec monback: $text\n", LOG_INFO;
         launch( 0, "$text", '' );
     }
@@ -10276,7 +10281,7 @@ sub on_mon_raise_back( $ ) {
 
         undef %subst_args;
         $subst_args{node} = $i;
-        subst_task_prop( \$mail, undef, 0, "" );
+        subst_task_prop( \$mail, undef);
         send_mail('', $subj, $mail );
     }
     $may_go = 1;
@@ -10351,7 +10356,7 @@ sub mon_fast_raise_check( $ ) {
             if ( $text ne '' ) {
                 undef %subst_args;
                 $subst_args{node} = $_[0];
-                subst_task_prop( \$text, undef, 0, "" );
+                subst_task_prop( \$text, undef);
                 qlog "exec mon_fast_raise: $text\n", LOG_INFO;
                 launch( 0, $text, "$cluster_name-$_[0]-fast_raise" );
             }
@@ -10364,7 +10369,7 @@ sub mon_fast_raise_check( $ ) {
 
                 undef %subst_args;
                 $subst_args{node} = $_[0];
-                subst_task_prop( \$mail, undef, 0, "" );
+                subst_task_prop( \$mail, undef);
                 send_mail('', $subj, $mail );
             }
         }

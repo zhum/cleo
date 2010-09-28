@@ -25,7 +25,7 @@ RCDIR     := $(ETCPREFIX)/init.d
 MANUSER   := serg
 
 # Man files owner group
-MANGROUP  := users
+MANGROUP  := serg
 
 # Where config files would be placed
 ETCDIR    = $(ETCPREFIX)
@@ -46,7 +46,7 @@ RCRDIR    = $(ETCPREFIX)/rc3.d
 USER      := serg
 
 # Files group
-GROUP     := users
+GROUP     := serg
 
 INSTALL_FLAGS := -o $(USER) -g $(GROUP)
 INSTALL_MANS  := -o $(MANUSER) -g $(MANGROUP)
@@ -58,7 +58,8 @@ PERLSFILES = cleo cleo-mode cleo-mon
 
 PERLFILES = cleo-client tasks mpirun cleo-submit \
             cleo-autoblock cleo-blockcpu cleo-blocktask cleo-priority \
-            cleo-stat cleo-terminal cleo-freeze cleo-wrapper
+            cleo-stat cleo-terminal cleo-freeze cleo-wrapper \
+            qstat-cleo qsub-cleo qdel-cleo
 
 SHAREDFILES = cleosupport.pm cleovars.pm base_sched listfile_mod
 

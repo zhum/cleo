@@ -7,10 +7,10 @@ sub new{
     my $self = shift;
     my $text = "" . shift;
     my @args = ();
-    
+
     local $Error::Depth = $Error::Depth + 1;
     local $Error::Debug = 1;  # Enables storing of stacktrace
-    
+
     $self->SUPER::new(-text => $text, @args);
 }
 1;
@@ -40,7 +40,7 @@ sub new (){
     }
     $self->{states}->{$_[1]}={};
     bless($self);
-    
+
     return $self;
 }
 
@@ -53,6 +53,20 @@ sub add_states(){
     foreach my $i (@_){
         $self->{states}->{$i}={};
     }
+}
+
+#
+#  Force set current state
+#  No hooks or events are generated!
+#  Args: state name
+#
+#  Ret: 0 if ok, 1 if no such state was found
+#
+sub set_state(){
+    my ($self,$state)=@_;
+    return 1 unless defined $self->{states}->{$state};
+    $self->{state}=$state;
+    return 0;
 }
 
 #
@@ -73,7 +87,7 @@ sub add_events(){
         $state=shift;
         $event=shift;
         $new_state=shift;
-        
+
         if(!exists($self->{states}->{$state})){
             throw Cleo::State::Error("No such state: $state");
         }
@@ -101,7 +115,7 @@ sub add_leave_hooks(){
         $state=shift;
         $event=shift;
         $hook=shift;
-        
+
         if(($state ne 'default') and !exists($self->{states}->{$state})){
             throw Cleo::State::Error("No such state: $state");
         }
@@ -129,7 +143,7 @@ sub add_enter_hooks(){
         $state=shift;
         $event=shift;
         $hook=shift;
-        
+
         if(!exists($self->{states}->{$state})){
             throw Cleo::State::Error("No such state: $state");
         }
@@ -184,7 +198,7 @@ sub event($$){
     # change state
     $oldstate=$self->{state};
     $self->{state}=$newstate;
-    
+
     # call hooks
     if(exists($self->{enter}->{$self->{state}}->{$event})){
         foreach my $i (@{$self->{enter}->{$self->{state}}->{$event}}){

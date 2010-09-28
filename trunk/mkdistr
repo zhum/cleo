@@ -24,7 +24,8 @@ FILES="cleo cleosupport.pm cleovars.pm cleo-client tasks mpirun \
       cleo.conf.example-sci cleo.conf.example-mvs cleo.conf.example-mpich \
       doubler_sched cleo-wrapper cleo-submit \
       man listfile_mod README-listfile \
-      Makefile Makefile.conf spec.files"
+      Makefile Makefile.conf spec.files\
+      qstat-cleo qdel-cleo"
 
 cp -r $FILES "cleo-$1"
 

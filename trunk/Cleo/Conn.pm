@@ -263,7 +263,7 @@ $VERSION=1.1;
                 return 1;
             }
             _do_close_hooks($self);
-            _del_conn_($self->{handle});
+            _del_conn($self->{handle});
             $self->{handle}->close;
             undef $self->{handle};
         }

@@ -98,6 +98,7 @@ if ($@) {
     &cpulist2nodes &fix_prerun &calculate_estimated
     &mail_delay &mail_max_delay &flush_mails &send_mail
     &check_all_mod_timers &check_mod_timer &set_mod_timer &do_all_exec_modules
+    &resurect_task
     );
 
 #&load_conf_section
@@ -519,6 +520,8 @@ sub make_subclusters($ );
 my $daemonizing;
 my %launch_pids;
 my $log_time;
+
+my %restart_tasks;
 
 my $scheduler_prolog = <<_SCHED_PROLOG;
 # id,pe_list
@@ -1017,12 +1020,11 @@ sub count_user_np_used( ;$ ) {
             . ") has bad {shared}\n", LOG_ERR;
             next;
         }
-        if ( !defined $user
-            or $i->{user} eq $user ) {
-        $user_np_used{ $i->{user} } +=
-        scalar( @{ $i->{own} } ) + scalar( @{ $i->{shared} } ) +
-        $i->{npextra};
-            }
+        if ( !defined $user or $i->{user} eq $user ) {
+        	$user_np_used{ $i->{user} } +=
+        	scalar( @{ $i->{own} } ) + scalar( @{ $i->{shared} } ) +
+        	$i->{npextra};
+        }
     }
     foreach $i (@queue) {
         if ( $i->{state} eq 'prerun' ) {
@@ -1671,7 +1673,7 @@ sub kill_running {
         $tmp = get_setting( 'kill_script', $ch->{user}, $ch->{profile} );
         if ( $tmp ne '' ) {
             undef %subst_args;
-            subst_task_prop( \$tmp, $ch, $ch->{time}, 0, 0 );
+            subst_task_prop( \$tmp, $ch);
             launch( 0, $tmp, '' );
         }
         kill_tree( 9, $ch->{pid} );
@@ -3767,7 +3769,18 @@ sub space_quote( $ ){
 {
     my $last_mtime = 0;
 
-    sub subst_task_prop( $$$$;$ ) {    # txt, struct, time, totaltime, quote
+    # Substitute $xxxxx variables into given text
+    #
+    #  Important! Uses %subst_args as default!
+    #
+    # Args:
+    #      txt       = original text
+    #      struct    = keys=var names, values=var values
+    #      [quote]   = 0/undef => do not quote result (default), 1=> quote result
+    #
+    # Ret:  text with subtitutions
+    #
+    sub subst_task_prop( $$;$ ) {
         my $func;
         my ( $text, $child, $_time, $_total, $quote ) = @_;
         my ( $mapped_nodes, $map_file, $mtime, $i );
@@ -4065,7 +4078,7 @@ sub create_simple_config( $$$$ ) {
     my ( $t, $q_entry, $work_pe, $doit ) = @_;
     
     undef %subst_args;
-    subst_task_prop( \$t, $q_entry, 0, 0 );
+    subst_task_prop( \$t, $q_entry );
     unless ( open( CONF, ">$t" ) ) {
         qlog "Cannot create config file! ($t)\n", LOG_WARN;
         return;
@@ -4122,7 +4135,7 @@ sub create_config( $$$ ) {
 
         if($t=get_setting( 'file_head', $q_entry->{user}, $q_entry->{profile})){
             undef %subst_args;
-            subst_task_prop( \$t, $q_entry, 0, 0 );
+            subst_task_prop( \$t, $q_entry);
             $t =~ s/\\n/\n/g;
             $t =~ s/\\t/\t/g;
             $t =~ s/\\r/\r/g;
@@ -4168,7 +4181,7 @@ sub create_config( $$$ ) {
                     $q_entry->{nid}   = pop @{ $nids{$a} };
                     qlog "NODE: $a/$q_entry->{nid} ($t)\n", LOG_DEBUG;
                     undef %subst_args;
-                    subst_task_prop( \$t2, $q_entry, 0, 0 );
+                    subst_task_prop( \$t2, $q_entry);
                     $t2 =~ s/\\n/\n/g;
                     $t2 =~ s/\\t/\t/g;
                     $t2 =~ s/\\r/\r/g;
@@ -4179,7 +4192,7 @@ sub create_config( $$$ ) {
         }
         if($t=(get_setting('file_tail', $q_entry->{user}, $q_entry->{profile}))){
             undef %subst_args;
-            subst_task_prop( \$t, $q_entry, 0, 0 );
+            subst_task_prop( \$t, $q_entry);
             $t =~ s/\\n/\n/g;
             $t =~ s/\\t/\t/g;
             $t =~ s/\\r/\r/g;
@@ -4248,7 +4261,7 @@ sub create_config( $$$ ) {
         	$t=get_setting( 'use_file', $ids{$id}->{user}, $ids{$id}->{profile});
         }
         undef %subst_args;
-        subst_task_prop( \$t, $ids{$id}, 0, 0 );
+        subst_task_prop( \$t, $ids{$id});
         $ids{$id}->{use_file} = $t;
         
         sub_exec(get_uid($ids{$id}->{user}), $usergid{$ids{$id}->{user}},
@@ -4296,6 +4309,7 @@ sub create_config( $$$ ) {
         	
         	$ids{$id}->{time} = $last_time;
         	if ( $ids{$id}->{timelimit} > 0 ) {
+        		$ids{$id}->{orig_timelimit} = $ids{$id}->{timelimit};
         		$ids{$id}->{timelimit} += $ids{$id}->{time};
         		qlog
         		"TIMELIMIT: $ids{$id}->{timelimit} ($ids{$id}->{time})\n",
@@ -4323,7 +4337,7 @@ sub create_config( $$$ ) {
         $ids{$id}->{count_first} = cleosupport::get_setting(
         	'count_first',        $ids{$id}->{user},
         	$ids{$id}->{profile}, $ids{$id}->{owner} );
-        subst_task_prop( \$ids{$id}->{com_line}, $ids{$id}, 0, "" );
+        subst_task_prop( \$ids{$id}->{com_line}, $ids{$id});
         @work_pe =
         sort( @{ $ids{$id}->{shared} }, @{ $ids{$id}->{own} } );
         $ids{$id}->{rsh_num} = $ids{$id}->{np};
@@ -4364,8 +4378,7 @@ sub create_config( $$$ ) {
         			undef %subst_args if ( $ids{$id}->{second_run} eq '' );
         			$ids{$id}->{node}     = $i;
         			$ids{$id}->{com_line} = $tmp;
-        			subst_task_prop( \$ids{$id}->{com_line},
-        				$ids{$id}, 0, "" );
+        			subst_task_prop( \$ids{$id}->{com_line}, $ids{$id});
         			{
         				my $request =
         				Storable::thaw( Storable::freeze( $ids{$id} ) );
@@ -4395,6 +4408,7 @@ sub create_config( $$$ ) {
         
         $ids{$id}->{time} = time;
         if ( $ids{$id}->{timelimit} > 0 ) {
+        	$ids{$id}->{orig_timelimit} = $ids{$id}->{timelimit};
             $ids{$id}->{timelimit} += $ids{$id}->{time};
             qlog
             "TIMELIMIT: $ids{$id}->{timelimit} ($ids{$id}->{time})\n",
@@ -4522,8 +4536,7 @@ sub run_task( $ ) {
                 $ids{$id}->{state} = 'run';
 
                 $q_entry->{time} = time;
-                $q_entry->{timelimit} += $q_entry->{time}
-                if $q_entry->{timelimit} > 0;
+                $q_entry->{orig_timelimit} = $q_entry->{timelimit};
                 if ( $q_entry->{timelimit} > 0 ) {
                     $q_entry->{timelimit} += $q_entry->{time};
                     qlog "TIMELIMIT: $q_entry->{timelimit} ($q_entry->{time})\n",
@@ -4549,16 +4562,16 @@ sub run_task( $ ) {
         }
         $real_tmp_dir = $q_entry->{temp_dir};
         undef %subst_args;
-        subst_task_prop( \$real_tmp_dir, $q_entry, 0, 0 );
+        subst_task_prop( \$real_tmp_dir, $q_entry);
         $real_tmp_dir =~ s/\$\$/$$/g;
         undef %subst_args;
-        subst_task_prop( \$q_entry->{outfile}, $q_entry, 0, 0 );
+        subst_task_prop( \$q_entry->{outfile}, $q_entry);
         undef %subst_args;
-        subst_task_prop( \$q_entry->{repfile}, $q_entry, 0, 0 );
+        subst_task_prop( \$q_entry->{repfile}, $q_entry);
 
         if ( defined $q_entry->{empty_input} ) {
             undef %subst_args;
-            subst_task_prop( \$q_entry->{empty_input}, $q_entry, 0, 0 );
+            subst_task_prop( \$q_entry->{empty_input}, $q_entry);
         }
 
         if ( !$q_entry->{one_rep} ) {
@@ -4705,13 +4718,13 @@ sub run_task( $ ) {
                     $q_entry->{attach_mask} = $t;
                     my $t2;
                     undef %subst_args;
-                    subst_task_prop( \$t, $q_entry, 0, 0, 1 );
+                    subst_task_prop( \$t, $q_entry, 1);
                     $t2 =
                     cleosupport::get_setting( 'attach_parent_mask',
                         $q_entry->{user}, $q_entry->{profile} );
                     $q_entry->{parent_mask} = $t2;
                     undef %subst_args;
-                    subst_task_prop( \$t2, $q_entry, 0, 0, 1 );
+                    subst_task_prop( \$t2, $q_entry, 1 );
                     my %args = (
                         'exe_mask'    => $t,
                         'parent_mask' => $t2,
@@ -4802,7 +4815,7 @@ sub create_task_env( $ ){
 sub execute_task( $ ) {
     my ($q_entry) = @_;
 
-    my ( $pid, $id, $t, $pipe_read, $pipe_write, $p, $pgrp );
+    my ( $pid, $id, $t, $pipe_read, $pipe_write, $p, $pgrp, $worktime );
 
     $id = $q_entry->{id};
 
@@ -4818,7 +4831,7 @@ sub execute_task( $ ) {
     	$t=get_setting( 'use_file', $q_entry->{user}, $q_entry->{profile});
     }
     undef %subst_args;
-    subst_task_prop( \$t, $q_entry, 0, 0 );
+    subst_task_prop( \$t, $q_entry);
     $q_entry->{use_file} = $t;
 
     sub_exec(get_uid($q_entry->{user}), $usergid{$q_entry->{user}},
@@ -4839,7 +4852,10 @@ sub execute_task( $ ) {
             if($exec_mod_cancel eq 'restart'){
             	my $tm=get_setting('def_restart_timeout');
             	$tm=10 if($tm==0);
-            	rerun_task($q_entry,$tm,"RESTART by EXEC_MODULE ($i)");
+            	#rerun_task($q_entry,$tm,"RESTART by EXEC_MODULE ($i)");
+            	$q_entry->{restart}=1;
+            	del_or_restart_task($q_entry->{id});
+            	
                 #qlog "RESTART by EXEC_MODULE ($i). Not implemented now... Blocking.\n", LOG_INFO;
                 #my $str="$q_entry->{id}:restart";
                 #msgsnd($exec_queue, pack("l! a*",length($str),$str),1);
@@ -4880,23 +4896,30 @@ sub execute_task( $ ) {
     }
 
     # mail to user, if it is required
-    if($entry->{attrs}->{mailopts} =~ /b/){
-    	my $subject=cleosupport::get_setting( 'pre_exec_mail_subj', $username,
-    		$entry->{profile} );
-    	$text = cleosupport::get_setting( 'pre_exec_mail_text', $username,
-    		$entry->{profile} );
+    if($q_entry->{attrs}->{mailopts} =~ /b/){
+    	my ($hour, $min, $sec, $yday);
+ 	    ( $sec, $min, $hour, undef, undef, undef, undef, $yday ) =
+    	gmtime( $last_time - $q_entry->{time} );
+    	$hour+=3600*$yday;
+    	$worktime=sprintf('%02d:%02d:%02d',$hour,$min,$sec);
 
-	    undef %subst_args;
-        subst_task_prop( \$subject, $entry, $entry->{time},
-            "$hour hours $min minutes $sec seconds" );
-        subst_task_prop( \$text, $entry, $entry->{time},
-            "$hour hours $min minutes $sec seconds" );
+    	my $subject=cleosupport::get_setting( 'pre_exec_subj', $q_entry->{user},
+    		$q_entry->{profile} );
+    	my $text = cleosupport::get_setting( 'pre_exec_text', $q_entry->{user},
+    		$q_entry->{profile} );
 
-    	if($entry->{attrs}->{maillist} eq ''){
-    		send_mail($username,$subject,$text);
+    	%subst_args=('time'=>$worktime,
+    		         'work_time'=>"$hour hours $min minutes $sec seconds");
+        subst_task_prop( \$subject, $q_entry);
+    	%subst_args=('time'=>$worktime,
+    		         'work_time'=>"$hour hours $min minutes $sec seconds");
+        subst_task_prop( \$text, $q_entry);
+
+    	if($q_entry->{attrs}->{maillist} eq ''){
+    		send_mail($q_entry->{user},$subject,$text);
     	}
     	else{
-    		foreach my $addr (split(/,/,$entry->{attrs}->{maillist})){
+    		foreach my $addr (split(/,/,$q_entry->{attrs}->{maillist})){
     			send_mail($addr,$subject,$text);
     		}
     	}
@@ -5032,6 +5055,7 @@ sub execute_task( $ ) {
 
             $childs_info{$id}->{time} = time;
             if ( $childs_info{$id}->{timelimit} > 0 ) {
+                $childs_info{$id}->{orig_timelimit} = $childs_info{$id}->{timelimit};
                 $childs_info{$id}->{timelimit} += $childs_info{$id}->{time};
                 qlog
                 "TIMELIMIT: $childs_info{$id}->{timelimit} ($childs_info{$id}->{time})\n",
@@ -5094,7 +5118,7 @@ sub execute_task( $ ) {
             $q_entry->{profile} );
         if ( $t ne '' ) {
             undef %subst_args;
-            subst_task_prop( \$t, $q_entry, 0, 0 );
+            subst_task_prop( \$t, $q_entry);
             qlog "exec q_pre: '$t'\n", LOG_INFO;
             my $u=$q_entry->{user};
             sub_exec(0, 0, \&cleo_system, $t);
@@ -5105,7 +5129,7 @@ sub execute_task( $ ) {
             $q_entry->{profile} );
         if ( $t ne '' ) {
             undef %subst_args;
-            subst_task_prop( \$t, $q_entry, 0, 0 );
+            subst_task_prop( \$t, $q_entry);
             qlog "exec q_just (in 3 seconds): $t\n", LOG_INFO;
             launch( 3, $t, "q_just-$cluster_name.$q_entry->{id}" );
         }
@@ -5161,7 +5185,7 @@ sub execute_task( $ ) {
             $q_entry->{profile} );
         if ( $t ne '' ) {
             undef %subst_args;
-            subst_task_prop( \$t, $q_entry, 0, 0 );
+            subst_task_prop( \$t, $q_entry);
             qlog "user_exec_pre: '$t'\n", LOG_INFO;
             my $u=$q_entry->{user};
             sub_exec(get_uid($u), $usergid{$u},
@@ -5173,7 +5197,7 @@ sub execute_task( $ ) {
             $q_entry->{profile} );
         if ( $t ne '' ) {
             undef %subst_args;
-            subst_task_prop( \$t, $q_entry, 0, 0 );
+            subst_task_prop( \$t, $q_entry);
             qlog "exec just (in 3 seconds): $t\n", LOG_INFO;
             launch( 3, $t, "just-$cluster_name.$q_entry->{id}" );
         }
@@ -5199,7 +5223,7 @@ sub execute_task( $ ) {
         
         # Correct the command line
         undef %subst_args;
-        subst_task_prop( \$q_entry->{com_line}, $q_entry, 0, 0 );
+        subst_task_prop( \$q_entry->{com_line}, $q_entry);
         $q_entry->{com_line} =~ s/\0/\ /g;
         
         # create additional environment
@@ -5465,47 +5489,6 @@ sub get_entry($ ) {
     return $ids{ $_[0] };
 }
 
-# sub get_queue_type($ ){
-#   foreach my $i (@queue) {
-#     return NATIVE_QUEUE if($i->{id} eq $_[0]);
-#   }
-#   foreach my $i (@foreign) {
-#     return FOREIGN_QUEUE if($i->{id} eq $_[0]);
-#   }
-#   foreach my $i (@pending) {
-#     return PENDING_QUEUE if($i->{id} eq $_[0]);
-#   }
-#   foreach my $i (@running) {
-#     return RUNNING_QUEUE if($i->{id} eq $_[0]);
-#   }
-#   return NOT_IN_QUEUE;
-# }                               # get_queue_type
-
-# sub move_to_queue($$;$ ){
-#   my ($id,$q,$inhead)=@_;
-
-#   qlog "MOVE: $id, $q\n", LOG_INFO;
-#   return unless $ids{$id};
-#   remove_id($id);
-# #  my $ptr=(($q eq NATIVE_QUEUE)?\@queue:(($q eq FOREIGN_QUEUE)?\@foreign:
-# #                                         (($q eq PENDING_QUEUE)?\@pending:\@running)));
-#   my $ptr=($q eq NATIVE_QUEUE)?\@queue:\@running;
-#   if($inhead){
-#     unshift(@$ptr,$ids{$id});
-#   }
-#   else{
-#     push @$ptr, $ids{$id};
-#   }
-# #  $ids{$id}->{state}=(($q eq NATIVE_QUEUE)?'queued':
-# #                      (($q eq FOREIGN_QUEUE)?'prerun':
-# #                       ($q eq PENDING_QUEUE)?'waiting':
-# #                       'run'));
-#   $ids{$id}->{qtype}=$q;
-#   $q_change=1;
-# #  dump_queue();
-#   qlog "SET $id QUEUE TO $ids{$id}->{qtype}/$ids{$id}->{state}\n", LOG_DEBUG;
-# }                               # move_to_queue
-
 sub del_from_queue($ ) {
 
     # DOES NOT CORRECT $reserved_shared!!! Do it yoursef!
@@ -5632,7 +5615,7 @@ sub del_task( $$;$$$$$ ) {
     # for all running tasks
     if ( ( $rmask eq '' ) || ( $rmask !~ /r/ ) ) {
         foreach $ch (@running) {
-            next if ( $ch->{substate} eq 'deleting' );
+            next if ( $ch->{substate} eq 'deleting');
 
             # matches id?
             if ( $all == 0 ) {
@@ -5679,7 +5662,7 @@ sub del_task( $$;$$$$$ ) {
                 }
                 $ch->{aborted}=1;
 
-                $ch->{substate} = 'deleting';
+                $ch->{substate} = 'deleting' if $ch->{substate} eq '';
                 if ( $ch->{run_via_mons} ) {
                     main::answer_to_parent(
                         cleosupport::get_setting('root_cluster_name'),
@@ -5691,7 +5674,6 @@ sub del_task( $$;$$$$$ ) {
                         'mons',
                         $ch->{nodes} );
 
-                    #!!!          push @dead, $ch->{id};
                 } else {
                     if ( $ch->{attach_mask} ne '' ) {
                         main::answer_to_parent(
@@ -5703,8 +5685,6 @@ sub del_task( $$;$$$$$ ) {
                             $ch->{id},
                             'mons',
                             $ch->{nodes} );
-
-                        #            push @dead, $ch->{id};
                     }
                     sc_task_in( get_setting('kill_head_delay'),
                         \&delayed_kill_head, $user, $ch );
@@ -5720,13 +5700,11 @@ sub del_task( $$;$$$$$ ) {
                     qlog "DDD PUSH_TO DEAD\n", LOG_DEBUG2;
                 } else {
                     del_from_queue( $ch->{id} );
-                    qlog "DDDDDDDDD\n", LOG_DEBUG2;
                 }
             }
             qlog "xxx\n", LOG_DEBUG2;
             $success = 1;
-            $ch->{time_to_delete} =
-            $last_time + get_setting('kill_head_delay');
+            $ch->{time_to_delete} =$last_time + get_setting('kill_head_delay');
         }
         qlog "xx2\n", LOG_DEBUG2;
     }
@@ -5765,8 +5743,7 @@ sub del_task( $$;$$$$$ ) {
             }
 
             # delete not own task?
-            next
-            if ($ch->{old_id} > 0
+            next if ($ch->{old_id} > 0
                 and !$forced
                 and !isadmin( $user, $cluster_name ) );
 
@@ -5849,10 +5826,7 @@ sub delayed_kill_head($$) {
 
     if ( $tmp ne '' ) {
         undef %subst_args;
-        subst_task_prop(
-            \$tmp,
-            $childs_info{ $ch->{id} },
-            $childs_info{ $ch->{id} }->{time}, "" );
+        subst_task_prop(\$tmp, $childs_info{ $ch->{id} });
         qlog "exec killscript: '$tmp'\n", LOG_INFO;
         launch( 0, "$tmp", "$cluster_name.0000-$ch->{id}" );
     } else {
@@ -5865,7 +5839,9 @@ sub delayed_kill_head($$) {
             kill_tree( 15, $childs_info{ $ch->{id} }->{pid} );    #TERM
             $childs_info{ $ch->{id} }->{final_kill} = 1;
             sc_task_in( $delay, \&delayed_kill_head, $user, $ch );
-            $childs_info{ $ch->{id} }->{substate}       = 'deleting';
+            if($childs_info{ $ch->{id} }->{substate} ne 'restarting'){
+            	$childs_info{ $ch->{id} }->{substate} = 'deleting';
+            }
             $childs_info{ $ch->{id} }->{time_to_delete} = $last_time + $delay;
         }
     }
@@ -6582,7 +6558,7 @@ sub block_task( $$$;$$$ ) {
     BLOCK_TASKS_LOOP:
     foreach $q (@tasks) {
         if ( isadmin( $user, $cluster_name ) ) {
-            next if ( $usermask && ( $usermask !~ /\b$q->{user}\b/ ) );
+            next if ( $usermask and ( $usermask !~ /\b$q->{user}\b/ ) );
         } else {
             next if ( $q->{user} ne $user );
         }
@@ -6990,7 +6966,7 @@ sub test_block( $$$ ) {
                 $entry->{'reason'} = $j;
                 $entry->{'time'}   = $last_time;
                 undef %subst_args;
-                subst_task_prop( \$exe, $entry, 0, 0 );
+                subst_task_prop( \$exe, $entry);
                 launch( 0, $exe, '' );
             }
             qlog "Node's $i block(s) actualized\n", LOG_INFO;
@@ -7662,6 +7638,8 @@ sub _unblock_reruned($$){
         block_task($_[0],0,'__internal__',$_[1]);
     }
 }
+
+
 ####################################################
 #
 #  Delete or try to restart given task
@@ -7679,17 +7657,57 @@ sub del_or_restart_task( $$ ) {
 
     # check rerun attribute
     my $a=$ids{$id}->{attrs}->{'restart'};
-    if($a==0){
-      # delete task
-      del_task($id,'__internal__', undef, undef, undef, 0, $reason);
-      return;
-    }
 
-    # rerun task!
-    rerun_task($id,$a==1?get_setting('rerun_delay'):$a,$reason);
+    if($a!=0){
+    	# backup task data
+    	#$restart_tasks{$id}=$ids{$id} if $a !=0;
+    	$ids{$id}->{substate}='restarting';
+    }
+    # delete task
+    del_task($id,'__internal__', undef, undef, undef, 0, $reason);
+
+    # rerun task if requested!
+    #rerun_task($id,$a==1?get_setting('rerun_delay'):$a,$reason) if $a !=0;
 }
 
+sub _resume_task_start($){
+	block_task($_[0], 0, '__internal__', 'restarting');
+}	
 
+####################################################
+#
+#  Try to restart backed up task
+#
+#  args:  task_id
+#  RET:   0 if 
+#
+sub resurect_task( $ ) {
+	my $id=$_[0];
+
+	for( my $i = 0; $i < @running; ++$i ) {
+		if ( $running[$i]->{id} == $id ) {
+			splice( @running, $i, 1 );
+			qlog "Deleted $id from running_queue!\n", LOG_INFO;
+			last;
+		}
+	}
+	
+	unshift @queue, $ids{$id};
+	$childs_info{$id}->{state}='queued';
+	$childs_info{$id}->{substate}='';
+	$childs_info{$id}->{cleaned}=0;
+	$childs_info{$id}->{time_to_delete}=0;
+	$childs_info{$id}->{final_kill}=0;
+	$childs_info{$id}->{own}=[];
+	$childs_info{$id}->{shared}=[];
+	$childs_info{$id}->{extranodes}=[];
+	$childs_info{$id}->{timelimit}=$childs_info{$id}->{orig_timelimit};
+	undef $childs_info{$id}->{pid};
+	qlog "Resurected $id\n", LOG_DEBUG;
+	block_task($id, 1, '__internal__', 'restarting');
+	
+	sc_task_in(get_setting('mon_timeout')*3, \&_resume_task_start, $id);
+}
 #
 #  Cancel task running and redirect it in queue again
 #
@@ -7710,7 +7728,7 @@ sub rerun_task($$$){
     #del_task($id,'__internal__', undef, undef, undef, 0, 'Fail to run, cannot rerun task');
 
     # delete id from queue/running
-    remove_id($id);
+    #remove_id($id);
 
     # restore it to queue
     # skip already unshifted other tasks with the same reason!

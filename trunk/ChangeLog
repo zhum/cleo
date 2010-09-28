@@ -1,3 +1,19 @@
+* Cleo/Cleo.pm
+  - del_conn bugfix
+* Makefile.ready
+  - addgroup error ignore
+* cleo
+  - some cleanups
+* cleo-client
+  - fixed missing -np misdiagnostics
+* cleo-support.pm
+  - subst_task_prop prototype changed
+  - some cleanups
+* qsub-cleo
+  - fixed missing Time::Local
+
+
+
 * version 5.24b
 2010-07-30    Sergey Zhumatiy  <serg@parallel.ru>
 * cleo
