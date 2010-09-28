@@ -1,0 +1,43 @@
+#!/usr/bin/perl
+#
+# Version 5
+#
+
+use strict;
+use Time::Local;
+use vars qw(%queues); 
+use vars qw(@arg @attrs);
+
+if($#ARGV<0){
+	print <<_Usage;
+Usage: qdel id [id ...] | all | ALL 
+
+_Usage
+	exit(1);
+}
+	
+
+# and scriptname
+foreach my $id (@ARGV){
+	if($id eq 'all' or $id eq 'ALL'){
+		push @arg, 'all';
+		next;
+	}
+	if($id =~ /^(\d+)(\.\S+)?/){
+		$id=$1;
+		if($2 ne ''){
+			my $q=substr($2,1);
+			push @{$queues{$q}}, $id;
+		}
+		else{
+			push @arg, $id;
+		}
+	}
+}
+
+system('__BIN__/cleo-client','-d',@arg) if @arg>0;
+
+foreach my $q (keys(%queues)){
+	system('__BIN__/cleo-client','-q', $q, '-d',@{$queues{$q}});
+}
+

@@ -1,0 +1,392 @@
+#!/usr/bin/perl
+#
+# Version 5
+#
+
+use strict;
+use XML::Parser;
+
+use vars qw($date_time $account_string $interval $prefix $err_name); 
+use vars qw($hold $join_list $keep_list $mail_options $mail_list $name);
+use vars qw($priority  $out_name $destination $restart $shell);
+use vars qw($variable_list $vars $no_number $res $extra $ignore);
+use vars qw(@arg @attrs $file $first_line @script);
+
+use vars qw($full $q_mode $server $xml $xml_dir $xml_prefix $dir $curtime);
+use vars qw(@q_files @queues @tasks $cur_task $cur_queue $last_tag);
+use vars qw($def_q $arg);
+
+
+#if($#ARGV<1){
+#	print <<_Usage;
+#Usage: qstat [-f] [-Q] [-B server]
+#
+#_Usage
+#	exit(1);
+#}
+
+GetOptsTillCan('f='         =>\$full,   #указать время, после которого задача может идти на счёт
+               'Q='         =>\$q_mode, #задаёт режим показа очередей
+               'B='         =>\$server, #задаёт режим показа статуса сервера
+               );
+
+if(defined $ENV{QS_QUEUE}){
+	$def_q=$ENV{QS_QUEUE};
+}
+if(defined $ENV{CLEO_QUEUE}){
+	$def_q=$ENV{CLEO_QUEUE};
+}
+
+$arg=$ARGV[0];
+
+if(open(CONF,'<__CONF__/cleo.conf')){
+	while(<CONF>){
+		if(/^\s*xml_statefile\s*=\s*(\S+)/){
+			$xml=$1;
+		}
+	}
+}
+else{
+	die "Cannot open cleo config file...\n";
+}
+close CONF;
+
+$xml ||= '/tmp/cleo-xml-status';
+if($xml =~ /^(.*)\/([^\/]+)/){
+	$xml_dir = $1;
+	$xml_prefix=$2;
+}
+else{
+	die "Cannot find cleo xml dir\n";
+}
+
+# find out all cleo queues!
+if(opendir($dir,$xml_dir)){
+	@q_files = grep { /^$xml_prefix/g } readdir($dir);
+	closedir($dir);
+}
+else{
+	die "Cannot read dir $dir\n";
+}
+
+$curtime=time;
+# mode switch
+
+if($q_mode){
+	# queues view mode
+	
+	#prepare
+	my $xmlp = new XML::Parser(
+		Handlers => {
+			Start => \&q_handle_start,
+			End   => \&q_handle_end,
+			Char  => \&q_handle_char
+        });
+    
+    #lets read all queues info!
+	foreach my $file (@q_files){
+		eval{
+			#warn "Parsing $file\n";
+			$xmlp->parsefile($file);
+		};
+	}
+	print <<_Q_HEADER;
+Queue              Max   Tot   Ena   Str   Que   Run   Hld   Wat   Trn   Ext T
+----------------   ---   ---   ---   ---   ---   ---   ---   ---   ---   --- -
+_Q_HEADER
+	
+	my $flag=1;
+	foreach my $q (@queues){
+   		if($arg ne ''){
+   			next if $arg ne $q->{name};
+   		}
+   		$flag=0;
+   		printf "%-16s %5s %5d %5s %5s %5s %5d %5d %5d %5d %5d E\n",
+   		$q->{name}.$q->{default},$q->{max_jobs},$q->{jobs},$q->{ena},
+	   		$q->{str},$q->{queued},$q->{runned},$q->{hold},
+	   		$q->{wait},$q->{trn},$q->{ext};
+	}
+	print "No such queue '$arg'\n" if($flag);
+}
+elsif($server){
+	#server status mode
+
+	#prepare 
+	# JUST AS in queue mode!
+	#
+	my $xmlp = new XML::Parser(
+		Handlers => {
+			Start => \&q_handle_start,
+			End   => \&q_handle_end,
+			Char  => \&q_handle_char
+        });
+    
+    #lets read all queues info!
+	foreach my $file (@q_files){
+		eval{
+			#warn "Parsing $file\n";
+			$xmlp->parsefile($file);
+		};
+	}
+	# now summarize
+	my ($maxj,$jobs,$queued,$runned,$hold,$wait,$trn,$ext);
+	foreach my $q (@queues){
+   		$maxj+=$q->{max_jobs};
+   		$jobs+=$q->{jobs};
+   		$queued+=$q->{queued};
+   		$runned+=$q->{runned};
+   		$hold+=$q->{hold};
+   		$wait+=$q->{wait};
+   		$trn+=$q->{trn};
+   		$ext+=$q->{ext};
+   	}
+   	$maxj='?' if($maxj == 0);
+   		
+	print <<_S_HEADER;
+  Max   Tot   Que   Run   Hld   Wat   Trn   Ext
+  ---   ---   ---   ---   ---   ---   ---   ---
+_S_HEADER
+   	printf "%5s %5d %5s %5d %5d %5d %5d %5d\n",
+   	        $maxj,$jobs,$queued,$runned,$hold,
+	   		$wait,$trn,$ext;
+	
+}
+else{
+	# tasks view mode
+	
+	# canonize task id if passed
+	my $taskid;
+	
+	if($arg ne ''){
+		$taskid=$arg;
+		$arg =~ /^(\d+)(\.[^@]+(\@\S+)?)?/;
+		if($1 eq ''){
+			die "Bad task id: $arg\n";
+		}
+		if($2 eq ''){
+			if($def_q eq ''){
+				$taskid .= '.main';
+			}
+			else{
+				$taskid .= ".$def_q";
+			}
+		}
+		if($3 ne ''){
+			$taskid =~ s/(\@\S+)$//;
+		}
+	}
+	
+	#prepare
+	my $xmlp = new XML::Parser(
+		Handlers => {
+			Start => \&t_handle_start,
+			End   => \&t_handle_end,
+			Char  => \&t_handle_char
+        });
+    
+    #lets read all tasks info!
+	foreach my $file (@q_files){
+		eval{
+			$file =~ /\.([^.]+)/;
+			$cur_queue=$1;
+			#warn "Parsing for tasks: $file\n";
+			$xmlp->parsefile($file);
+		};
+		#warn "$? / $!\n";
+	}
+	print <<_T_HEADER;
+Job ID      Jobname                   Username        Time       S Queue          
+_T_HEADER
+#1064                tst.sh           srcc            0:00:00  Q debug1         
+
+	my $flag;
+	$flag=1 if($arg ne '');
+	foreach my $t (@tasks){
+		if($arg ne ''){
+			next if($taskid ne "$t->{id}.$t->{queue}");
+		}
+		$flag=0;
+		printf "%-12d%-26s%-16s%-10s %1s %s\n",
+		$t->{id},$t->{name},$t->{user},$t->{time},$t->{state},$t->{queue};
+	}
+	warn "No such task ($taskid)\n" if $flag;
+}
+
+sub t_handle_start(){
+    $last_tag=$_[1];
+    shift; shift;
+#    warn ">>$last_tag\n";#: Attrs: ".join(';',@_)."\n";
+    my %attrs=@_;
+    
+    if($last_tag eq 'task'){
+    	$cur_task={};
+    	$cur_task->{id}=$attrs{id};
+    	$cur_task->{queue}=$attrs{queue};
+    	$cur_task->{priority}=$attrs{priority};
+    	if($attrs{state} eq 'run'){
+    		$cur_task->{state}='R';
+    	}
+    	elsif($attrs{state} eq 'queued'){
+    		$cur_task->{state}='Q';
+    	}
+    }
+    elsif($last_tag eq 'start'){
+    	if($attrs{unixtime}>0){
+    		$cur_task->{start}=$curtime-$attrs{unixtime};
+    	}
+    }
+}
+sub t_handle_char(){
+    my $data=$_[1];
+
+#    warn "!! $data\n";
+    if($last_tag eq 'user'){
+    	$cur_task->{user}.=$data;
+    }
+    if($last_tag eq 'blocked'){
+    	if($data =~ /1/){
+    		$cur_task->{state}='H';
+    	}
+    }
+    if($last_tag eq 'sexe'){
+    	$cur_task->{name}.=$data;
+    }
+}
+
+sub t_handle_end(){
+    my $t=$_[1];
+
+#    warn "<< $_[0] - $t: Attrs: ".join(';',@_)."\n";
+    if($t eq 'task'){
+    	$cur_task->{user} =~ tr/\n\t\r//d;
+    	$cur_task->{user} =  substr($cur_task->{user},0,18);
+    	$cur_task->{name} =~ tr/\n\t\r//d;
+    	$cur_task->{name} =  substr($cur_task->{name},0,26);
+    	if($cur_task->{start}>0){
+    		my ($s,$m,$h)=gmtime($cur_task->{start});
+    		$cur_task->{time}=sprintf('%0d:%02d:%02d',$h,$m,$s);
+    	}
+    	else{
+    		$cur_task->{time}='0:00:00';
+    	}
+    	push @tasks, $cur_task;
+    }
+}
+
+
+#		$q->{name},$q->{max_jobs},$q->{jobs},$q->{ena},
+#		$q->{str},$q->{queued},$q->{runned},$q->{hold},
+#		$q->{wait},$q->{trn},$q->{ext};
+
+sub q_handle_start(){
+    $last_tag=$_[1];
+    shift; shift;
+    #warn ">>$last_tag: Attrs: ".join(';',@_)."\n";
+    my %attrs=@_;
+    
+    if($last_tag eq 'cleo-state'){
+    	$cur_queue={};
+    	$cur_queue->{name}=$attrs{queue};
+    	$cur_queue->{max_jobs}='?';
+    	$cur_queue->{wait}=0;
+    	$cur_queue->{trn}=0;
+    	$cur_queue->{ext}=0;
+    	$cur_queue->{ena}='yes';
+    	$cur_queue->{str}='yes';
+    	if($attrs{queue} eq $def_q){
+    		$cur_queue->{default} = '*';
+    	}
+    }
+    elsif($last_tag eq 'tasks-total'){
+    	if($attrs{unixtime}>0){
+    		$cur_task->{start}=$curtime-$attrs{unixtime};
+    	}
+    }
+    elsif($last_tag eq 'mode'){
+    	if($attrs{run} == '0'){
+    		$cur_queue->{str}='no';
+    	}
+    	if($attrs{queue} == '0'){
+    		$cur_queue->{ena}='no';
+    	}
+    }
+}
+sub q_handle_char(){
+    my $data=$_[1];
+
+#    warn "!! $data\n";
+    if($last_tag eq 'tasks-total'){
+    	$cur_queue->{jobs}.=$data;
+    }
+    elsif($last_tag eq 'tasks-running'){
+    	$cur_queue->{runned}.=$data;
+    }
+    elsif($last_tag eq 'tasks-queued'){
+    	$cur_queue->{queued}.=$data;
+    }
+    elsif($last_tag eq 'tasks-blocked'){
+    	$cur_queue->{hold}.=$data;
+    }
+}
+
+sub q_handle_end(){
+    my $t=$_[1];
+
+#    warn "<< $_[0] - $t: Attrs: ".join(';',@_)."\n";
+    if($t eq 'cleo-state'){
+    	$cur_queue->{runned} =~ tr/0123456789//cd;
+    	$cur_queue->{jobs} =~ tr/0123456789//cd;
+    	$cur_queue->{queued} =~ tr/0123456789//cd;
+    	$cur_queue->{hold} =~ tr/0123456789//cd;
+    	push @queues, $cur_queue;
+    }
+}
+
+
+#
+#  Gets opts like this: ('X=i', \$Xoption,...) (this means "option '-X 10' to variable $Xoption=10)
+#  The scans command line for options till founds argument '--' or non-specified
+#  option, or not '-' prefixed argument.
+#  Specifications of options (what goes after 'X='):
+#  i - integer
+#  s - string
+#  + - cumulative value (variable MUST be a list)
+#  nothing - flag
+#
+sub GetOptsTillCan{
+
+  my %args=@_;
+  my ($arg,$a_key,$a_value,$a,$next,%types);
+
+  foreach $arg (keys(%args)){
+    $arg =~ /^(\S+)(\=)(.*)/ or next;
+    $a_key=$1;
+    $a_value=$args{$arg};
+    $types{$a_key} = $3;
+
+    delete $args{$arg};
+    $args{$a_key} = $a_value;
+  }
+
+  while($next=shift @ARGV){
+    last if(substr($next,0,1) ne '-');
+    last if($next eq '--');
+    $a=substr($next,1);
+    last unless(exists $args{$a});
+    undef $next;
+    if(($types{$a} eq 'i') || ($types{$a} eq 's')){
+      $a=$args{$a};
+      $$a=shift @ARGV;
+    }
+    elsif($types{$a} eq ''){
+      $a=$args{$a};
+      $$a=1;
+    }elsif($types{$a} eq '+'){
+      $a=$args{$a};
+      push @$a, shift @ARGV;
+    }
+  }
+  unshift @ARGV, $next if(defined $next);
+}
+
+
