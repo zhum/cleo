@@ -1,0 +1,544 @@
+#!/usr/bin/perl
+#
+#  This file belongs to the Cleo project (version 3 and above)
+#
+#  logs reporter generator
+#
+#  Use short log as input!
+#
+#  * Created 20 Aug 2010 by Sergey Zhumatiy
+#
+
+use Time::Local;
+use IO::File;
+use integer;
+use strict;
+
+my ($minUtime,$maxUtime,$curUtime,%newU,%diff,%day,%np,%tasks_count,%min,%max,%sum);
+my ($flag,$u,$i,$q,$queue,$diff,$day,$user,$Ttime,$maxtime_line);
+my (%tasks_count_cutted,%diff_cutted,%sum_cutted,$cutted);
+my ($line,$tmpU_t,$id,$out,%q, $of);
+my ($last_line);
+
+my ($tmp_m, $tmp_d,$tmp_t,$m,$m2,$d,$dd);
+my ($opt_q,$opt_d,$opt_a,$opt_g,$opt_o,$opt_f);
+
+my %month=('jan'=>0,'feb'=>1,'mar'=>2,'apr'=>3,
+	'may'=>4,'jun'=>5,'jul'=>6,'aug'=>7,
+	'sep'=>8,'oct'=>9,'nov'=>10,'dec'=>11);
+
+my ($sec,$min,$hours,$mday,$mon,$year);
+
+my $table_style=' width="90%" border="1"';
+
+sub get_line( $ ){
+	my $ret=$_[0];
+	if(defined $last_line){
+		$$ret=$last_line;
+		undef $last_line;
+	}
+	else{
+		return 0 if eof(STDIN);
+		$$ret=<STDIN>;
+	}
+	return 1;
+}
+
+sub min($$){return ($_[1]<$_[0])?$_[1]:$_[0];}
+sub max($$){return ($_[0]<$_[1])?$_[1]:$_[0];}
+
+sub debug( $ ){};
+
+sub get_date(){
+	my ($m2,$m,$d,$y);
+	my ($m2);
+	
+	($d,$m,$y)= ($ARGV[0] =~ /(\d+)\.([^.]+)(?:\.(\d+))?/);
+	if(!defined $m || !defined $d){
+		warn "Illegal date: $ARGV[0]\n";
+		usage();
+		exit(1);
+	}
+	shift;
+	
+	$m=lc($m);
+	if($m>0){
+		$m2=$m-1;
+	}
+	else{
+		$m2=$month{$m};
+	}
+	unless(defined $m2){
+		warn "Illegal month - $m\n";
+		usage();
+		exit(1);
+	}
+	if($y<1){
+		$y=$year;
+	}
+	elsif($y<100){
+		if($y<70){
+			$y+=2000;
+		}
+		else{
+			$y+=1900;
+		}
+	}
+	return timelocal(0,0,0,$d,$m2,$y);
+}
+
+sub usage(){
+	warn "Usage: $0 [-d][-q][-a][-g][-f txt|html][-o outfile] [begin_date [end_date]] <short_log_file\n -d - show stats by days\n -q - show stats by queues\n -a - summarize cutted tasks time to total\n -g - print debug info\n date format: DD.MM[.YY[YY]]\n\n";
+}
+
+$minUtime=0;
+$maxUtime=time();
+$curUtime=$maxUtime;
+($sec,$min,$hours,$mday,$mon,$year)=localtime($maxUtime);
+
+
+#my @ms=(0,2678400,5097600,7776000,10368000,13046400,
+#        15638400,18230400,20908800,23500800,26179200,28771200,31449600);
+
+
+GetOptsTillCan(
+	'd=' => \$opt_d,
+	'g=' => \$opt_g,
+	'a=' => \$opt_a,
+	'q=' => \$opt_q,
+	'o=s' => \$opt_o,
+	'f=s' => \$opt_f
+	);
+
+if($ARGV[0]){
+	$minUtime=get_date();
+	shift;
+	if($ARGV[0]){
+		$maxUtime=get_date();
+	}
+}
+
+if($opt_g){
+	warn "Debug mode\n";
+	eval("sub debug( \$ ){warn \"\$_[0]\";};");
+#	debug("test\n");
+}
+
+if($opt_o ne ''){
+	$opt_o =~ tr/`'"|&$@//;
+	$of=IO::File->new(">$opt_o");
+	die "Cannot open $opt_o for output\n" unless defined $of;
+}
+else{
+	$of=\*STDOUT;
+}
+
+debug "Loading...\n";
+while(get_line(\$_)){
+	
+	chomp;
+	unless(/\[(.+)\]\ (\S+)\s*\:(.*)/){ next; }#warn "bad line: '$_'\n"; next;}
+	$line =$3;
+	$queue=$2;
+	$Ttime =$1;
+	$cutted=0;
+	
+	$q{$queue}=1;
+	($tmp_m,$tmp_d)= ($Ttime =~ /^\S+\s+(\S+)\s+(\d+)/) or next;
+	#  $tmpU_t=timelocal($sec,$min,$hours,$tmp_d,$month{lc($tmp_m)},$year);
+	$tmpU_t=gettime($Ttime);
+	
+	if($tmpU_t<$minUtime or $tmpU_t>$maxUtime){
+		#    debug("Not in interval: $Ttime ($minUtime $tmpU_t $maxUtime\n");
+		#    debug("    ".localtime($minUtime)."  ".localtime($tmpU_t)."  ".localtime($maxUtime)."\n");
+		next;
+	}
+	
+	unless($minUtime){
+		$minUtime=$tmpU_t;
+		debug("MINTIME=$minUtime ($Ttime/".localtime($minUtime).")\n");
+	}
+	if($line =~ /RUN\s(\d+)\;\s(\S+)\;\s(\d+)/){ # id user np
+		#$new{"$queue $1 $2"}=$time;
+		my $i="$queue $1 $2";
+		$newU{$i}=gettime($Ttime); #queue,id,user
+		$np{$i}=$3;
+		next;
+	}
+	if($line =~ /^END_TASK\s(\d+)\;\s(\S+)\;/){
+		$id  =$1;
+		$user=$2;
+		$i="$queue $1 $2";
+		my $next=<STDIN>;
+		if($next =~ /END_TASK_NODES\s(\d+)\;\s(\S+)/){
+			if($1 == $id){
+				my $x=$2;
+				my $count= $x =~ y/,/,/;
+				$np{$i}=$count+1;
+			}
+			else{
+				debug("Warning! Bad line: $next");
+			}
+		}
+		else{
+			$last_line=$next;
+			debug("OLD log file...($id, $queue)\n");
+		}
+		unless(exists($newU{$i})){
+			#      warn "Unexpected: $_\n";
+			#next;
+			$cutted=1;
+			$newU{$i}=$minUtime #! cutted task ! It was started before 'mintime'
+		}
+		if($newU{$i}<0){
+			warn "Duplicated $_\n";
+			next;
+		}
+		unless($min{$user}{$queue}){$min{$user}{$queue}=100000;}
+		if($np{$i}<1){
+			debug("!! '$i' -> np=$np{$i}\n");
+			$np{$i}=1;
+		}
+		$min{$user}{$queue}=min($min{$user}{$queue},$np{$i}) if $np{$i};
+		$max{$user}{$queue}=max($max{$user}{$queue},$np{$i}) if $np{$i};
+		#$diff=gettime($time)-gettime($new{$i})+1;
+		$diff=gettime($Ttime)-$newU{$i}+1;
+		if($cutted && !$opt_a){
+			++$tasks_count_cutted{$user}{$queue};
+			debug("<<id.user.np: $id.$user.$np{$i} time: ".
+				localtime($tmpU_t)."-".localtime($newU{$i}).
+				" diff: $diff [$tasks_count_cutted{$user}{$queue}]\n");
+		}
+		else{
+			++$tasks_count{$user}{$queue};
+			debug(">>id.user.np: $id.$user.$np{$i} time: ".
+				localtime($tmpU_t)."-".localtime($newU{$i}).
+				" diff: $diff\n");
+		}
+		if($diff<0){
+			#print STDERR "$id for $user at $time(".gettime($time).") $new{$i}(".gettime($new{$i}).")\n";
+			debug("!!$id for $user at $Ttime (".gettime($Ttime).") $newU{$i} ($newU{$i})\n");
+		}
+		else{
+			if($cutted && !$opt_a){
+				$diff_cutted{$user}{$queue}+=$diff;
+				$sum_cutted{$user}{$queue}+=$np{$i}*$diff;
+			}
+			else{
+				$diff{$user}{$queue}+=$diff;
+				$sum{$user}{$queue}+=$np{$i}*$diff;
+			}
+			#    printf("%10s: %4d:%02d   %s\n",$2,int($diff/60),int($diff%60),$new{"$2 $1"});
+			$Ttime =~ /^\S+\s+(\S+\s+\d+)/;
+			$day{$1}{$user}{$queue}+=$diff;
+		}
+		#!delete $new{$i};
+		$newU{$i}=-1;
+	}
+}
+debug "Processing...\n";
+
+# take in account all tasks, which are not finished yet...
+$maxtime_line = localtime($maxUtime);
+$maxtime_line =~ /^\S+\s+(\S+\s+\d+)/;
+$day=$1;
+foreach $i (keys(%newU)){
+	next if($newU{$i}<0);
+	
+	$i =~ /^(\S+) (\S+) (\S+)/;
+	($queue,$id,$user)=($1,$2,$3);
+	
+	unless($min{$user}{$queue})
+    {$min{$user}{$queue}=100000;}
+    $min{$user}{$queue}=min($min{$user}{$queue},$np{$i}) if $np{$i};
+    $max{$user}{$queue}=max($max{$user}{$queue},$np{$i}) if $np{$i};
+    #$diff=gettime($maxtime)-gettime($new{$i})+1;
+    $diff=$maxUtime-$newU{$i}+1;
+    if($opt_a){
+    	++$tasks_count{$user}{$queue};
+    }
+    else{
+    	++$tasks_count_cutted{$user}{$queue};
+    }
+    debug("}}id.user.np: $id.$user.$np{$i} time: ".
+        localtime($tmpU_t)."-".localtime($newU{$i}).
+        " diff: $diff [$tasks_count_cutted{$user}{$queue}]\n");
+    if($diff<0){
+    	#print STDERR "$id for $user at $maxtime(".gettime($maxtime).") $new{$i}(".gettime($new{$i}).")\n";
+    }
+    else{
+    	if($opt_a){
+    		$diff{$user}{$queue}+=$diff;
+    		$sum{$user}{$queue}+=$np{$i}*$diff;
+    	}else{
+    		$diff_cutted{$user}{$queue}+=$diff;
+    		$sum_cutted{$user}{$queue}+=$np{$i}*$diff;
+    	}
+    	#    printf("%10s: %4d:%02d   %s\n",$2,int($diff/60),int($diff%60),$new{"$2 $1"});
+    	$day{$day}{$user}{$queue}+=$diff;
+    }
+}
+
+if($opt_f eq 'html'){
+	$of->print("<html><head><title>Cleo report</title></head>\n<body><center>\n");
+	$of->print( "\n<small>Time format is minutes:seconds.</small><br/>\n");
+	$of->print( "<h1>Interval from ".localtime($minUtime)." to ".localtime($maxUtime)."</h1><br>\n");
+	$of->print( "<table $table_style><tr><th>Total</th><th>astr. time</th><th>sum. time</th><th>min. NP</th><th>max NP</th><th>tasks</ht></tr>\n");
+}
+else{
+	$of->print( "\nTime format is minutes:seconds.\n");
+	$of->print( "Interval from ".localtime($minUtime)." to ".localtime($maxUtime)."\n\n");
+	$of->print( "Total:       astr.time   sum.time min_np max_np  tasks\n\n");
+}
+my ($d,$s,$n,$x,$c,$dc,$sc,$cc);
+my %k;
+foreach $i (keys(%diff),keys(%diff_cutted)){
+	$k{$i}=1;
+}
+foreach $u (sort(keys(%k))){
+	($d,$s,$n,$x,$c,$dc,$sc,$cc)=(0,0,0,0,0,0,0,0);
+	foreach $i (values(%{$diff{$u}})){
+		$d+=$i;
+	}
+	foreach $i (values(%{$diff_cutted{$u}})){
+		$dc+=$i;
+	}
+	foreach $i (values(%{$sum{$u}})){
+		$s+=$i;
+	}
+	foreach $i (values(%{$sum_cutted{$u}})){
+		$sc+=$i;
+	}
+	foreach $i (values(%{$min{$u}})){
+		$n+=$i;
+	}
+	foreach $i (values(%{$max{$u}})){
+		$x+=$i;
+	}
+	foreach $i (values(%{$tasks_count{$u}})){
+		$c+=$i;
+	}
+	foreach $i (values(%{$tasks_count_cutted{$u}})){
+		$cc+=$i;
+		#    debug("::$u += $i => $cc\n");
+	}
+	if($opt_f eq 'html'){
+		$of->printf("<tr><td>\%10s</td><td>\%7d:%02d</td><td>\%7d:%02d</td><td>\%6d</td><td>\%6d</td><td>\%6d</td></tr>\n",
+			$u,int($d/60),int($d%60),
+			int($s/60),int($s%60),$n,$x,$c);
+	}
+	else{
+		$of->printf("\%10s: \%7d:%02d \%7d:%02d \%6d \%6d \%6d\n",
+			$u,int($d/60),int($d%60),
+			int($s/60),int($s%60),$n,$x,$c);
+	}
+	if($cc+$sc+$dc){
+		if($opt_f eq 'html'){
+			$of->printf("<tr><td></td><td>\%+7d:%02d</td><td>\%+7d:%02d</td><td></td><td></td><td>\%+6d</td></tr>\n",
+				int($dc/60),int($dc%60),
+				int($sc/60),int($sc%60),$cc);
+		}
+		else{
+			$of->printf("            \%+7d:%02d \%+7d:%02d               \%+6d\n",
+				int($dc/60),int($dc%60),
+				int($sc/60),int($sc%60),$cc);
+		}
+	}
+}
+if($opt_f eq 'html'){
+	$of->print("</table>\n<br>\n");
+}
+
+if($opt_q){
+	if($opt_f eq 'html'){
+		$of->print( "<table $table_style><tr><th>Queue</th><th>total</th><th>astr. time</th><th>sum. time</th><th>min. NP</th><th>max NP</th><th>tasks</ht></tr>\n");
+	}
+	foreach $q (keys(%q)){
+		$out='';
+		foreach $u (sort(keys(%diff))){
+			if($opt_f eq 'html'){
+				$out.=sprintf("<tr><td>$q</td><td>\%10s</td><td>\%7d:%02d</td><td>\%7d:%02d</td><td>\%6d</td><td>\%6d</td><td>\%6d</td></tr>\n",
+					$u,int($diff{$u}{$q}/60),int($diff{$u}{$q}%60),
+					int($sum{$u}{$q}/60),int($sum{$u}{$q}%60),
+					$min{$u}{$q},$max{$u}{$q},$tasks_count{$u}{$q})
+				if(exists($diff{$u}{$q}));
+			}
+			else{
+				$out.=sprintf("$q: \%10s: \%7d:%02d \%7d:%02d \%6d \%6d \%6d\n",
+					$u,int($diff{$u}{$q}/60),int($diff{$u}{$q}%60),
+					int($sum{$u}{$q}/60),int($sum{$u}{$q}%60),
+					$min{$u}{$q},$max{$u}{$q},$tasks_count{$u}{$q})
+				if(exists($diff{$u}{$q}));
+			}
+			
+			if($opt_f eq 'html'){
+				$out.=sprintf("<tr><td>$q</td><td></td><td></td><td>\%+7d:%02d</td><td>\%+7d:%02d</td><td>\%+6d</td></tr>\n",
+					int($diff_cutted{$u}{$q}/60),int($diff_cutted{$u}{$q}%60),
+					int($sum_cutted{$u}{$q}/60),int($sum_cutted{$u}{$q}%60),
+					$tasks_count{$u}{$q})
+				if(exists($diff_cutted{$u}{$q}));
+			}
+			else{
+				$out.=sprintf("\nQueue $q:\n\n            \%+7d:%02d \%+7d:%02d               \%+6d\n",
+					int($diff_cutted{$u}{$q}/60),int($diff_cutted{$u}{$q}%60),
+					int($sum_cutted{$u}{$q}/60),int($sum_cutted{$u}{$q}%60),
+					$tasks_count{$u}{$q})
+				if(exists($diff_cutted{$u}{$q}));
+			}
+		}
+		if($out){
+			$of->print( $out);
+		}
+	}
+	if($opt_f eq 'html'){
+		$of->print("</table>\n");
+	}
+}
+
+if($opt_d){
+	
+	if($opt_f eq 'html'){
+		$of->print( "\n<br><h1>Per-day statistics</h1><br>\n<table $table_style><tr><td COLSPAN=3>Total on each day (astronomy time)</td></tr>\n");
+	}
+	else{
+		$of->print ("\nTotal on each day (astronomy time):\n\n");
+	}
+	foreach $d (sort(keys(%day))){
+		$flag=0;
+		foreach $u (sort(keys(%{$day{$d}}))){
+			$dd=0;
+			foreach $i (keys(%{$day{$d}->{$u}})){
+				$dd+=$day{$d}->{$u}->{$i};
+			}
+			if($opt_f eq 'html'){
+				$of->printf("<tr><td>%s</td><td>%10s</td><td>%7d:%02d</td></tr>\n",$d,$u,int($dd/60),int($dd%60));
+			}
+			else{
+				$of->printf("%s %10s: %7d:%02d\n",$d,$u,int($dd/60),int($dd%60));
+			}
+			$flag=1;
+		}
+		if($flag>0){
+			if($opt_f eq 'html'){
+				$of->print( "<tr><td COLSPAN=3><hl/></td></tr>\n");
+			}
+			else{
+				$of->print( "--------------------------\n");
+			}
+		}
+	}
+	if($opt_f eq 'html'){
+		$of->print( "</table>\n");
+	}
+}
+
+if($opt_q){
+	if($opt_f eq 'html'){
+		$of->print( "<table $table_style>\n");
+	}
+	foreach $q (keys(%q)){
+		$out='';
+		foreach $d (sort(keys(%day))){
+			$flag=0;
+			foreach $u (sort(keys(%{$day{$d}}))){
+				if(exists($day{$d}{$u}{$q})){
+					if($opt_f eq 'html'){
+						$out.=sprintf("<tr><td>%s</td><td>%10s</td><td>%7d:%02d</td></tr>\n",$d,$u,int($day{$d}{$u}{$q}/60),int($day{$d}{$u}{$q}%60));
+					}
+					else{
+						$out.=sprintf("%s %10s: %7d:%02d\n",$d,$u,int($day{$d}{$u}{$q}/60),int($day{$d}{$u}{$q}%60));
+					}
+					$flag=1;
+				}
+			}
+			if($flag>0){
+				if($opt_f eq 'html'){
+					$of->print( "<tr><td COLSPAN=3><hl/></td></tr>\n");
+				}
+				else{
+					$of->print( "--------------------------\n");
+				}
+			}
+		}
+		if($out ne ''){
+			if($opt_f eq 'html'){
+				$of->print( "\n<tr><td COLSPAN=3><b>Queue $q (astronomy time)</b></td></tr>\n$out");
+			}
+			else{
+				$of->print( "\nQueue $q (astronomy time):\n\n$out");
+			}
+		}
+	}
+	if($opt_f eq 'html'){
+		$of->print( "</table>\n");
+	}
+}
+
+if($opt_f eq 'html'){
+	$of->print( "</center></body></html>\n");
+}
+$of->print( "\n");
+
+
+sub gettime($){ # get unix time from text representation
+	my ($t)=@_;
+	my $ret;
+	my ($month,$day,$hour,$min,$sec,$year);
+	
+	unless(($month,$day,$hour,$min,$sec,$year) = 
+		($t =~ /^\S+\s+(\S+)\s+(\d+)\s(\d+)\:(\d+)\:(\d+)\s+(\d+)/)){
+	debug("Ops! '$t'".(caller(0))[2]."\n");
+	exit(1);
+		}
+		#  $ret=$sec+60*$min+3600*$hour+86400*$day+$ms[$month{$month}];
+		#  $ret+=86400 if(($year%4 or ($year%100==0 and $x%400)) and $month{$month}>1);
+		return timelocal($sec,$min,$hour,$day,$month{lc($month)},$year);
+		return $ret;
+}
+
+#
+#  Gets opts like this: ('X=i', \$Xoption,...) (this means "option '-X 10' to variable $Xoption=10)
+#  The scans command line for options till founds argument '--' or non-specified
+#  option, or not '-' prefixed argument.
+#  Specifications of options (what goes after 'X='):
+#  i - integer
+#  s - string
+#  + - cumulative value (variable MUST be a list)
+#  nothing - flag
+#
+sub GetOptsTillCan{
+	
+	my %args=@_;
+	my ($arg,$a_key,$a_value,$a,$next,%types);
+	
+	foreach $arg (keys(%args)){
+		$arg =~ /^(\S+)(\=)(.*)/ or next;
+		$a_key=$1;
+		$a_value=$args{$arg};
+		$types{$a_key} = $3;
+		
+		delete $args{$arg};
+		$args{$a_key} = $a_value;
+	}
+	
+	while($next=shift @ARGV){
+		last if(substr($next,0,1) ne '-');
+		last if($next eq '--');
+		$a=substr($next,1);
+		last unless(exists $args{$a});
+		undef $next;
+		if(($types{$a} eq 'i') || ($types{$a} eq 's')){
+			$a=$args{$a};
+			$$a=shift @ARGV;
+		}
+		elsif($types{$a} eq ''){
+			$a=$args{$a};
+			$$a=1;
+    }elsif($types{$a} eq '+'){
+    	$a=$args{$a};
+    	push @$a, shift @ARGV;
+    }
+    }
+    unshift @ARGV, $next if(defined $next);
+}
+
