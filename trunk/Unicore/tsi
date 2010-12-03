@@ -1,0 +1,132 @@
+require 5.004;
+
+###############################################################################
+#
+# Cleo / Linux
+#
+###############################################################################
+
+# If you are using Perl 5.004 or later, then use the FindBin lines. Otherwise
+# you will need to pass the TSI installation directory on the command line
+# using "-I" or modify the line below
+#use lib "<install directory>";
+
+use FindBin qw($Bin);    # determines dynamically the directory containing this script
+                         # and from there the module files (which are installed in the same directory)
+use lib $FindBin::Bin;
+
+use strict;
+
+# The TSI code is split into a number of Perl modules to
+# allow for easier maintenance. The variables set here
+# are in the "main" symbol table and are referenced in
+# using modules by starting them with "$main::" e.g.
+# to get at the value of $site_sez_no_holds set here
+# the methods in JobControl.pm reference it as
+# $main::site_sez_no_holds
+#
+use Initialisation qw(initialisation);
+use MainLoop       qw(infinite_loop);
+
+# CONFIGURATION <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+# This section contains values that need to be set for each site
+#
+# Review each entry and confirm that the value set here conforms
+# to site policies and produces the behaviour that you want from the TSI
+
+# Values read by the functions in the Reporting package
+$main::debug = 1;                         # Produce debug output?  0 = no, 1 = yes
+
+# For some debugging it is valuable to see the messages from
+# the NJS to the TSI. Set the variable below to 1 to do this.
+# Each message is written to a different file in the initial
+# working directory of the TSI process. If the TSI is run as
+# root the files will be written with the ownership of each Xlogin.
+$main::dump_messages = 0;
+$main::dump_dir = "./DUMP";
+
+# Where to find the NJS, the value on the right hand of the expression
+# will be used if there
+# is nothing on the command line and must be set if you do
+# not wish  to supply the values on the command line (where
+# they are visible to anyone who does a ps)
+
+$main::njs_machine = shift || "localhost";
+$main::njs_port    = shift || "8884";
+$main::my_port     = shift || "8885";
+
+# Where to find the PBS commands used by the TSI
+
+my $cleo_bin_dir = "/usr/bin";
+
+$main::submit_cmd = "$cleo_bin_dir/mpirun -as single ";
+
+$main::abort_cmd =  "$cleo_bin_dir/tasks -d";       # delete a job from PBS, returning stdout/stderr
+$main::cancel_cmd = "$cleo_bin_dir/tasks -d";       # delete a job from PBS, deleting stdout/stderr
+                                               # PBS NB this does not delete, NJS recovers
+
+# Do we do anything in response to a hold?
+$main::site_sez_no_holds = 1;                 # 0 => holding allowed
+
+#$main::hold_cmd   = "$cleo_bin_dir/qhold";     # suspend execution of a batch job
+#$main::freeze_cmd = "$cleo_bin_dir/qhold";     # suspend execution and release resources of a batch job (optional)
+#$main::resume_cmd = "$cleo_bin_dir/qrls";      # resume execution of a batch job
+
+$main::qstat_cmd = "$cleo_bin_dir/tasks -o -f";      # show _all_ jobs
+
+# Scripts executed on behalf of the user inherit their environment
+# from the environment of the shell executing this Perl script.
+#
+# If the TSI is run in setuid mode, then this environment might
+# not be correct for a normal user environment and general security
+# recommendations are that setuid scripts should be careful about
+# the environment supplied to child processes.
+
+# Set the child process SHELL variable to use the shell always used
+# by the NJS (user tasks with different shells are grandchildren)
+# Do not change from sh, but its location might change
+$ENV{SHELL}="/bin/sh";
+
+# You may want to set this too
+#$ENV{IFS}=" \t\n"; # or something like this
+
+# The path from a setuid script is not the correct user path and
+# this line should be enabled with a suitable path for user level
+# scripts. This line is a minimal set and should be extended with
+# any site specific values, particularly those needed for PBS to
+# work correctly (note that "interesting" scripts are run in batch mode
+# and so PBS should ensure that a proper environment is set for these.
+# This line just needs to get the scripts into a batch subsystem.)
+#
+# Disabling this line passes the TSI user's PATH to the user.
+$ENV{PATH}=".:/bin/:/usr/bin/:/usr/ucb/";
+
+# Add any other site required environment variables here or, if they
+# are xlogin specific values in the becomeuser sub.
+
+# A name to be given to batch jobs if the user does not supply one
+# or if the given one is invalid
+$main::default_job_name = "UnicoreJob";
+
+# END OF CONFIGURATION <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+# The size of the buffer to use when reading files from the NJS and
+# writing files to the NJS, used by GetDirectory and PutFiles
+$main::BUFFER_SIZE=4096;
+
+# TSI Identification information
+$main::my_version="5.12";
+$main::my_os="Cleo";
+
+initialisation();          # contact the NJS
+
+infinite_loop();       # ... and process the requests
+
+#
+#                   Copyright (c) Fujitsu Ltd 2000 - 2004
+#
+#                Use and distribution is subject a License.
+# A copy was supplied with the distribution (see documentation or the jar file).
+#
+# This product includes software developed by Fujitsu Limited (http://www.fujitsu.com).

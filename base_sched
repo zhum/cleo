@@ -1,0 +1,385 @@
+#!/usr/bin/perl
+#
+#  Base model sceduler, which tries to run
+#  tasks, which fits to free processors
+#  while there are free processors
+#
+#  It stops on FIRST "non-fits" task
+#
+#  Also it tries to run "small" tasks, which
+#  will be finished before next "large" task
+#  will be planned to run.
+#
+#  OpenMP (and not only openmp) support added!
+#  Now, if task has 'ppn' attribute, it will be used
+#  as requirement for cpus-per-node.
+#
+
+use vars qw($cleo $thresh $addtime);
+
+$cleo=1.0;
+
+
+#
+#  Values to pass 'small' tasks first
+#  If 'small' task won't be finished later when all needed processors for 'big'
+#   task will be awailable, then it will be passed.
+#  If you specify theese variables, then 'small' task timelimit for calculations
+#  would be grown by maximum of 2% (1.02) and 15 minutes (15*60 seconds).
+#
+$thresh=1.02;     # 2%
+$addtime=15*60;   # 15 minutes
+
+my $def_ppn=8;
+
+
+#
+#  Args:
+#        - task list (reference)
+#        - reserved cpus (number)
+#        - free cpus list (list)
+#
+sub do_schedule(){
+  my ($tasks,$res,@free);
+  my ($i,$j,$nfree, %free_cpus, %nodes,%cpus_per_node, $list);
+
+  my ($future_kills,$time,$need,$runmode);
+  my ($lim1,$lim2,$ppn,$np,$selected_cpus);
+
+  $time=time;
+
+  # get arguments
+  $tasks=shift;
+  $res=shift;
+  push @free, @_;
+
+  # count free processors (do not forget reserved!)
+  $nfree=scalar(@free)-$res;
+
+  foreach $i (@free){
+      $free_cpus{$i}=1;
+  }
+  
+  # can we run own tasks?
+  $runmode = get_mode() & MODE_RUN_ALLOW;
+
+  cleo_log("tasks: ".scalar(@$tasks));
+  cleo_log("NFree: $nfree");
+
+  # No work this time...
+  return 0 if $nfree<1;
+
+  # do group free cpus by nodes
+  foreach $i (@free){
+      if($i =~ m/(\S+):(\S*)/){
+          $nodes{$1}->{$2}=1;
+          ++$cpus_per_node{$1};
+      }
+      else{
+          $nodes{$i}->{0}=1;
+          ++$cpus_per_node{$i};
+      }
+  }
+
+  #
+  #  First main loop: run tasks while here are free processors
+  #
+  cleo_log("first main loop");
+  for($i=0;$i<@$tasks;++$i){
+
+    # run not own tasks, even if not enough cpus
+    if(not $tasks->[$i]->{is_own}){
+        run($tasks->[$i]->{id});
+        #!!!
+        return 0;
+
+        # refresh free cpus list
+        $list = get_free_cpus();
+        @free=@$list;
+    
+        # correct number of free processors
+        $nfree=scalar(@free);
+        next;
+    }
+
+    # ignore own tasks if run is disallowed by mode
+    next if(!$runmode and $tasks->[$i]->{is_own});
+
+    #!!!!!!!!!!!!!!!!!!!!  IMPORTANT  !!!!!!!!!!!!!!!!
+    #
+    # check if this task running wont violate any rules in queue
+    # if it does (violates), then BLOCK it automatically (second arg=1)
+    #
+    next if(violates($tasks->[$i]->{id},1));
+
+    # ignore blocked
+    if(get_task_info($tasks->[$i]->{id},'blocked')){
+      delete $tasks->[$i]->{id}; # exclude this task
+      next;
+    }
+
+    # just log
+    cleo_log("task $i: $tasks->[$i]->{id} np=$tasks->[$i]->{np}");
+
+    # first TOO LARGE task
+    last if(($tasks->[$i]->{np}>$nfree) and $tasks->[$i]->{is_own});
+
+
+    # How much processes per node is required?
+    $ppn=get_task_attr($tasks->[$i]->{id},'ppn');
+    $ppn=$def_ppn if($ppn<1);
+    cleo_log("id=$tasks->[$i]->{id} ($i), PPN=$ppn");
+
+    $selected_cpus=undef;
+    if($ppn>0){
+        
+        # select nodes using ppn restrictions
+        $selected_cpus=check_ppn($tasks->[$i]->{np},\%nodes,\%cpus_per_node,$ppn);
+        
+        # run task if nodes were selected
+        if(ref($selected_cpus) eq 'ARRAY'){
+            if(@$selected_cpus>0){
+                run($tasks->[$i]->{id},@$selected_cpus);
+                #!!!
+                return 0;
+            }
+        }
+        else{
+            #cannot fit with ppn restrictions...
+            next;
+        }
+    }
+    else{
+        # it fits! Run it!
+        run($tasks->[$i]->{id});
+        #!!!
+        return 0;
+    }
+
+    # task was ran, so
+    # refresh free cpus list
+    $list = get_free_cpus();
+    @free=@$list;
+
+    # correct number of free processors
+    $nfree=scalar(@free);
+
+    # do not take it in account later
+    delete $tasks->[$i]->{id};
+  }
+
+  cleo_log("end first main loop");
+
+  # have we ran all tasks?
+  return 0 unless exists $tasks->[$i];
+
+  # count needed processors
+  $need=$tasks->[$i]->{np}-$nfree;
+
+  # start with next task
+  ++$i;
+  $future_kills=list_future();
+  cleo_log("Future kills: ".join(";",keys(%$future_kills)));
+
+
+  cleo_log("second main loop (try to run small tasks)");
+  # for every planned finish of task
+  foreach my $t (sort {$a->{time}<=>$b->{time}} keys(%$future_kills)){
+
+    cleo_log("second: future timestamp $future_kills->{$t}->{id}; need $need");
+
+    # first 'BIG' task will be runned here, so break
+    last if($need<1);
+
+    # test all tasks...
+    for($j=$i;$j<@$tasks;++$j){
+      next unless defined $tasks->[$j]->{id};
+
+      # ignore own tasks if run is disallowed by mode
+      next if(!$runmode and $tasks->[$i]->{is_own});
+
+      # ignore blocked
+      if(get_task_info($tasks->[$i]->{id},'blocked')){
+        delete $tasks->[$i]->{id}; # exclude this task
+        next;
+      }
+      cleo_log("second pass: task $tasks->[$j]->{id} np=$tasks->[$j]->{np} ($j) free: $nfree");
+
+      #do not fit
+      next if($tasks->[$j]->{np}>$nfree and $tasks->[$j]->{is_own});
+
+      cleo_log("Fits!");
+
+      # times when task will be ended if runned now
+      $lim1=$time+$tasks->[$j]->{timelimit}*$thresh;
+      $lim2=$time+$tasks->[$j]->{timelimit}+$addtime;
+
+      cleo_log("new-cur ".($lim1-$time)." - ".($future_kills->{$t}->{time}-$time));
+      cleo_log("new-cur ".($lim2-$time)." - ".($future_kills->{$t}->{time}-$time));
+
+      # check, is this task 'SMALL'? (will be it finished in time?)
+      if(($lim1<$future_kills->{$t}->{time}) and
+         ($lim2<$future_kills->{$t}->{time})){
+
+        # bad task (cannot be runned)
+        next if(violates($tasks->[$j]->{id}));
+
+        $selected_cpus=undef;
+        if($ppn>0){
+            $selected_cpus=check_ppn($tasks->[$j]->{np},\%nodes,
+                                     \%cpus_per_node,$ppn);
+            if(ref($selected_cpus) eq 'ARRAY'){
+                if(@$selected_cpus>0){
+                    run($tasks->[$j]->{id},@$selected_cpus);
+                    #!!!
+                    return 0;
+                }
+            }
+            else{
+                #cannot fit with ppn restrictions...
+                next;
+            }
+        }
+        else{
+            run($tasks->[$j]->{id});
+            #!!!
+            return 0;
+        }
+        # refresh free cpus list
+        $list = get_free_cpus();
+        @free=@$list;
+        delete $tasks->[$j]->{id};
+      }
+    }
+    # correct need processors count
+    $need-=$future_kills->{$t}->{np};
+  }
+
+  return 0;
+}
+
+#
+#  Check if task can be runned with ppn restricions
+#  Returns cpus list or undef if cannot run
+#
+#  Args: np    - requested processor number 
+#        nodes - hash ref
+#        cpn   - cpus per one node: hash ref
+#        ppn   - processes per node
+#
+sub check_ppn($$$$){
+    my ($np,$nodes,$cpus_per_node,$ppn)=@_;
+
+    my ($j,@selected_cpus);
+
+    # try to select nodes and cpus...
+    #$np=$tasks->[$i]->{np};
+    cleo_log("Check_ppn np=$np, ppn=$ppn");
+
+    foreach $j (keys(%$nodes)){
+
+        last if($np<1);
+
+        # last node, not full?
+        if($ppn>=$np){
+            cleo_log("Check_ppn last");
+
+            #skip node, if not enough cpus...
+            next if($np>$cpus_per_node->{$j});
+            cleo_log("Check_ppn last2");
+
+            #get first NP cpus...
+            my @temp=sort(keys(%{$nodes->{$j}}));
+            @temp=splice(@temp,0,$ppn);
+            @temp=map {"$j:$_"} @temp;
+            push @selected_cpus, @temp;
+
+            $np=0;
+            last;
+        }
+        cleo_log("Check_ppn node $j");
+
+        #skip node, if not enough cpus...
+        next if($ppn>$cpus_per_node->{$j});
+
+        cleo_log("Check_ppn node $j push ");
+        #select whole node
+        #get first PPN cpus...
+        my @temp=sort(keys(%{$nodes->{$j}}));
+        @temp=splice(@temp,0,$ppn);
+        @temp=map {"$j:$_"} @temp;
+        push @selected_cpus, @temp;
+        #push @selected_cpus, keys(%{$nodes->{$j}});
+        $np -= $ppn; #$cpus_per_node->{$j};
+    }
+
+    cleo_log("Check_ppn np-last=$np");
+
+    # skip task, if cannot find best cpus...
+    # this task is still on the TOP, not blocked!
+    if($np>0){
+        cleo_log('Check_ppn: not fits');
+        return undef;
+    }
+
+    # return cpus list
+    cleo_log('Check_ppn cpus:'.join(',',@selected_cpus));
+    return \@selected_cpus;
+}
+
+#$id, $cpus, \@out_cpus
+#
+#  Select cpus for given task
+#  Args:
+#         id   - task id
+#         cpus - cpu names list ref
+#         out  - return cpu names list ref
+#
+sub select_cpus($$$){
+    my ($id, $cpus, $out)=@_;
+    my ($i, %cpus_per_node, %nodes);
+
+    #
+    #  Fill usefull data
+    #
+    foreach $i (@$cpus){
+        if($i =~ m/(\S+):(\S*)/){
+            $nodes{$1}->{$2}=1;
+            ++$cpus_per_node{$1};
+        }
+        else{
+            $nodes{$i}->{0}=1;
+            ++$cpus_per_node{$i};
+        }
+    }
+    
+    # get ppn, if specified
+    my $ppn=get_task_attr($id,'ppn');
+    my $np=get_task_info($id,'np');
+    $ppn=$def_ppn if($ppn<1);
+    cleo_log("id=$id, np=$np, PPN=$ppn");
+
+    # try to get cpus list
+    if($ppn>0){
+        my $cpu_list=check_ppn($np,\%nodes,\%cpus_per_node,$ppn);
+        if(ref($cpu_list) ne 'ARRAY'){
+            undef $cpu_list;
+            $cpu_list=[];
+        }
+        push @$out, @$cpu_list; 
+        if(@$out>0){
+            return 0;
+        }
+        #cannot fit with ppn restrictions...
+        cleo_log('Not fits by ppn');
+        @$out=();
+        return 0;
+    }
+    
+    # ppn not setted...
+    # let's fail!
+    cleo_log('PPN is not specified');
+    @$out=();
+    return 0;
+}
+
