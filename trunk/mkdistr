@@ -35,7 +35,7 @@ cp empty-cleo.c Makefile README README-empty README-empty-cleo \
 cp cleo-terminal  "../cleo-$1"
 cd ..
 
-cp Cleo/*.pm "cleo-$1/Cleo/"
+cp Cleo_mods/*.pm "cleo-$1/Cleo/"
 
 cp Makefile.ready "cleo-$1/ready/Makefile"
 

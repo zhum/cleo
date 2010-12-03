@@ -24,7 +24,7 @@ use Exporter;
 use vars qw($VERSION @ISA @EXPORT);
 
 BEGIN {
-    $VERSION = 5.24;
+    $VERSION = 5.30;
     eval "use lib '.'; use lib '__SHARED__';use cleovars $VERSION";
     if ($@) {
         die "$@\n";

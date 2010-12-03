@@ -19,7 +19,7 @@ use Exporter;
 
 use vars qw($VERSION @ISA @EXPORT);
 BEGIN{
-  $VERSION=5.24;
+  $VERSION=5.30;
 };
 
 @ISA = ('Exporter');
