@@ -12,6 +12,7 @@ my %tests=(
     refhash=>'Your system does not have Tie::RefHash perl module',
     xml    =>'Your system does not have XML::Writer perl module',
     mailer =>'Your system does not have Mail::Mailer perl module',
+    pam    =>'Your system does not have Authen::PAM perl module',
     gcc    =>'No gcc found'
     );
 
@@ -60,6 +61,11 @@ eval "
 eval "
     use Mail::Mailer;
     delete \$tests{mailer};
+";
+
+eval "
+    use Authen::PAM;
+    delete \$tests{pam};
 ";
 
 eval "

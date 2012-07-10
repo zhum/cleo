@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
 #  This is part of Cleo batch system project.
-#  (C) Sergey Zhumatiy (serg@parallel.ru) 1999-2009
+#  (C) Sergey Zhumatiy (serg@parallel.ru) 1999-2010
 #
 #
 # You can redistribute and/or modify this program
@@ -936,14 +936,14 @@ eval {
             select( undef, undef, undef, 0.1 );
 
             # write mark to log ant check for logrotate
-            if ($is_master) {
+            #if ($is_master) {
                 if ( $cccount > 1024 ) {
                     $cccount = 0;
                     qlog "MARK\n";
                     log_rotate();
                 }
                 ++$cccount;
-            }
+            #}
     }    #infinite loop
 };    # ~eval
 qlog "Server has die. Reason:$@", LOG_ERR;
@@ -1007,7 +1007,7 @@ sub check_children() {
         	next;
         }
         if($childs_info{$theid}->{substate} eq 'restarting'){
-        	
+
         	# was cleaned already?
         	next if($childs_info{$theid}->{cleaned});
         	$childs_info{$theid}->{cleaned}=1;
@@ -1055,7 +1055,7 @@ sub check_children() {
         			$childs_info{$theid}->{nodes} );
         	}
         }
-        
+
         foreach $i ( @{ $ids{$theid}->{own} },
         	@{ $ids{$theid}->{shared} },
         	@{ $ids{$theid}->{extranodes} }
@@ -1064,14 +1064,14 @@ sub check_children() {
         	delete $pe{$i}->{ids}->{$theid};
         	qlog "_freeing $i of $theid res=$reserved_shared\n", LOG_DEBUG;
         }
-        
+
         unless ( exists( $childs_info{$theid} ) ) {
         	qlog "Task is deleted already!!! ($theid)\n", LOG_WARN;
         	next;
         }
-        
+
         $extra_nodes_used -= $childs_info{$theid}->{npextra};
-        
+
         $resurected=0;
         #
         # write report file & exec killscript
@@ -1091,7 +1091,7 @@ sub check_children() {
         	"NOT own child ($theid) - lastowner is $childs_info{$theid}->{lastowner}, owner - $childs_info{$theid}->{owner}\n",
         	LOG_INFO;
         }
-        
+
         #
         # Correct the runned list
         #
@@ -1104,9 +1104,9 @@ sub check_children() {
         } else {
         	$runned_list[$i]->{exitcode} = $childs_info{$theid}->{status};
         }
-        
+
         account_end($theid);
-        
+
         for $i ( keys(%wait_run) ) {
         	for $j ( keys( %{ $wait_run{$i} } ) ) {
         		delete $wait_run{$i}->{$j}
@@ -1114,22 +1114,22 @@ sub check_children() {
         	}
         }
         delete $pids{$theid};
-        
+
         unless($resurected){
         	del_from_queue($theid) unless $resurected;
         	qlog "Erased: $theid\n", LOG_INFO;
         }
         $dump_flag=1;
     }  # @dead processing
-    
+
     #########################################################
     #
     #       check ability to run new tasks...
     #
     #########################################################
-    
+
     my $not_infinite = 15;    #Maximal number of tasks to run at once
-    
+
     if ($q_change) {
         count_user_np_used();
         save_state($cluster_name);
@@ -3375,7 +3375,7 @@ sub rcv_from_mon() {
                 "MON DELETING REQUEST[M] ENTRY TIMED OUT ($mons_wait{$i}->{hash})\n",
                 LOG_DEBUG
             ) unless ( $_d_nolog_type{ $mons_wait{$i}->{type} } );
-            
+
             # check timed out mons!
             for $j ( @{ $mons_wait{$i}->{_to} } ) {
             	check_timed_out_mon($j);
@@ -3383,7 +3383,7 @@ sub rcv_from_mon() {
             delete $mons_wait{$i};
         }
     }
-    
+
     # check for bad connections
     @ready = $Mons_select->has_exception(0.01);
     foreach $i (@ready) {
@@ -3410,7 +3410,7 @@ sub rcv_from_mon() {
 
 
 #
-#  Check if the monitor is timed out and block it if needed 
+#  Check if the monitor is timed out and block it if needed
 #
 #  Args: mon   - monitor name
 #
@@ -3419,11 +3419,11 @@ sub check_timed_out_mon($){
 	my ($mon)=@_;
 
 	return if $mons{$mon}->{timed_out};
-	
+
 	my $alive=max($mons{$mon}->{last_response},$mons{$mon}->{last_alive});
 	if($alive>0){
 		if($alive+$max_mon_timeout<$last_time){
-			
+
 			# whole monitor timed out!!!
 			qlog "MON TIMED OUT: $mon\n", LOG_DEBUG2;
 			on_mon_timed_out($mon);
@@ -3440,7 +3440,7 @@ sub check_timed_out_mon($){
 			$mons{$mon}->{timed_out}=1;
 		}
 	}
-	
+
 }
 
 
@@ -4803,7 +4803,7 @@ sub mon_init_attach_handler($$$$$$ ) {
             if(exists($childs_info{$args->{id}})){
             	$childs_info{$args->{id}}->{restart}=1;
             }
-            del_or_restart_task($args->{id});
+            del_or_restart_task($args->{id}, "Some nodes were failed during startup.");
         } else {
             new_req_to_child(
                 'attach',              $args,
@@ -4979,7 +4979,7 @@ elsif ( $what eq 'finished' ) {    # the task or rshell ended
             "FINished task $args->{id}::$args->{owner} on $from with code $args->{code}\n",
             LOG_INFO;
             if (defined($rsh_pids{"$args->{id}::$args->{owner}"}->{master})) {
-            	
+
             	#
             	#  Delete all 'bored' rshell processes...
             	#
@@ -5001,7 +5001,7 @@ elsif ( $what eq 'finished' ) {    # the task or rshell ended
             qlog join( ';', %$args, "\n" ), LOG_DEBUG;
             $answer{id} = $args->{id};
             if($args->{owner} eq cleosupport::get_setting('root_cluster_name')){
-            	
+
             	# our task is dead (one of its nodes)...
             	$childs_info{ $args->{id} }->{status} = $args->{code}
             	if exists $childs_info{ $args->{id} };
@@ -6712,7 +6712,7 @@ sub attach_handler($$$$ ) {
         #            get_setting( 'rerun_delay', $childs_info{$id}->{user} ),
         #            'attach on nodes timed out' );
         $childs_info{$id}->{restart}=1;
-        del_or_restart_task($id);
+        del_or_restart_task($id, "Timed out nodes during task start.");
         return;
     }
     &cleosupport::execute_task( $childs_info{$id} );
@@ -6920,7 +6920,7 @@ sub rvm_handler($$$$ ) {
         }
     } else {
     	if(exists $childs_info{ $args->{id} }){
-    		del_or_restart_task($args->{id});
+    		del_or_restart_task($args->{id}, "Failed to control task on nodes");
 
     		# simply delete it...
     		#$childs_info{ $args->{id} }->{status} = -1;
@@ -7382,19 +7382,19 @@ sub get_io_handler($$$$ ) {
 sub task_after_death($$ ) {
     my ( $theid, $entry ) = @_;
     my ( $username, $sec, $min, $hour, $yday, $text, $text2, $worktime, $subject );
-    
+
     $username = $entry->{user};
-    
+
     unless ( exists $entry->{id} ) {
         qlog "After death failed\n", LOG_ERR;
         return;
     }
-    
+
     ( $sec, $min, $hour, undef, undef, undef, undef, $yday ) =
     	gmtime( $last_time - $entry->{time} );
     $hour+=3600*$yday;
     $worktime=sprintf('%02d:%02d:%02d',$hour,$min,$sec);
-    
+
     # read status from file, if empty-cleo was used
     if ( $entry->{use_empty} ne '' ) {
         if ( open( PIDFILE, "<$entry->{pidfile}" ) ) {
@@ -7412,10 +7412,10 @@ sub task_after_death($$ ) {
     }
     unlink "/tmp/cleo-launch.just-$cluster_name.$theid";  # cancel just_exec
     unlink "/tmp/cleo-launch.q_just-$cluster_name.$theid";# cancel q_just_exec
-    
+
     if ( $entry->{status} > 0 ) {
         do_all_exec_modules('ok', $entry, $username);
-        
+
         $text = cleosupport::get_setting( 'q_fail_exec', $username,
             $entry->{profile} );
         if ( $text ne '' ) {
@@ -7428,7 +7428,7 @@ sub task_after_death($$ ) {
     }
     else {
         do_all_exec_modules('fail', $entry, $username);
-        
+
         $text = cleosupport::get_setting( 'q_ok_exec', $username,
             $entry->{profile} );
         if ( $text ne '' ) {
@@ -7439,7 +7439,7 @@ sub task_after_death($$ ) {
             launch( 0, "$text", '' );
         }
     }
-    
+
     #
     # exec kill script
     #
@@ -7467,17 +7467,17 @@ sub task_after_death($$ ) {
             }
         }
     }
-    
+
     qlog "Kill rshells, if they were\n", LOG_DEBUG2;
     if ( exists( $entry->{rsh_was_used} ) ) {
         answer_to_parent( cleosupport::get_setting('root_cluster_name'),
             0, 'clean_task', SUCC_OK, 'id', $entry->{id} );
     }
-    
+
     qlog(
     	"Was used by $username: $user_np_used{$username} ($entry->{np}+$entry->{npextra})\n",
     	LOG_DEBUG);
-    
+
     #  $user_np_used{$username}-=$entry->{np}+$entry->{npextra};
     #  $user_np_used{$username}=0 if $user_np_used{$username}<0;
     qlog "Will be used by $username NOW: "
@@ -7490,11 +7490,11 @@ sub task_after_death($$ ) {
             LOG_WARN;
         }
     }
-    
+
     sub_exec( get_uid( $entry->{user} ),
         $usergid{ $entry->{user} },
         \&after_death_user_part, $theid, $entry, $text2 );
-    
+
     # mail to user, if it is required
     if($entry->{attrs}->{mailopts} =~ /a|e/){
     	if($entry->{attrs}->{mailopts} =~ /a/){
@@ -7515,7 +7515,7 @@ sub task_after_death($$ ) {
     	%subst_args=('time'=>$worktime,
     		'work_time'=>"$hour hours $min minutes $sec seconds");
         subst_task_prop( \$text, $entry);
-        
+
     	if($entry->{attrs}->{maillist} eq ''){
     		send_mail($username,$subject,$text);
     	}
@@ -7525,7 +7525,7 @@ sub task_after_death($$ ) {
     		}
     	}
     }
-    
+
     $text = cleosupport::get_setting( 'post_exec_write', $username,
         $entry->{profile} );
     if ( $text ne '' ) {
@@ -7601,15 +7601,15 @@ sub after_death_user_part( $$$ ) {
     qlog
     "Creating report for id=$entry->{id} user=$entry->{user} ($useruid{$entry->{user}}), uid=$<, $>\n",
     LOG_INFO;
-    
+
     my $REP = new IO::File;
     unless($REP->open( $entry->{repfile},O_WRONLY|O_CREAT|O_APPEND|O_LARGEFILE)){
         qlog "Cannot open $entry->{repfile} for writing report!\n", LOG_ERR;
-        
+
         #    print "Open for $entry->{repfile} failed\n";
         $REP->open( "/dev/null", "w" );
     }
-    
+
     my $end = scalar( @{ $entry->{task_args} } );
     $REP->print("Task     : $entry->{task_args}->[0]\n");
     $REP->print(   "Args     : "
@@ -7632,19 +7632,26 @@ sub after_death_user_part( $$$ ) {
     gmtime( $last_time - $entry->{time} );
     $hour += 24 * $yday;
     $REP->print("Work time: $hour hours $min minutes $sec seconds\n");
+
+    my $ext_rep_file=get_setting('extern_report_file');
+    if( $ext_rep_file ne ''){
+        local %subst_args=();#'path' => $ext_rep_file);
+        subst_task_prop(\$ext_rep_file,$entry);
+        $REP->print( "Report  : ",$ext_rep_file,"\n");
+    }
     $REP->print( "Started  : " . localtime( $entry->{time} ) . "\n" );
     $REP->print("Nodes    : $entry->{nodes}\n\n");
     $REP->close();
-    
+
     {
         local %ENV;
-        
+
         # Create the environment
         if ( $entry->{env} ) {
             if ( ref( $entry->{env} ) eq 'ARRAY' ) {
                 my @new_env;
                 my $e;
-                
+
                 @new_env = @{ $entry->{env} };
                 foreach $e (@new_env) {
                     $e =~ /(\S+)\s*\=(.*)/;
@@ -7656,7 +7663,7 @@ sub after_death_user_part( $$$ ) {
                 qlog "Bad env :" . ref( $entry->{env} ) . "\n", LOG_ERR;
             }
         }
-        
+
         $text = cleosupport::get_setting( 'user_post_exec', $entry->{user},
             $entry->{profile} );
         if ( $text ne '' ) {
@@ -7701,9 +7708,9 @@ sub after_death_user_part( $$$ ) {
                 launch( 0, "$text", "$cluster_name.uu-$theid" );
             }
         }
-        
+
     };
-    
+
     #
     # delete conf file
     #
@@ -7711,7 +7718,7 @@ sub after_death_user_part( $$$ ) {
         $entry->{user}, $entry->{profile} );
     undef %subst_args;
     subst_task_prop( \$conf_file, $entry);
-    
+
     if ( ( $conf_file ne '' ) and ( -f $conf_file ) ) {
         if ( unlink $conf_file ) {
             qlog "Deleted conf-file $conf_file\n", LOG_INFO;
@@ -7956,7 +7963,7 @@ sub do_external_schedule_once( $ ) {
         no strict "refs";
         eval {
             alarm get_setting('scheduler_timeout');
-            $SIG{ALRM} = sub { die "scheduler\n"; };
+            local $SIG{ALRM} = sub { die "scheduler\n"; };
 
             # Clear errors
             ${"CleoScheduler::${sched}::__cleo_mod_error"} = 0;
@@ -8034,7 +8041,7 @@ sub do_external_schedule_cpus_select( $$$ ) {
         no strict "refs";
         eval {
             alarm get_setting('scheduler_timeout');
-            $SIG{ALRM} = sub { die "scheduler\n"; };
+            local $SIG{ALRM} = sub { die "scheduler\n"; };
 
             # Clear errors
             ${"CleoScheduler::${sched}::__cleo_mod_error"} = 0;
@@ -8082,7 +8089,7 @@ sub scheduler_event( $;$ ) {
         no strict "refs";
         eval {
             alarm get_setting('scheduler_timeout');
-            $SIG{ALRM} = sub { die "scheduler\n"; };
+            local $SIG{ALRM} = sub { die "scheduler\n"; };
             ${"CleoScheduler::${sched}::__cleo_mod_error"} = 0;
             $tmp = ( $_[0] eq 'event' ) ? $_[1]->{type} : $_[0];
             $ret = ( "CleoScheduler::${sched}" . "::event" )->( $tmp, $_[1] );
@@ -8126,7 +8133,7 @@ sub stop_scheduler() {
         no strict "refs";
         eval {
             alarm get_setting('scheduler_timeout');
-            $SIG{ALRM} = sub { die "scheduler\n"; };
+            local $SIG{ALRM} = sub { die "scheduler\n"; };
             ${"CleoScheduler::${sched}::__cleo_mod_error"} = 0;
             $ret = ( "CleoScheduler::${sched}" . "::stop" )->( \%info );
             $ret += ${"CleoScheduler::${sched}::__cleo_mod_error"};
@@ -8159,7 +8166,7 @@ sub start_scheduler() {
         no strict "refs";
         eval {
             alarm get_setting('scheduler_timeout');
-            $SIG{ALRM} = sub { die "scheduler\n"; };
+            local $SIG{ALRM} = sub { die "scheduler\n"; };
             ${"CleoScheduler::${sched}::__cleo_mod_error"} = 0;
             $ret = ( "CleoScheduler::${sched}" . "::start" )->( \%info );
             $ret += ${"CleoScheduler::${sched}::__cleo_mod_error"};
@@ -9034,7 +9041,7 @@ sub user_add_processor( $$ ) {
         $tmpval =
         cleosupport::get_setting( 'max_cpuh',       $args->{user},
             $args->{profile}, $args->{queue} );
-        my $cpuh=$args->{np}*$args->{timelimit}*60;
+        my $cpuh=$args->{np}*$args->{timelimit}/3600;
         if ( !$adm and $tmpval>0 and $cpuh > $tmpval ) {
             $ch->send(
                 "-Too much cpu-hours requested ($cpuh). Maximum, $tmpval can be used\n"
@@ -10606,4 +10613,3 @@ sub new_mon_connection( $ ) {
 #     $mons_last_ping=$time;
 #   }
 # }
-

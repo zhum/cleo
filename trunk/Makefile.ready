@@ -12,7 +12,7 @@ SEDSHAREDDIR=$(shell echo $(SHAREDDIR) | sed -ne 's/\//\\\//g; p')
 SEDRCDIR=$(shell echo $(RCDIR) | sed -ne 's/\//\\\//g; p')
 SEDETCDIR=$(shell echo $(ETCDIR) | sed -ne 's/\//\\\//g; p')
 OLDVEREXE=q3.pl qmode qclient3.pl block_cpu block_task qstat\
-	      autoblock change_pri
+          autoblock change_pri
 
 THEBINDIR=$(BASEDIR)/$(BINDIR)
 THESBINDIR=$(BASEDIR)/$(SBINDIR)

@@ -1,3 +1,31 @@
+2011-06-07    Sergey Zhumatiy   <serg@parallel.ru>
+* cleosupport
+  - fixed del_or_restart_task exporting
+2011-04-18    Sergey Zhumatiy   <serg@parallel.ru>
+* cleo
+  - all text reindented
+* cleosupport
+  - all text reindented
+  - log files now are separated by subclusters
+* cleo-mon
+  - all text reindented
+
+2011-04-11    Sergey Zhumatiy   <serg@parallel.ru>
+* cleo
+  - extern reporting added
+*cleosupport
+  - launch call added to extern interface
+  - pam session execution added
+
+2011-01-18    Sergey Zhumatiy   <serg@parallel.ru>
+* cleo-viz
+  - installer created
+
+2010-12-09    Sergey Zhumatiy   <serg@parallel.ru>
+* cleosupport.pm
+  - fixed infinite loop when incorrect save file read (Malformed scalar)
+
+2010-12-01    Sergey Zhumatiy   <serg@parallel.ru>
 * Cleo/Cleo.pm
   - del_conn bugfix
 * Makefile.ready
@@ -13,8 +41,8 @@
   - fixed missing Time::Local
 
 
-
 * version 5.24b
+
 2010-07-30    Sergey Zhumatiy  <serg@parallel.ru>
 * cleo
 	- aftertime attribute processing added

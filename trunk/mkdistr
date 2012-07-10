@@ -15,7 +15,7 @@ FILES="cleo cleosupport.pm cleovars.pm cleo-client tasks mpirun \
       cleo-autoblock cleo-blockcpu cleo-blocktask cleo-priority \
       cleo-stat cleo-mode cleo-mon cleo-script-run\
       cleo.conf.example base_sched cleo-freeze \
-      cleo.rc cleo-mon.rc compat-test.pl qsub-cleo \
+      cleo.rc cleo-mon.rc compat-test.pl \
       cleo.rc-alt cleo-mon.rc-alt \
       README README-scheduler-create Modules-howto \
       README.rus README-scheduler-create.rus Modules-howto.rus \
@@ -25,7 +25,7 @@ FILES="cleo cleosupport.pm cleovars.pm cleo-client tasks mpirun \
       doubler_sched cleo-wrapper cleo-submit \
       man listfile_mod README-listfile \
       Makefile Makefile.conf spec.files\
-      qstat-cleo qdel-cleo"
+      qstat-cleo qdel-cleo qsub-cleo viz"
 
 cp -r $FILES "cleo-$1"
 
