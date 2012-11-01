@@ -15,5 +15,8 @@ install:
 install-viz:
 	cd viz && $(MAKE) install
 
+rpminstall-viz:
+	cd viz && $(MAKE) rpminstall
+
 clean:
 	cd ready && $(MAKE) clean
