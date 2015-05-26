@@ -1,0 +1,2463 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<cleo-state last-update="1275981123" queue="hdd">
+  <cpus>
+    <cpu_statistics>
+      <total-free>56</total-free>
+      <shared-free>0</shared-free>
+      <shared-reserved>0</shared-reserved>
+      <total-number>520</total-number>
+      <total-own>520</total-own>
+      <total-shared>0</total-shared>
+      <own-free>56</own-free>
+      <blocked-count>88</blocked-count>
+      <own-blocked>88</own-blocked>
+      <shared-blocked>0</shared-blocked>
+      <total-busy>376</total-busy>
+      <own-busy>376</own-busy>
+      <shared-busy>0</shared-busy>
+    </cpu_statistics>
+    <node nodename="node-33-01">
+      <cpu id="1" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+    </node>
+    <node nodename="node-33-02">
+      <cpu id="1" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is suspended</block_reason></blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is suspended</block_reason></blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is suspended</block_reason></blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is suspended</block_reason></blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is suspended</block_reason></blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is suspended</block_reason></blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is suspended</block_reason></blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is suspended</block_reason></blocked></cpu>
+    </node>
+    <node nodename="node-33-03">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-33-04">
+      <cpu id="1" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+    </node>
+    <node nodename="node-33-05">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-33-06">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-33-07">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-33-08">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-33-09">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-33-10">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-34-01">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-34-02">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-34-03">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-34-04">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-34-05">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-34-06">
+      <cpu id="1" type="own" own="1" blocked="1"><blocked>1<block_reason>BAD</block_reason></blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="1"><blocked>1<block_reason>BAD</block_reason></blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="1"><blocked>1<block_reason>BAD</block_reason></blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="1"><blocked>1<block_reason>BAD</block_reason></blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="1"><blocked>1<block_reason>BAD</block_reason></blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="1"><blocked>1<block_reason>BAD</block_reason></blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="1"><blocked>1<block_reason>BAD</block_reason></blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="1"><blocked>1<block_reason>BAD</block_reason></blocked></cpu>
+    </node>
+    <node nodename="node-34-07">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-34-08">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-34-09">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-34-10">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-35-01">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-35-02">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-35-03">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-35-04">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-35-05">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-35-06">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-35-07">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-35-08">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-35-09">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-35-10">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-36-01">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-36-02">
+      <cpu id="1" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+    </node>
+    <node nodename="node-36-03">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-36-04">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-36-05">
+      <cpu id="1" type="own" own="1" blocked="1"><blocked>1<block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="1"><blocked>1<block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="1"><blocked>1<block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="1"><blocked>1<block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="1"><blocked>1<block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="1"><blocked>1<block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="1"><blocked>1<block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="1"><blocked>1<block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+    </node>
+    <node nodename="node-36-06">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-36-07">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-36-08">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-36-09">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-36-10">
+      <cpu id="1" type="own" own="1" blocked="1"><blocked>1<block_reason>Hardware failure</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="1"><blocked>1<block_reason>Hardware failure</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="1"><blocked>1<block_reason>Hardware failure</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="1"><blocked>1<block_reason>Hardware failure</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="1"><blocked>1<block_reason>Hardware failure</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="1"><blocked>1<block_reason>Hardware failure</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="1"><blocked>1<block_reason>Hardware failure</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="1"><blocked>1<block_reason>Hardware failure</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+    </node>
+    <node nodename="node-37-01">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-37-02">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-37-03">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-37-04">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-37-05">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-37-06">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-37-07">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-37-08">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-37-09">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-37-10">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-44-01">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-44-02">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-44-03">
+      <cpu id="1" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="1"><blocked>1<block_reason>Timed out</block_reason><block_reason>Not connected yet</block_reason><block_reason>Disconnected</block_reason></blocked></cpu>
+    </node>
+    <node nodename="node-48-06">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-51-01">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-51-02">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-51-04">
+      <cpu id="1" type="own" own="1" blocked="1"><blocked>1<block_reason>__internal__</block_reason></blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="1"><blocked>1<block_reason>__internal__</block_reason></blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="1"><blocked>1<block_reason>__internal__</block_reason></blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="1"><blocked>1<block_reason>__internal__</block_reason></blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="1"><blocked>1<block_reason>__internal__</block_reason></blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="1"><blocked>1<block_reason>__internal__</block_reason></blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="1"><blocked>1<block_reason>__internal__</block_reason></blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="1"><blocked>1<block_reason>__internal__</block_reason></blocked></cpu>
+    </node>
+    <node nodename="node-51-05">
+      <cpu id="1" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is suspended</block_reason></blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is suspended</block_reason></blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is suspended</block_reason></blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is suspended</block_reason></blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is suspended</block_reason></blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is suspended</block_reason></blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is suspended</block_reason></blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is suspended</block_reason></blocked></cpu>
+    </node>
+    <node nodename="node-51-06">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-51-07">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-51-08">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-51-09">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-51-10">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-57-02">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-57-09">
+      <cpu id="1" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+    </node>
+  </cpus>
+  <tasks>
+    <tasks_statistics>
+      <tasks-total>10</tasks-total>
+      <tasks-running>8</tasks-running>
+      <tasks-prerun>0</tasks-prerun>
+      <tasks-blocked>2</tasks-blocked>
+      <tasks-queued>2</tasks-queued>
+      <tasks-completition>0</tasks-completition>
+      <allautoblocks on="">
+        <autoblocks></autoblocks>
+        <nonautoblocks></nonautoblocks>
+      </allautoblocks>
+      <mode raw-value="9" run="1" queue="1" autorestart="0" />
+      <time-restrictions next="1292907600">
+        <restriction>
+          <count></count>
+          <allow>0</allow>
+          <start-every>08:00 21 12</start-every>
+          <end-every>11:00 25 12</end-every>
+          <start>1292907600</start>
+          <end>1293264000</end>
+          <users></users>
+        </restriction>
+      </time-restrictions>
+    </tasks_statistics>
+    <task id="18022" priority="10" state="run" own="1" queue="hdd">
+      <nodes>
+        <item node_name="node-33-05" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-33-05" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-33-05" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-33-05" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-33-05" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-33-05" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-33-05" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-33-05" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-33-07" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-33-07" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-33-07" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-33-07" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-33-07" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-33-07" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-33-07" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-33-07" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-34-09" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-34-09" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-34-09" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-34-09" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-34-09" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-34-09" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-34-09" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-34-09" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-35-06" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-35-06" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-35-06" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-35-06" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-35-06" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-35-06" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-35-06" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-35-06" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-37-03" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-37-03" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-37-03" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-37-03" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-37-03" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-37-03" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-37-03" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-37-03" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-37-06" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-37-06" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-37-06" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-37-06" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-37-06" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-37-06" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-37-06" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-37-06" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-51-07" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-51-07" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-51-07" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-51-07" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-51-07" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-51-07" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-51-07" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-51-07" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-51-09" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-51-09" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-51-09" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-51-09" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-51-09" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-51-09" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-51-09" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-51-09" cpu_id="8" extra="0" type="own" />
+      </nodes>
+      <start day="7" month="6" of_week="1" hours="15" minutes="22" seconds="23" year="2010" unixtime="1275909743" />
+      <timelimit day="8" month="6" of_week="2" hours="15" minutes="22" seconds="23" year="2010" unixtime="1275909743" />
+      <added day="7" month="6" of_week="1" hours="15" minutes="22" seconds="22" year="2010" unixtime="1275909743" />
+      <task_code>'./charstg2'</task_code>
+      <priority>10</priority>
+      <state>run</state>
+      <parent_mask></parent_mask>
+      <use_rsh_filter></use_rsh_filter>
+      <pid>4436</pid>
+      <out>/home/jikk/tests/hashes/char2/charstg2.out-18022</out>
+      <pe_select>scheduler</pe_select>
+      <blocked>0</blocked>
+      <user>jikk</user>
+      <id>18022</id>
+      <estimated_run>0</estimated_run>
+      <sexe>charstg2</sexe>
+      <attrs>HASH(0x38e4810)</attrs>
+      <com_line>mpirun_rsh -np $np -hostfile $dir/machinefile-$id VIADEV_USE_AFFINITY=1 $task</com_line>
+      <one_rep>0</one_rep>
+      <occupy_full_node>1</occupy_full_node>
+      <pidfile>/tmp/cleo-run-18022-52080</pidfile>
+      <force_host></force_host>
+      <pgrp>4435</pgrp>
+      <nodes>node-33-05:1,node-33-05:2,node-33-05:3,node-33-05:4,node-33-05:5,node-33-05:6,node-33-05:7,node-33-05:8,node-33-07:1,node-33-07:2,node-33-07:3,node-33-07:4,node-33-07:5,node-33-07:6,node-33-07:7,node-33-07:8,node-34-09:1,node-34-09:2,node-34-09:3,node-34-09:4,node-34-09:5,node-34-09:6,node-34-09:7,node-34-09:8,node-35-06:1,node-35-06:2,node-35-06:3,node-35-06:4,node-35-06:5,node-35-06:6,node-35-06:7,node-35-06:8,node-37-03:1,node-37-03:2,node-37-03:3,node-37-03:4,node-37-03:5,node-37-03:6,node-37-03:7,node-37-03:8,node-37-06:1,node-37-06:2,node-37-06:3,node-37-06:4,node-37-06:5,node-37-06:6,node-37-06:7,node-37-06:8,node-51-07:1,node-51-07:2,node-51-07:3,node-51-07:4,node-51-07:5,node-51-07:6,node-51-07:7,node-51-07:8,node-51-09:1,node-51-09:2,node-51-09:3,node-51-09:4,node-51-09:5,node-51-09:6,node-51-09:7,node-51-09:8</nodes>
+      <queue>hdd</queue>
+      <file_mask></file_mask>
+      <reserved>0</reserved>
+      <task_args>
+        <item>./charstg2</item>
+      </task_args>
+      <core>0</core>
+      <tmpdir>/tmp</tmpdir>
+      <np>64</np>
+      <status>0</status>
+      <gummy>0</gummy>
+      <empty_input>/home/jikk/tests/hashes/char2/.cleo-18022-in</empty_input>
+      <node>node-33-05:1</node>
+      <use_empty>/usr/bin/empty-cleo</use_empty>
+      <nice></nice>
+      <dir>/home/jikk/tests/hashes/char2</dir>
+      <run_via_mons>0</run_via_mons>
+      <force_proc></force_proc>
+      <is_own>1</is_own>
+      <command>./charstg2</command>
+      <wait_cond_type>a</wait_cond_type>
+      <owner>hdd</owner>
+      <env>
+        <item>DYLD_LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib</item>
+        <item>SSH_CLIENT =95.108.172.9 3480 22</item>
+        <item>LESS =-MM</item>
+        <item>MPIRUN_CONNECT_TRIES =40</item>
+        <item>LINES =24</item>
+        <item>LESSOPEN =|/usr/share/less/lesspipe.sh %s</item>
+        <item>COLUMNS =80</item>
+        <item>PWD =/home/jikk/tests/hashes/char2</item>
+        <item>VT_MPI =mpich</item>
+        <item>JRE_HOME =/usr/lib/jvm/jre</item>
+        <item>LOGNAME =jikk</item>
+        <item>I_MPI_JOB_STARTUP_TIMEOUT =10000</item>
+        <item>I_MPI_F77 =ifort</item>
+        <item>QTLIB =/usr/lib64/qt3/lib/</item>
+        <item>PATH =/opt/pgi/linux86-64/2010/bin:/opt/pathscale/bin:/usr/lib/mvapich-gcc-x86_64/bin:/opt/intel/itac/8.0.0.011/bin:/opt/intel/ictce/3.2.2.013/bin:/opt/intel/itac/7.2.2.006/bin:/opt/intel/Compiler/11.1/059/bin/intel64:/opt/intel/Compiler/11.1/059/bin/intel64:/home/jikk/bin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:/usr/games:/home/jikk/bin/</item>
+        <item>INCLUDE =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>TERM =xterm</item>
+        <item>HISTSIZE =999</item>
+        <item>LESSKEY =/etc/.less</item>
+        <item>SSH_CONNECTION =95.108.172.9 3480 212.192.244.31 22</item>
+        <item>MANPATH =/usr/lib/mvapich-gcc-x86_64/man:/opt/intel/mkl/10.2.4.032/man/en_US:/opt/intel/itac/8.0.0.011/man:/opt/intel/itac/7.2.2.006/man:/opt/intel/Compiler/11.1/059/man/en_US:/opt/intel/Compiler/11.1/059/man/en_US:/usr/share/man:/usr/local/share/man:/usr/X11R6/man:/usr/local/man:/opt/pathscale/man:/opt/pgi/linux86-64/2010/man</item>
+        <item>MPIRUN_CONNECT_TIMEOUT =15</item>
+        <item>LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>I_MPI_EXTRA_FILESYSTEM =enable</item>
+        <item>MAIL =/var/mail/jikk</item>
+        <item>QTDIR =/usr/lib64/qt3/</item>
+        <item>I_MPI_CC =icc</item>
+        <item>HOSTNAME =t60-2.parallel.ru</item>
+        <item>I_MPI_SPIN_FILE_LOCK =off</item>
+        <item>XDG_DATA_DIRS =/usr/share:/var/cache</item>
+        <item>_ =/usr/bin/cleo-submit</item>
+        <item>LS_COLORS =rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</item>
+        <item>SHELL =/bin/bash</item>
+        <item>CLASSPATH =/opt/intel/itac/8.0.0.011/itac/lib_mpich:/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>VT_ROOT =/opt/intel/itac/8.0.0.011</item>
+        <item>I_MPI_PIN_DOMAIN =omp</item>
+        <item>PGI =/opt/pgi</item>
+        <item>TMP =/tmp/.private/jikk</item>
+        <item>QTINC =/usr/lib64/qt3/include/</item>
+        <item>PS_FORMAT =pid,user:12,tty,stat,time,command</item>
+        <item>GTK_PATH =/usr/lib64/gtk-2.0/2.10.0</item>
+        <item>CVS_RSH =ssh</item>
+        <item>XDG_DATA_HOME =/home/jikk/.local/share</item>
+        <item>USER =jikk</item>
+        <item>G_BROKEN_FILENAMES =1</item>
+        <item>SHLVL =2</item>
+        <item>QS_QUEUE =regular</item>
+        <item>I_MPI_EXTRA_FILESYSTEM_LIST =panfs</item>
+        <item>INTEL_LICENSE_FILE =/opt/intel/licenses:/home/jikk/intel/licenses</item>
+        <item>SSH_TTY =/dev/pts/177</item>
+        <item>LM_LICENSE_FILE =:/opt/pgi/license.dat</item>
+        <item>CPATH =/opt/intel/tbb/2.1/include:/opt/intel/mkl/10.2.4.032/include</item>
+        <item>VT_ADD_LIBS =-ldwarf -lelf -lvtunwind -lnsl -lm -ldl -lpthread</item>
+        <item>VT_LIB_DIR =/opt/intel/itac/8.0.0.011/itac/lib_mpich</item>
+        <item>HOME =/home/jikk</item>
+        <item>FPATH =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>LD_LIBRARY_PATH =/opt/pathscale/lib/3.2:/opt/pathscale/lib/3.2/32:/usr/lib/mvapich-gcc-x86_64/lib:/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/itac/8.0.0.011/itac/slib_mpich:/opt/intel/itac/7.2.2.006/itac/slib_mpich:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>GDK_PIXBUF_MODULEDIR =/usr/lib64/gtk-2.0/2.10.0/loaders</item>
+        <item>HISTFILESIZE =9999</item>
+        <item>XDG_CONFIG_HOME =/home/jikk/.config</item>
+        <item>I_MPI_F90 =ifort</item>
+        <item>VT_SLIB_DIR =/opt/intel/itac/8.0.0.011/itac/slib_mpich</item>
+        <item>I_MPI_CXX =icc</item>
+        <item>MKLROOT =/opt/intel/mkl/10.2.4.032</item>
+        <item>BASH_ENV =/home/jikk/.bashrc</item>
+        <item>NLSPATH =/opt/intel/mkl/10.2.4.032/lib/em64t/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N</item>
+        <item>TMPDIR =/tmp/.private/jikk</item>
+        <item>I_MPI_RDMA_BUFFER_SIZE =4096</item>
+        <item>G_FILENAME_ENCODING =iso8859-1</item>
+      </env>
+      <rep>/home/jikk/tests/hashes/char2/charstg2.rep-18022</rep>
+      <attach_mask>.*</attach_mask>
+      <path>/home/jikk/tests/hashes/char2</path>
+      <qtype>native_queue</qtype>
+      <no_run_again>1</no_run_again>
+      <signal>0</signal>
+      <temp_dir>/tmp/cleo.hdd.18022</temp_dir>
+      <lastowner>hdd</lastowner>
+      <uniqid>hdd-1275909742-18022</uniqid>
+      <exe>./charstg2</exe>
+      <npextra>0</npextra>
+    </task>
+    <task id="18030" priority="10" state="run" own="1" queue="hdd">
+      <nodes>
+        <item node_name="node-33-03" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-33-03" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-33-03" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-33-03" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-33-03" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-33-03" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-33-03" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-33-03" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-34-02" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-34-02" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-34-02" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-34-02" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-34-02" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-34-02" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-34-02" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-34-02" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-34-07" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-34-07" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-34-07" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-34-07" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-34-07" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-34-07" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-34-07" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-34-07" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-34-10" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-34-10" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-34-10" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-34-10" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-34-10" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-34-10" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-34-10" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-34-10" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-35-02" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-35-02" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-35-02" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-35-02" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-35-02" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-35-02" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-35-02" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-35-02" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-35-04" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-35-04" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-35-04" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-35-04" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-35-04" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-35-04" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-35-04" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-35-04" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-35-10" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-35-10" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-35-10" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-35-10" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-35-10" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-35-10" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-35-10" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-35-10" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-36-04" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-36-04" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-36-04" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-36-04" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-36-04" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-36-04" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-36-04" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-36-04" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-37-01" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-37-01" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-37-01" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-37-01" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-37-01" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-37-01" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-37-01" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-37-01" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-37-04" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-37-04" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-37-04" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-37-04" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-37-04" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-37-04" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-37-04" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-37-04" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-37-10" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-37-10" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-37-10" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-37-10" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-37-10" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-37-10" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-37-10" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-37-10" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-44-01" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-44-01" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-44-01" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-44-01" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-44-01" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-44-01" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-44-01" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-44-01" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-44-02" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-44-02" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-44-02" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-44-02" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-44-02" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-44-02" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-44-02" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-44-02" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-51-02" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-51-02" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-51-02" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-51-02" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-51-02" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-51-02" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-51-02" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-51-02" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-51-06" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-51-06" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-51-06" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-51-06" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-51-06" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-51-06" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-51-06" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-51-06" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-51-10" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-51-10" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-51-10" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-51-10" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-51-10" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-51-10" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-51-10" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-51-10" cpu_id="8" extra="0" type="own" />
+      </nodes>
+      <start day="7" month="6" of_week="1" hours="16" minutes="6" seconds="31" year="2010" unixtime="1275912391" />
+      <timelimit day="8" month="6" of_week="2" hours="12" minutes="6" seconds="31" year="2010" unixtime="1275912391" />
+      <added day="7" month="6" of_week="1" hours="16" minutes="6" seconds="30" year="2010" unixtime="1275912391" />
+      <task_code>'/home/suplatov/exec/namd2.7b1/Linux-x86_64-MPI-pathcc/namd2' '1tcb_40G47G104F157I278G285G.md.conf'</task_code>
+      <priority>10</priority>
+      <state>run</state>
+      <parent_mask></parent_mask>
+      <use_rsh_filter></use_rsh_filter>
+      <pid>11060</pid>
+      <out>/home/suplatov/suplatov/1tcb_40G47G104F157I278G285G/namd2.out-18030</out>
+      <pe_select>scheduler</pe_select>
+      <blocked>0</blocked>
+      <user>suplatov</user>
+      <id>18030</id>
+      <estimated_run>1275971464</estimated_run>
+      <sexe>namd2</sexe>
+      <attrs>HASH(0x39ea5f0)</attrs>
+      <com_line>mpirun_rsh -np $np -hostfile $dir/machinefile-$id VIADEV_USE_AFFINITY=1 $task</com_line>
+      <one_rep>0</one_rep>
+      <occupy_full_node>1</occupy_full_node>
+      <pidfile>/tmp/cleo-run-18030-50503</pidfile>
+      <force_host></force_host>
+      <pgrp>11059</pgrp>
+      <nodes>node-33-03:1,node-33-03:2,node-33-03:3,node-33-03:4,node-33-03:5,node-33-03:6,node-33-03:7,node-33-03:8,node-34-02:1,node-34-02:2,node-34-02:3,node-34-02:4,node-34-02:5,node-34-02:6,node-34-02:7,node-34-02:8,node-34-07:1,node-34-07:2,node-34-07:3,node-34-07:4,node-34-07:5,node-34-07:6,node-34-07:7,node-34-07:8,node-34-10:1,node-34-10:2,node-34-10:3,node-34-10:4,node-34-10:5,node-34-10:6,node-34-10:7,node-34-10:8,node-35-02:1,node-35-02:2,node-35-02:3,node-35-02:4,node-35-02:5,node-35-02:6,node-35-02:7,node-35-02:8,node-35-04:1,node-35-04:2,node-35-04:3,node-35-04:4,node-35-04:5,node-35-04:6,node-35-04:7,node-35-04:8,node-35-10:1,node-35-10:2,node-35-10:3,node-35-10:4,node-35-10:5,node-35-10:6,node-35-10:7,node-35-10:8,node-36-04:1,node-36-04:2,node-36-04:3,node-36-04:4,node-36-04:5,node-36-04:6,node-36-04:7,node-36-04:8,node-37-01:1,node-37-01:2,node-37-01:3,node-37-01:4,node-37-01:5,node-37-01:6,node-37-01:7,node-37-01:8,node-37-04:1,node-37-04:2,node-37-04:3,node-37-04:4,node-37-04:5,node-37-04:6,node-37-04:7,node-37-04:8,node-37-10:1,node-37-10:2,node-37-10:3,node-37-10:4,node-37-10:5,node-37-10:6,node-37-10:7,node-37-10:8,node-44-01:1,node-44-01:2,node-44-01:3,node-44-01:4,node-44-01:5,node-44-01:6,node-44-01:7,node-44-01:8,node-44-02:1,node-44-02:2,node-44-02:3,node-44-02:4,node-44-02:5,node-44-02:6,node-44-02:7,node-44-02:8,node-51-02:1,node-51-02:2,node-51-02:3,node-51-02:4,node-51-02:5,node-51-02:6,node-51-02:7,node-51-02:8,node-51-06:1,node-51-06:2,node-51-06:3,node-51-06:4,node-51-06:5,node-51-06:6,node-51-06:7,node-51-06:8,node-51-10:1,node-51-10:2,node-51-10:3,node-51-10:4,node-51-10:5,node-51-10:6,node-51-10:7,node-51-10:8</nodes>
+      <queue>hdd</queue>
+      <file_mask></file_mask>
+      <reserved>0</reserved>
+      <task_args>
+        <item>/home/suplatov/exec/namd2.7b1/Linux-x86_64-MPI-pathcc/namd2</item>
+        <item>1tcb_40G47G104F157I278G285G.md.conf</item>
+      </task_args>
+      <core>0</core>
+      <tmpdir>/tmp</tmpdir>
+      <np>128</np>
+      <status>0</status>
+      <gummy>0</gummy>
+      <empty_input>/home/suplatov/suplatov/1tcb_40G47G104F157I278G285G/.cleo-18030-in</empty_input>
+      <node>node-33-03:1</node>
+      <use_empty>/usr/bin/empty-cleo</use_empty>
+      <nice></nice>
+      <dir>/home/suplatov/suplatov/1tcb_40G47G104F157I278G285G</dir>
+      <run_via_mons>0</run_via_mons>
+      <force_proc></force_proc>
+      <is_own>1</is_own>
+      <command>/home/suplatov/exec/namd2.7b1/Linux-x86_64-MPI-pathcc/namd2 1tcb_40G47G104F157I278G285G.md.conf</command>
+      <wait_cond_type>a</wait_cond_type>
+      <owner>hdd</owner>
+      <env>
+        <item>DYLD_LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib</item>
+        <item>SSH_CLIENT =195.208.219.98 25180 22</item>
+        <item>LESS =-MM</item>
+        <item>MPIRUN_CONNECT_TRIES =40</item>
+        <item>LINES =60</item>
+        <item>LESSOPEN =|/usr/share/less/lesspipe.sh %s</item>
+        <item>COLUMNS =183</item>
+        <item>PWD =/home/suplatov/suplatov/1tcb_40G47G104F157I278G285G</item>
+        <item>VT_MPI =mpich</item>
+        <item>CONV_RSH =ssh</item>
+        <item>MPI_REQUEST_MAX =10240</item>
+        <item>JRE_HOME =/usr/lib/jvm/jre</item>
+        <item>LOGNAME =suplatov</item>
+        <item>I_MPI_JOB_STARTUP_TIMEOUT =10000</item>
+        <item>I_MPI_F77 =ifort</item>
+        <item>QTLIB =/usr/lib64/qt3/lib/</item>
+        <item>PATH =/home/suplatov/exec/Amber_scripts:/home/suplatov/exec/ambertools/bin:/home/suplatov/exec/aoe/:/home/suplatov/jre1.6.0_13/bin:/home/suplatov/exec/tcl/bin:/home/suplatov/bin:/home/suplatov/exec/pdb2pqr/:/home/suplatov/exec/Amber_scripts:/home/suplatov/exec/ambertools/bin:/home/suplatov/exec/aoe/:/home/suplatov/jre1.6.0_13/bin:/home/suplatov/exec/tcl/bin:/home/suplatov/bin:/home/suplatov/exec/pdb2pqr/:/opt/pgi/linux86-64/2010/bin:/opt/pathscale/bin:/usr/lib/mvapich-intel-x86_64/bin:/opt/intel/itac/8.0.0.011/bin:/opt/intel/ictce/3.2.2.013/bin:/opt/intel/itac/7.2.2.006/bin:/opt/intel/Compiler/11.1/059/bin/intel64:/opt/intel/Compiler/11.1/059/bin/intel64:/home/suplatov/bin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:/usr/games</item>
+        <item>INCLUDE =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>TERM =linux</item>
+        <item>HISTSIZE =999</item>
+        <item>LESSKEY =/etc/.less</item>
+        <item>SSH_CONNECTION =195.208.219.98 25180 212.192.244.31 22</item>
+        <item>MANPATH =/usr/lib/mvapich-intel-x86_64/man:/opt/intel/mkl/10.2.4.032/man/en_US:/opt/intel/itac/8.0.0.011/man:/opt/intel/itac/7.2.2.006/man:/opt/intel/Compiler/11.1/059/man/en_US:/opt/intel/Compiler/11.1/059/man/en_US:/usr/share/man:/usr/local/share/man:/usr/X11R6/man:/usr/local/man:/opt/pathscale/man:/opt/pgi/linux86-64/2010/man</item>
+        <item>MPIRUN_CONNECT_TIMEOUT =15</item>
+        <item>LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>I_MPI_EXTRA_FILESYSTEM =enable</item>
+        <item>MAIL =/var/mail/suplatov</item>
+        <item>QTDIR =/usr/lib64/qt3/</item>
+        <item>I_MPI_CC =icc</item>
+        <item>MPI_TYPE_MAX =10240</item>
+        <item>HOSTNAME =t60-2.parallel.ru</item>
+        <item>I_MPI_SPIN_FILE_LOCK =off</item>
+        <item>XDG_DATA_DIRS =/usr/share:/var/cache</item>
+        <item>_ =/usr/bin/cleo-submit</item>
+        <item>LS_COLORS =rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</item>
+        <item>SHELL =/bin/bash</item>
+        <item>MOPAC_LICENSE =/home/suplatov/exec/mopac</item>
+        <item>CLASSPATH =/home/suplatov/jre1.6.0_13/lib/postgresql-8.3-604.jdbc4.jar</item>
+        <item>VT_ROOT =/opt/intel/itac/8.0.0.011</item>
+        <item>I_MPI_PIN_DOMAIN =omp</item>
+        <item>PGI =/opt/pgi</item>
+        <item>TMP =/tmp/.private/suplatov</item>
+        <item>QTINC =/usr/lib64/qt3/include/</item>
+        <item>PS_FORMAT =pid,user:12,tty,stat,time,command</item>
+        <item>GTK_PATH =/usr/lib64/gtk-2.0/2.10.0</item>
+        <item>CVS_RSH =ssh</item>
+        <item>GMXLIB =/home/suplatov/exec/gromacs/share/gromacs/top/</item>
+        <item>AMBERHOME =/home/suplatov/exec/ambertools</item>
+        <item>XDG_DATA_HOME =/home/suplatov/.local/share</item>
+        <item>USER =suplatov</item>
+        <item>LANG =en_US.UTF-8</item>
+        <item>G_BROKEN_FILENAMES =1</item>
+        <item>SHLVL =3</item>
+        <item>QS_QUEUE =regular</item>
+        <item>I_MPI_EXTRA_FILESYSTEM_LIST =panfs</item>
+        <item>OMP_NUM_THREADS =1</item>
+        <item>INTEL_LICENSE_FILE =/opt/intel/licenses:/home/suplatov/intel/licenses</item>
+        <item>SSH_TTY =/dev/pts/195</item>
+        <item>LM_LICENSE_FILE =:/opt/pgi/license.dat</item>
+        <item>CPATH =/opt/intel/tbb/2.1/include:/opt/intel/mkl/10.2.4.032/include</item>
+        <item>VT_ADD_LIBS =-ldwarf -lelf -lvtunwind -lnsl -lm -ldl -lpthread</item>
+        <item>VT_LIB_DIR =/opt/intel/itac/8.0.0.011/itac/lib_mpich</item>
+        <item>HOME =/home/suplatov</item>
+        <item>FPATH =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>LD_LIBRARY_PATH =/home/suplatov/exec/autodock-2.1/lib/:/usr/lib/mvapich-gcc-i586/lib/:/home/suplatov/exec/openbabel/lib:/home/suplatov/exec/atlas/lib:/home/suplatov/exec/fftw/lib:/home/suplatov/exec/tcl/lib:/home/suplatov/intel/Compiler/11.0/069/mkl/lib/em64t/:/home/suplatov/exec/autodock-2.1/lib/:/usr/lib/mvapich-gcc-i586/lib/:/home/suplatov/exec/openbabel/lib:/home/suplatov/exec/atlas/lib:/home/suplatov/exec/fftw/lib:/home/suplatov/exec/tcl/lib:/home/suplatov/intel/Compiler/11.0/069/mkl/lib/em64t/:/opt/pathscale/lib/3.2:/opt/pathscale/lib/3.2/32:/usr/lib/mvapich-intel-x86_64/lib:/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/itac/8.0.0.011/itac/slib_mpich:/opt/intel/itac/7.2.2.006/itac/slib_mpich:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>GDK_PIXBUF_MODULEDIR =/usr/lib64/gtk-2.0/2.10.0/loaders</item>
+        <item>HISTFILESIZE =9999</item>
+        <item>XDG_CONFIG_HOME =/home/suplatov/.config</item>
+        <item>I_MPI_F90 =ifort</item>
+        <item>VT_SLIB_DIR =/opt/intel/itac/8.0.0.011/itac/slib_mpich</item>
+        <item>I_MPI_CXX =icc</item>
+        <item>MKLROOT =/opt/intel/mkl/10.2.4.032</item>
+        <item>BASH_ENV =/home/suplatov/.bashrc</item>
+        <item>MAFFT_BINARIES =/home/suplatov/exec/mafft/</item>
+        <item>TMPDIR =/tmp/.private/suplatov</item>
+        <item>NLSPATH =/opt/intel/mkl/10.2.4.032/lib/em64t/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N</item>
+        <item>I_MPI_RDMA_BUFFER_SIZE =4096</item>
+        <item>G_FILENAME_ENCODING =utf8</item>
+      </env>
+      <rep>/home/suplatov/suplatov/1tcb_40G47G104F157I278G285G/namd2.rep-18030</rep>
+      <attach_mask>.*</attach_mask>
+      <path>/home/suplatov/suplatov/1tcb_40G47G104F157I278G285G</path>
+      <qtype>native_queue</qtype>
+      <no_run_again>1</no_run_again>
+      <signal>0</signal>
+      <temp_dir>/tmp/cleo.hdd.18030</temp_dir>
+      <lastowner>hdd</lastowner>
+      <uniqid>hdd-1275912390-18030</uniqid>
+      <exe>/home/suplatov/exec/namd2.7b1/Linux-x86_64-MPI-pathcc/namd2</exe>
+      <npextra>0</npextra>
+    </task>
+    <task id="18043" priority="10" state="run" own="1" queue="hdd">
+      <nodes>
+        <item node_name="node-36-01" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-36-01" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-36-01" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-36-01" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-36-01" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-36-01" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-36-01" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-36-01" cpu_id="8" extra="0" type="own" />
+      </nodes>
+      <start day="7" month="6" of_week="1" hours="16" minutes="35" seconds="33" year="2010" unixtime="1275914133" />
+      <timelimit day="9" month="6" of_week="3" hours="18" minutes="35" seconds="33" year="2010" unixtime="1275914133" />
+      <added day="7" month="6" of_week="1" hours="16" minutes="35" seconds="32" year="2010" unixtime="1275914133" />
+      <task_code>'/home/nilov/amber/amber10/exe/sander.MPI' '-O' '-i' 'md_qmmm_nh3.in' '-o' 'paglu_r_md1_nh3.out' '-p' 'prot_s.prmtop' '-c' 'paglu_r_equil.rst' '-r' 'paglu_r_md1_nh3.rst' '-x' 'paglu_r_md1_nh3.mdcrd'</task_code>
+      <priority>10</priority>
+      <state>run</state>
+      <parent_mask></parent_mask>
+      <use_rsh_filter></use_rsh_filter>
+      <pid>29493</pid>
+      <out>/home/nilov/qmmm/int_5/paglu_r/sander.MPI.out-18043</out>
+      <pe_select>scheduler</pe_select>
+      <blocked>0</blocked>
+      <user>nilov</user>
+      <id>18043</id>
+      <estimated_run>1275984391</estimated_run>
+      <sexe>sander.MPI</sexe>
+      <attrs>HASH(0x3a9cef0)</attrs>
+      <com_line>mpirun_rsh -np $np -hostfile $dir/machinefile-$id VIADEV_USE_AFFINITY=1 $task</com_line>
+      <one_rep>0</one_rep>
+      <occupy_full_node>1</occupy_full_node>
+      <pidfile>/tmp/cleo-run-18043-17461</pidfile>
+      <force_host></force_host>
+      <pgrp>29492</pgrp>
+      <nodes>node-36-01:1,node-36-01:2,node-36-01:3,node-36-01:4,node-36-01:5,node-36-01:6,node-36-01:7,node-36-01:8</nodes>
+      <queue>hdd</queue>
+      <file_mask></file_mask>
+      <reserved>0</reserved>
+      <task_args>
+        <item>/home/nilov/amber/amber10/exe/sander.MPI</item>
+        <item>-O</item>
+        <item>-i</item>
+        <item>md_qmmm_nh3.in</item>
+        <item>-o</item>
+        <item>paglu_r_md1_nh3.out</item>
+        <item>-p</item>
+        <item>prot_s.prmtop</item>
+        <item>-c</item>
+        <item>paglu_r_equil.rst</item>
+        <item>-r</item>
+        <item>paglu_r_md1_nh3.rst</item>
+        <item>-x</item>
+        <item>paglu_r_md1_nh3.mdcrd</item>
+      </task_args>
+      <core>0</core>
+      <tmpdir>/tmp</tmpdir>
+      <np>8</np>
+      <status>0</status>
+      <gummy>0</gummy>
+      <empty_input>/home/nilov/qmmm/int_5/paglu_r/.cleo-18043-in</empty_input>
+      <node>node-36-01:1</node>
+      <use_empty>/usr/bin/empty-cleo</use_empty>
+      <nice></nice>
+      <dir>/home/nilov/qmmm/int_5/paglu_r</dir>
+      <run_via_mons>0</run_via_mons>
+      <force_proc></force_proc>
+      <is_own>1</is_own>
+      <command>/home/nilov/amber/amber10/exe/sander.MPI -O -i md_qmmm_nh3.in -o paglu_r_md1_nh3.out -p prot_s.prmtop -c paglu_r_equil.rst -r paglu_r_md1_nh3.rst -x paglu_r_md1_nh3.mdcrd</command>
+      <wait_cond_type>a</wait_cond_type>
+      <owner>hdd</owner>
+      <env>
+        <item>DYLD_LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib</item>
+        <item>SSH_CLIENT =195.208.219.24 1339 22</item>
+        <item>LESS =-MM</item>
+        <item>MPIRUN_CONNECT_TRIES =40</item>
+        <item>LINES =46</item>
+        <item>LESSOPEN =|/usr/share/less/lesspipe.sh %s</item>
+        <item>COLUMNS =140</item>
+        <item>PWD =/home/nilov/qmmm/int_5/paglu_r</item>
+        <item>VT_MPI =mpich</item>
+        <item>JRE_HOME =/usr/lib/jvm/jre</item>
+        <item>LOGNAME =nilov</item>
+        <item>I_MPI_JOB_STARTUP_TIMEOUT =10000</item>
+        <item>I_MPI_F77 =ifort</item>
+        <item>QTLIB =/usr/lib64/qt3/lib/</item>
+        <item>PATH =/usr/lib/mvapich-intel-x86_64/bin:/opt/pgi/linux86-64/2010/bin:/opt/pathscale/bin:/usr/lib/mvapich-intel-x86_64/bin:/opt/intel/itac/8.0.0.011/bin:/opt/intel/ictce/3.2.2.013/bin:/opt/intel/itac/7.2.2.006/bin:/opt/intel/Compiler/11.1/059/bin/intel64:/opt/intel/Compiler/11.1/059/bin/intel64:/home/nilov/bin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:/usr/games:/home/nilov/bin:/home/nilov/amber/amber10/exe:/home/nilov/amber/amber10/bin:/home/nilov/gromacs_bin/bin</item>
+        <item>INCLUDE =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>TERM =xterm</item>
+        <item>HISTSIZE =999</item>
+        <item>LESSKEY =/etc/.less</item>
+        <item>SSH_CONNECTION =195.208.219.24 1339 212.192.244.31 22</item>
+        <item>MANPATH =/usr/lib/mvapich-intel-x86_64/man:/opt/intel/mkl/10.2.4.032/man/en_US:/opt/intel/itac/8.0.0.011/man:/opt/intel/itac/7.2.2.006/man:/opt/intel/Compiler/11.1/059/man/en_US:/opt/intel/Compiler/11.1/059/man/en_US:/usr/share/man:/usr/local/share/man:/usr/X11R6/man:/usr/local/man:/opt/pathscale/man:/opt/pgi/linux86-64/2010/man</item>
+        <item>MPIRUN_CONNECT_TIMEOUT =15</item>
+        <item>LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>I_MPI_EXTRA_FILESYSTEM =enable</item>
+        <item>MAIL =/var/mail/nilov</item>
+        <item>QTDIR =/usr/lib64/qt3/</item>
+        <item>I_MPI_CC =icc</item>
+        <item>HOSTNAME =t60-2.parallel.ru</item>
+        <item>I_MPI_SPIN_FILE_LOCK =off</item>
+        <item>XDG_DATA_DIRS =/usr/share:/var/cache</item>
+        <item>_ =/usr/bin/cleo-submit</item>
+        <item>LS_COLORS =rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</item>
+        <item>SHELL =/bin/bash</item>
+        <item>CLASSPATH =/opt/intel/itac/8.0.0.011/itac/lib_mpich:/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>VT_ROOT =/opt/intel/itac/8.0.0.011</item>
+        <item>I_MPI_PIN_DOMAIN =omp</item>
+        <item>PGI =/opt/pgi</item>
+        <item>TMP =/tmp/.private/nilov</item>
+        <item>QTINC =/usr/lib64/qt3/include/</item>
+        <item>PS_FORMAT =pid,user:12,tty,stat,time,command</item>
+        <item>GTK_PATH =/usr/lib64/gtk-2.0/2.10.0</item>
+        <item>CVS_RSH =ssh</item>
+        <item>AMBERHOME =/home/nilov/amber/amber10</item>
+        <item>XDG_DATA_HOME =/home/nilov/.local/share</item>
+        <item>USER =nilov</item>
+        <item>G_BROKEN_FILENAMES =1</item>
+        <item>SHLVL =2</item>
+        <item>QS_QUEUE =regular</item>
+        <item>I_MPI_EXTRA_FILESYSTEM_LIST =panfs</item>
+        <item>INTEL_LICENSE_FILE =/opt/intel/licenses:/home/nilov/intel/licenses</item>
+        <item>SSH_TTY =/dev/pts/51</item>
+        <item>LM_LICENSE_FILE =:/opt/pgi/license.dat</item>
+        <item>CPATH =/opt/intel/tbb/2.1/include:/opt/intel/mkl/10.2.4.032/include</item>
+        <item>VT_ADD_LIBS =-ldwarf -lelf -lvtunwind -lnsl -lm -ldl -lpthread</item>
+        <item>VT_LIB_DIR =/opt/intel/itac/8.0.0.011/itac/lib_mpich</item>
+        <item>HOME =/home/nilov</item>
+        <item>FPATH =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>LD_LIBRARY_PATH =/opt/pathscale/lib/3.2:/opt/pathscale/lib/3.2/32:/usr/lib/mvapich-intel-x86_64/lib:/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/itac/8.0.0.011/itac/slib_mpich:/opt/intel/itac/7.2.2.006/itac/slib_mpich:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>GDK_PIXBUF_MODULEDIR =/usr/lib64/gtk-2.0/2.10.0/loaders</item>
+        <item>HISTFILESIZE =9999</item>
+        <item>XDG_CONFIG_HOME =/home/nilov/.config</item>
+        <item>I_MPI_F90 =ifort</item>
+        <item>VT_SLIB_DIR =/opt/intel/itac/8.0.0.011/itac/slib_mpich</item>
+        <item>MPI_HOME =/usr/lib/mvapich-intel-x86_64</item>
+        <item>I_MPI_CXX =icc</item>
+        <item>MKLROOT =/opt/intel/mkl/10.2.4.032</item>
+        <item>BASH_ENV =/home/nilov/.bashrc</item>
+        <item>NLSPATH =/opt/intel/mkl/10.2.4.032/lib/em64t/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N</item>
+        <item>TMPDIR =/tmp/.private/nilov</item>
+        <item>I_MPI_RDMA_BUFFER_SIZE =4096</item>
+        <item>G_FILENAME_ENCODING =iso8859-1</item>
+      </env>
+      <rep>/home/nilov/qmmm/int_5/paglu_r/sander.MPI.rep-18043</rep>
+      <attach_mask>.*</attach_mask>
+      <path>/home/nilov/qmmm/int_5/paglu_r</path>
+      <qtype>native_queue</qtype>
+      <no_run_again>1</no_run_again>
+      <signal>0</signal>
+      <temp_dir>/tmp/cleo.hdd.18043</temp_dir>
+      <lastowner>hdd</lastowner>
+      <uniqid>hdd-1275914132-18043</uniqid>
+      <exe>/home/nilov/amber/amber10/exe/sander.MPI</exe>
+      <npextra>0</npextra>
+    </task>
+    <task id="18044" priority="10" state="run" own="1" queue="hdd">
+      <nodes>
+        <item node_name="node-48-06" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-48-06" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-48-06" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-48-06" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-48-06" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-48-06" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-48-06" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-48-06" cpu_id="8" extra="0" type="own" />
+      </nodes>
+      <start day="7" month="6" of_week="1" hours="16" minutes="40" seconds="35" year="2010" unixtime="1275914435" />
+      <timelimit day="9" month="6" of_week="3" hours="18" minutes="40" seconds="35" year="2010" unixtime="1275914435" />
+      <added day="7" month="6" of_week="1" hours="16" minutes="40" seconds="34" year="2010" unixtime="1275914435" />
+      <task_code>'/home/nilov/amber/amber10/exe/sander.MPI' '-O' '-i' 'md_qmmm_nh3.in' '-o' 'paglu_l_md1_nh3.out' '-p' 'prot_s.prmtop' '-c' 'paglu_l_equil.rst' '-r' 'paglu_l_md1_nh3.rst' '-x' 'paglu_l_md1_nh3.mdcrd'</task_code>
+      <priority>10</priority>
+      <state>run</state>
+      <parent_mask></parent_mask>
+      <use_rsh_filter></use_rsh_filter>
+      <pid>13937</pid>
+      <out>/home/nilov/qmmm/int_5/paglu_l/sander.MPI.out-18044</out>
+      <pe_select>scheduler</pe_select>
+      <blocked>0</blocked>
+      <user>nilov</user>
+      <id>18044</id>
+      <estimated_run>1276094133</estimated_run>
+      <sexe>sander.MPI</sexe>
+      <attrs>HASH(0x388a740)</attrs>
+      <com_line>mpirun_rsh -np $np -hostfile $dir/machinefile-$id VIADEV_USE_AFFINITY=1 $task</com_line>
+      <one_rep>0</one_rep>
+      <occupy_full_node>1</occupy_full_node>
+      <pidfile>/tmp/cleo-run-18044-54571</pidfile>
+      <force_host></force_host>
+      <pgrp>13936</pgrp>
+      <nodes>node-48-06:1,node-48-06:2,node-48-06:3,node-48-06:4,node-48-06:5,node-48-06:6,node-48-06:7,node-48-06:8</nodes>
+      <queue>hdd</queue>
+      <file_mask></file_mask>
+      <reserved>0</reserved>
+      <task_args>
+        <item>/home/nilov/amber/amber10/exe/sander.MPI</item>
+        <item>-O</item>
+        <item>-i</item>
+        <item>md_qmmm_nh3.in</item>
+        <item>-o</item>
+        <item>paglu_l_md1_nh3.out</item>
+        <item>-p</item>
+        <item>prot_s.prmtop</item>
+        <item>-c</item>
+        <item>paglu_l_equil.rst</item>
+        <item>-r</item>
+        <item>paglu_l_md1_nh3.rst</item>
+        <item>-x</item>
+        <item>paglu_l_md1_nh3.mdcrd</item>
+      </task_args>
+      <core>0</core>
+      <tmpdir>/tmp</tmpdir>
+      <np>8</np>
+      <status>0</status>
+      <gummy>0</gummy>
+      <empty_input>/home/nilov/qmmm/int_5/paglu_l/.cleo-18044-in</empty_input>
+      <node>node-48-06:1</node>
+      <use_empty>/usr/bin/empty-cleo</use_empty>
+      <nice></nice>
+      <dir>/home/nilov/qmmm/int_5/paglu_l</dir>
+      <run_via_mons>0</run_via_mons>
+      <force_proc></force_proc>
+      <is_own>1</is_own>
+      <command>/home/nilov/amber/amber10/exe/sander.MPI -O -i md_qmmm_nh3.in -o paglu_l_md1_nh3.out -p prot_s.prmtop -c paglu_l_equil.rst -r paglu_l_md1_nh3.rst -x paglu_l_md1_nh3.mdcrd</command>
+      <wait_cond_type>a</wait_cond_type>
+      <owner>hdd</owner>
+      <env>
+        <item>DYLD_LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib</item>
+        <item>SSH_CLIENT =195.208.219.24 1339 22</item>
+        <item>LESS =-MM</item>
+        <item>MPIRUN_CONNECT_TRIES =40</item>
+        <item>LINES =46</item>
+        <item>LESSOPEN =|/usr/share/less/lesspipe.sh %s</item>
+        <item>COLUMNS =140</item>
+        <item>PWD =/home/nilov/qmmm/int_5/paglu_l</item>
+        <item>VT_MPI =mpich</item>
+        <item>JRE_HOME =/usr/lib/jvm/jre</item>
+        <item>LOGNAME =nilov</item>
+        <item>I_MPI_JOB_STARTUP_TIMEOUT =10000</item>
+        <item>I_MPI_F77 =ifort</item>
+        <item>QTLIB =/usr/lib64/qt3/lib/</item>
+        <item>PATH =/usr/lib/mvapich-intel-x86_64/bin:/opt/pgi/linux86-64/2010/bin:/opt/pathscale/bin:/usr/lib/mvapich-intel-x86_64/bin:/opt/intel/itac/8.0.0.011/bin:/opt/intel/ictce/3.2.2.013/bin:/opt/intel/itac/7.2.2.006/bin:/opt/intel/Compiler/11.1/059/bin/intel64:/opt/intel/Compiler/11.1/059/bin/intel64:/home/nilov/bin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:/usr/games:/home/nilov/bin:/home/nilov/amber/amber10/exe:/home/nilov/amber/amber10/bin:/home/nilov/gromacs_bin/bin</item>
+        <item>INCLUDE =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>TERM =xterm</item>
+        <item>HISTSIZE =999</item>
+        <item>LESSKEY =/etc/.less</item>
+        <item>SSH_CONNECTION =195.208.219.24 1339 212.192.244.31 22</item>
+        <item>MANPATH =/usr/lib/mvapich-intel-x86_64/man:/opt/intel/mkl/10.2.4.032/man/en_US:/opt/intel/itac/8.0.0.011/man:/opt/intel/itac/7.2.2.006/man:/opt/intel/Compiler/11.1/059/man/en_US:/opt/intel/Compiler/11.1/059/man/en_US:/usr/share/man:/usr/local/share/man:/usr/X11R6/man:/usr/local/man:/opt/pathscale/man:/opt/pgi/linux86-64/2010/man</item>
+        <item>MPIRUN_CONNECT_TIMEOUT =15</item>
+        <item>LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>I_MPI_EXTRA_FILESYSTEM =enable</item>
+        <item>MAIL =/var/mail/nilov</item>
+        <item>QTDIR =/usr/lib64/qt3/</item>
+        <item>I_MPI_CC =icc</item>
+        <item>HOSTNAME =t60-2.parallel.ru</item>
+        <item>I_MPI_SPIN_FILE_LOCK =off</item>
+        <item>XDG_DATA_DIRS =/usr/share:/var/cache</item>
+        <item>_ =/usr/bin/cleo-submit</item>
+        <item>LS_COLORS =rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</item>
+        <item>SHELL =/bin/bash</item>
+        <item>CLASSPATH =/opt/intel/itac/8.0.0.011/itac/lib_mpich:/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>VT_ROOT =/opt/intel/itac/8.0.0.011</item>
+        <item>I_MPI_PIN_DOMAIN =omp</item>
+        <item>PGI =/opt/pgi</item>
+        <item>TMP =/tmp/.private/nilov</item>
+        <item>QTINC =/usr/lib64/qt3/include/</item>
+        <item>PS_FORMAT =pid,user:12,tty,stat,time,command</item>
+        <item>GTK_PATH =/usr/lib64/gtk-2.0/2.10.0</item>
+        <item>CVS_RSH =ssh</item>
+        <item>AMBERHOME =/home/nilov/amber/amber10</item>
+        <item>XDG_DATA_HOME =/home/nilov/.local/share</item>
+        <item>USER =nilov</item>
+        <item>G_BROKEN_FILENAMES =1</item>
+        <item>SHLVL =2</item>
+        <item>QS_QUEUE =regular</item>
+        <item>I_MPI_EXTRA_FILESYSTEM_LIST =panfs</item>
+        <item>INTEL_LICENSE_FILE =/opt/intel/licenses:/home/nilov/intel/licenses</item>
+        <item>SSH_TTY =/dev/pts/51</item>
+        <item>LM_LICENSE_FILE =:/opt/pgi/license.dat</item>
+        <item>CPATH =/opt/intel/tbb/2.1/include:/opt/intel/mkl/10.2.4.032/include</item>
+        <item>VT_ADD_LIBS =-ldwarf -lelf -lvtunwind -lnsl -lm -ldl -lpthread</item>
+        <item>VT_LIB_DIR =/opt/intel/itac/8.0.0.011/itac/lib_mpich</item>
+        <item>HOME =/home/nilov</item>
+        <item>FPATH =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>LD_LIBRARY_PATH =/opt/pathscale/lib/3.2:/opt/pathscale/lib/3.2/32:/usr/lib/mvapich-intel-x86_64/lib:/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/itac/8.0.0.011/itac/slib_mpich:/opt/intel/itac/7.2.2.006/itac/slib_mpich:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>GDK_PIXBUF_MODULEDIR =/usr/lib64/gtk-2.0/2.10.0/loaders</item>
+        <item>HISTFILESIZE =9999</item>
+        <item>XDG_CONFIG_HOME =/home/nilov/.config</item>
+        <item>I_MPI_F90 =ifort</item>
+        <item>VT_SLIB_DIR =/opt/intel/itac/8.0.0.011/itac/slib_mpich</item>
+        <item>MPI_HOME =/usr/lib/mvapich-intel-x86_64</item>
+        <item>I_MPI_CXX =icc</item>
+        <item>MKLROOT =/opt/intel/mkl/10.2.4.032</item>
+        <item>BASH_ENV =/home/nilov/.bashrc</item>
+        <item>NLSPATH =/opt/intel/mkl/10.2.4.032/lib/em64t/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N</item>
+        <item>TMPDIR =/tmp/.private/nilov</item>
+        <item>I_MPI_RDMA_BUFFER_SIZE =4096</item>
+        <item>G_FILENAME_ENCODING =iso8859-1</item>
+      </env>
+      <rep>/home/nilov/qmmm/int_5/paglu_l/sander.MPI.rep-18044</rep>
+      <attach_mask>.*</attach_mask>
+      <path>/home/nilov/qmmm/int_5/paglu_l</path>
+      <qtype>native_queue</qtype>
+      <no_run_again>1</no_run_again>
+      <signal>0</signal>
+      <temp_dir>/tmp/cleo.hdd.18044</temp_dir>
+      <lastowner>hdd</lastowner>
+      <uniqid>hdd-1275914434-18044</uniqid>
+      <exe>/home/nilov/amber/amber10/exe/sander.MPI</exe>
+      <npextra>0</npextra>
+    </task>
+    <task id="18073" priority="10" state="run" own="1" queue="hdd">
+      <nodes>
+        <item node_name="node-34-01" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-34-01" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-34-01" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-34-01" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-34-01" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-34-01" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-34-01" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-34-01" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-34-05" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-34-05" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-34-05" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-34-05" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-34-05" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-34-05" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-34-05" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-34-05" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-34-08" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-34-08" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-34-08" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-34-08" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-34-08" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-34-08" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-34-08" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-34-08" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-35-01" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-35-01" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-35-01" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-35-01" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-35-01" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-35-01" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-35-01" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-35-01" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-36-03" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-36-03" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-36-03" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-36-03" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-36-03" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-36-03" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-36-03" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-36-03" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-36-08" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-36-08" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-36-08" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-36-08" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-36-08" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-36-08" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-36-08" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-36-08" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-37-02" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-37-02" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-37-02" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-37-02" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-37-02" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-37-02" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-37-02" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-37-02" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-51-08" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-51-08" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-51-08" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-51-08" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-51-08" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-51-08" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-51-08" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-51-08" cpu_id="8" extra="0" type="own" />
+      </nodes>
+      <start day="7" month="6" of_week="1" hours="23" minutes="34" seconds="58" year="2010" unixtime="1275939298" />
+      <timelimit day="8" month="6" of_week="2" hours="23" minutes="34" seconds="58" year="2010" unixtime="1275939298" />
+      <added day="7" month="6" of_week="1" hours="23" minutes="34" seconds="57" year="2010" unixtime="1275939298" />
+      <task_code>'./stage2'</task_code>
+      <priority>10</priority>
+      <state>run</state>
+      <parent_mask></parent_mask>
+      <use_rsh_filter></use_rsh_filter>
+      <pid>13782</pid>
+      <out>/home/jikk/tests/hashes/char2/stage2.out-18073</out>
+      <pe_select>scheduler</pe_select>
+      <blocked>0</blocked>
+      <user>jikk</user>
+      <id>18073</id>
+      <estimated_run>1275984391</estimated_run>
+      <sexe>stage2</sexe>
+      <attrs>HASH(0x38df8c0)</attrs>
+      <com_line>mpirun_rsh -np $np -hostfile $dir/machinefile-$id VIADEV_USE_AFFINITY=1 $task</com_line>
+      <one_rep>0</one_rep>
+      <occupy_full_node>1</occupy_full_node>
+      <pidfile>/tmp/cleo-run-18073-6306</pidfile>
+      <force_host></force_host>
+      <pgrp>13781</pgrp>
+      <nodes>node-34-01:1,node-34-01:2,node-34-01:3,node-34-01:4,node-34-01:5,node-34-01:6,node-34-01:7,node-34-01:8,node-34-05:1,node-34-05:2,node-34-05:3,node-34-05:4,node-34-05:5,node-34-05:6,node-34-05:7,node-34-05:8,node-34-08:1,node-34-08:2,node-34-08:3,node-34-08:4,node-34-08:5,node-34-08:6,node-34-08:7,node-34-08:8,node-35-01:1,node-35-01:2,node-35-01:3,node-35-01:4,node-35-01:5,node-35-01:6,node-35-01:7,node-35-01:8,node-36-03:1,node-36-03:2,node-36-03:3,node-36-03:4,node-36-03:5,node-36-03:6,node-36-03:7,node-36-03:8,node-36-08:1,node-36-08:2,node-36-08:3,node-36-08:4,node-36-08:5,node-36-08:6,node-36-08:7,node-36-08:8,node-37-02:1,node-37-02:2,node-37-02:3,node-37-02:4,node-37-02:5,node-37-02:6,node-37-02:7,node-37-02:8,node-51-08:1,node-51-08:2,node-51-08:3,node-51-08:4,node-51-08:5,node-51-08:6,node-51-08:7,node-51-08:8</nodes>
+      <queue>hdd</queue>
+      <file_mask></file_mask>
+      <reserved>0</reserved>
+      <task_args>
+        <item>./stage2</item>
+      </task_args>
+      <core>0</core>
+      <tmpdir>/tmp</tmpdir>
+      <np>64</np>
+      <status>0</status>
+      <gummy>0</gummy>
+      <empty_input>/home/jikk/tests/hashes/char2/.cleo-18073-in</empty_input>
+      <node>node-34-01:1</node>
+      <use_empty>/usr/bin/empty-cleo</use_empty>
+      <nice></nice>
+      <dir>/home/jikk/tests/hashes/char2</dir>
+      <run_via_mons>0</run_via_mons>
+      <force_proc></force_proc>
+      <is_own>1</is_own>
+      <command>./stage2</command>
+      <wait_cond_type>a</wait_cond_type>
+      <owner>hdd</owner>
+      <env>
+        <item>DYLD_LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib</item>
+        <item>SSH_CLIENT =95.108.172.9 1707 22</item>
+        <item>LESS =-MM</item>
+        <item>MPIRUN_CONNECT_TRIES =40</item>
+        <item>LINES =24</item>
+        <item>LESSOPEN =|/usr/share/less/lesspipe.sh %s</item>
+        <item>COLUMNS =80</item>
+        <item>PWD =/home/jikk/tests/hashes/char2</item>
+        <item>VT_MPI =mpich</item>
+        <item>JRE_HOME =/usr/lib/jvm/jre</item>
+        <item>LOGNAME =jikk</item>
+        <item>I_MPI_JOB_STARTUP_TIMEOUT =10000</item>
+        <item>I_MPI_F77 =ifort</item>
+        <item>QTLIB =/usr/lib64/qt3/lib/</item>
+        <item>PATH =/opt/pgi/linux86-64/2010/bin:/opt/pathscale/bin:/usr/lib/mvapich-gcc-x86_64/bin:/opt/intel/itac/8.0.0.011/bin:/opt/intel/ictce/3.2.2.013/bin:/opt/intel/itac/7.2.2.006/bin:/opt/intel/Compiler/11.1/059/bin/intel64:/opt/intel/Compiler/11.1/059/bin/intel64:/home/jikk/bin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:/usr/games:/home/jikk/bin/</item>
+        <item>INCLUDE =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>TERM =xterm</item>
+        <item>HISTSIZE =999</item>
+        <item>LESSKEY =/etc/.less</item>
+        <item>SSH_CONNECTION =95.108.172.9 1707 212.192.244.31 22</item>
+        <item>MANPATH =/usr/lib/mvapich-gcc-x86_64/man:/opt/intel/mkl/10.2.4.032/man/en_US:/opt/intel/itac/8.0.0.011/man:/opt/intel/itac/7.2.2.006/man:/opt/intel/Compiler/11.1/059/man/en_US:/opt/intel/Compiler/11.1/059/man/en_US:/usr/share/man:/usr/local/share/man:/usr/X11R6/man:/usr/local/man:/opt/pathscale/man:/opt/pgi/linux86-64/2010/man</item>
+        <item>MPIRUN_CONNECT_TIMEOUT =15</item>
+        <item>LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>I_MPI_EXTRA_FILESYSTEM =enable</item>
+        <item>MAIL =/var/mail/jikk</item>
+        <item>QTDIR =/usr/lib64/qt3/</item>
+        <item>I_MPI_CC =icc</item>
+        <item>HOSTNAME =t60-2.parallel.ru</item>
+        <item>I_MPI_SPIN_FILE_LOCK =off</item>
+        <item>XDG_DATA_DIRS =/usr/share:/var/cache</item>
+        <item>_ =/usr/bin/cleo-submit</item>
+        <item>LS_COLORS =rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</item>
+        <item>SHELL =/bin/bash</item>
+        <item>CLASSPATH =/opt/intel/itac/8.0.0.011/itac/lib_mpich:/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>VT_ROOT =/opt/intel/itac/8.0.0.011</item>
+        <item>I_MPI_PIN_DOMAIN =omp</item>
+        <item>PGI =/opt/pgi</item>
+        <item>TMP =/tmp/.private/jikk</item>
+        <item>QTINC =/usr/lib64/qt3/include/</item>
+        <item>PS_FORMAT =pid,user:12,tty,stat,time,command</item>
+        <item>GTK_PATH =/usr/lib64/gtk-2.0/2.10.0</item>
+        <item>CVS_RSH =ssh</item>
+        <item>XDG_DATA_HOME =/home/jikk/.local/share</item>
+        <item>USER =jikk</item>
+        <item>G_BROKEN_FILENAMES =1</item>
+        <item>SHLVL =2</item>
+        <item>QS_QUEUE =regular</item>
+        <item>I_MPI_EXTRA_FILESYSTEM_LIST =panfs</item>
+        <item>INTEL_LICENSE_FILE =/opt/intel/licenses:/home/jikk/intel/licenses</item>
+        <item>SSH_TTY =/dev/pts/117</item>
+        <item>LM_LICENSE_FILE =:/opt/pgi/license.dat</item>
+        <item>CPATH =/opt/intel/tbb/2.1/include:/opt/intel/mkl/10.2.4.032/include</item>
+        <item>VT_ADD_LIBS =-ldwarf -lelf -lvtunwind -lnsl -lm -ldl -lpthread</item>
+        <item>VT_LIB_DIR =/opt/intel/itac/8.0.0.011/itac/lib_mpich</item>
+        <item>HOME =/home/jikk</item>
+        <item>FPATH =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>LD_LIBRARY_PATH =/opt/pathscale/lib/3.2:/opt/pathscale/lib/3.2/32:/usr/lib/mvapich-gcc-x86_64/lib:/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/itac/8.0.0.011/itac/slib_mpich:/opt/intel/itac/7.2.2.006/itac/slib_mpich:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>GDK_PIXBUF_MODULEDIR =/usr/lib64/gtk-2.0/2.10.0/loaders</item>
+        <item>HISTFILESIZE =9999</item>
+        <item>XDG_CONFIG_HOME =/home/jikk/.config</item>
+        <item>I_MPI_F90 =ifort</item>
+        <item>VT_SLIB_DIR =/opt/intel/itac/8.0.0.011/itac/slib_mpich</item>
+        <item>I_MPI_CXX =icc</item>
+        <item>MKLROOT =/opt/intel/mkl/10.2.4.032</item>
+        <item>BASH_ENV =/home/jikk/.bashrc</item>
+        <item>NLSPATH =/opt/intel/mkl/10.2.4.032/lib/em64t/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N</item>
+        <item>TMPDIR =/tmp/.private/jikk</item>
+        <item>I_MPI_RDMA_BUFFER_SIZE =4096</item>
+        <item>G_FILENAME_ENCODING =iso8859-1</item>
+      </env>
+      <rep>/home/jikk/tests/hashes/char2/stage2.rep-18073</rep>
+      <attach_mask>.*</attach_mask>
+      <path>/home/jikk/tests/hashes/char2</path>
+      <qtype>native_queue</qtype>
+      <no_run_again>1</no_run_again>
+      <signal>0</signal>
+      <temp_dir>/tmp/cleo.hdd.18073</temp_dir>
+      <lastowner>hdd</lastowner>
+      <uniqid>hdd-1275939297-18073</uniqid>
+      <exe>./stage2</exe>
+      <npextra>0</npextra>
+    </task>
+    <task id="18084" priority="10" state="run" own="1" queue="hdd">
+      <nodes>
+        <item node_name="node-37-07" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-37-07" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-37-07" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-37-07" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-37-07" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-37-07" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-37-07" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-37-07" cpu_id="8" extra="0" type="own" />
+      </nodes>
+      <start day="8" month="6" of_week="2" hours="0" minutes="5" seconds="10" year="2010" unixtime="1275941110" />
+      <timelimit day="9" month="6" of_week="3" hours="11" minutes="5" seconds="10" year="2010" unixtime="1275941110" />
+      <added day="8" month="6" of_week="2" hours="0" minutes="5" seconds="9" year="2010" unixtime="1275941110" />
+      <task_code>'ltad' '-in' 'tadtest.inp' '-var' 'scale' '40' '-log' '40.log'</task_code>
+      <priority>10</priority>
+      <profile>intel</profile>
+      <state>run</state>
+      <parent_mask></parent_mask>
+      <use_rsh_filter></use_rsh_filter>
+      <pid>32226</pid>
+      <out>/home/bochenkov/test/bench/scal/ltad.out-18084</out>
+      <pe_select>scheduler</pe_select>
+      <blocked>0</blocked>
+      <user>bochenkov</user>
+      <id>18084</id>
+      <estimated_run>1275984391</estimated_run>
+      <sexe>ltad</sexe>
+      <attrs>HASH(0x3ad2dc0)</attrs>
+      <com_line>mpirun -f $dir/machinefile-$id -r ssh -np $np $task</com_line>
+      <one_rep>0</one_rep>
+      <occupy_full_node>1</occupy_full_node>
+      <pidfile>/tmp/cleo-run-18084-23785</pidfile>
+      <force_host></force_host>
+      <pgrp>32225</pgrp>
+      <nodes>node-37-07:1,node-37-07:2,node-37-07:3,node-37-07:4,node-37-07:5,node-37-07:6,node-37-07:7,node-37-07:8</nodes>
+      <queue>hdd</queue>
+      <file_mask></file_mask>
+      <reserved>0</reserved>
+      <task_args>
+        <item>ltad</item>
+        <item>-in</item>
+        <item>tadtest.inp</item>
+        <item>-var</item>
+        <item>scale</item>
+        <item>40</item>
+        <item>-log</item>
+        <item>40.log</item>
+      </task_args>
+      <core>0</core>
+      <tmpdir>/tmp</tmpdir>
+      <np>8</np>
+      <status>0</status>
+      <gummy>0</gummy>
+      <empty_input>/home/bochenkov/test/bench/scal/.cleo-18084-in</empty_input>
+      <node>node-37-07:1</node>
+      <use_empty>/usr/bin/empty-cleo</use_empty>
+      <nice></nice>
+      <dir>/home/bochenkov/test/bench/scal</dir>
+      <run_via_mons>0</run_via_mons>
+      <force_proc></force_proc>
+      <is_own>1</is_own>
+      <command>ltad -in tadtest.inp -var scale 40 -log 40.log</command>
+      <wait_cond_type>a</wait_cond_type>
+      <owner>hdd</owner>
+      <env>
+        <item>DYLD_LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib</item>
+        <item>SSH_CLIENT =77.87.207.163 2999 22</item>
+        <item>LESS =-MM</item>
+        <item>MPIRUN_CONNECT_TRIES =40</item>
+        <item>LINES =24</item>
+        <item>LESSOPEN =|/usr/share/less/lesspipe.sh %s</item>
+        <item>COLUMNS =80</item>
+        <item>PWD =/home/bochenkov/test/bench/scal</item>
+        <item>VT_MPI =mpich</item>
+        <item>JRE_HOME =/usr/lib/jvm/jre</item>
+        <item>LOGNAME =bochenkov</item>
+        <item>I_MPI_JOB_STARTUP_TIMEOUT =10000</item>
+        <item>I_MPI_F77 =ifort</item>
+        <item>QTLIB =/usr/lib64/qt3/lib/</item>
+        <item>PATH =/opt/pgi/linux86-64/2010/bin:/opt/pathscale/bin:/opt/intel/impi/4.0.0.025/intel64/bin:/opt/intel/itac/8.0.0.011/bin:/opt/intel/ictce/3.2.2.013/bin:/opt/intel/itac/7.2.2.006/bin:/opt/intel/Compiler/11.1/059/bin/intel64:/opt/intel/Compiler/11.1/059/bin/intel64:/home/bochenkov/bin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:/usr/games</item>
+        <item>INCLUDE =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>TERM =xterm</item>
+        <item>HISTSIZE =999</item>
+        <item>LESSKEY =/etc/.less</item>
+        <item>SSH_CONNECTION =77.87.207.163 2999 212.192.244.31 22</item>
+        <item>MANPATH =/opt/intel/impi/4.0.0.025/man:/opt/intel/mkl/10.2.4.032/man/en_US:/opt/intel/itac/8.0.0.011/man:/opt/intel/itac/7.2.2.006/man:/opt/intel/Compiler/11.1/059/man/en_US:/opt/intel/Compiler/11.1/059/man/en_US:/usr/share/man:/usr/local/share/man:/usr/X11R6/man:/usr/local/man:/opt/pathscale/man:/opt/pgi/linux86-64/2010/man</item>
+        <item>MPIRUN_CONNECT_TIMEOUT =15</item>
+        <item>LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>I_MPI_EXTRA_FILESYSTEM =enable</item>
+        <item>MAIL =/var/mail/bochenkov</item>
+        <item>QTDIR =/usr/lib64/qt3/</item>
+        <item>I_MPI_CC =icc</item>
+        <item>HOSTNAME =t60-2.parallel.ru</item>
+        <item>I_MPI_SPIN_FILE_LOCK =off</item>
+        <item>XDG_DATA_DIRS =/usr/share:/var/cache</item>
+        <item>_ =/usr/bin/cleo-submit</item>
+        <item>LS_COLORS =rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</item>
+        <item>SHELL =/bin/bash</item>
+        <item>CLASSPATH =/opt/intel/itac/8.0.0.011/itac/lib_mpich:/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>VT_ROOT =/opt/intel/itac/8.0.0.011</item>
+        <item>I_MPI_PIN_DOMAIN =omp</item>
+        <item>PGI =/opt/pgi</item>
+        <item>TMP =/tmp/.private/bochenkov</item>
+        <item>I_MPI_ROOT =/opt/intel/impi/4.0.0.025</item>
+        <item>QTINC =/usr/lib64/qt3/include/</item>
+        <item>PS_FORMAT =pid,user:12,tty,stat,time,command</item>
+        <item>GTK_PATH =/usr/lib64/gtk-2.0/2.10.0</item>
+        <item>CVS_RSH =ssh</item>
+        <item>XDG_DATA_HOME =/home/bochenkov/.local/share</item>
+        <item>USER =bochenkov</item>
+        <item>G_BROKEN_FILENAMES =1</item>
+        <item>SHLVL =3</item>
+        <item>QS_QUEUE =regular</item>
+        <item>I_MPI_EXTRA_FILESYSTEM_LIST =panfs</item>
+        <item>INTEL_LICENSE_FILE =/opt/intel/licenses:/home/bochenkov/intel/licenses</item>
+        <item>SSH_TTY =/dev/pts/223</item>
+        <item>LM_LICENSE_FILE =:/opt/pgi/license.dat</item>
+        <item>VT_ADD_LIBS =-ldwarf -lelf -lvtunwind -lnsl -lm -ldl -lpthread</item>
+        <item>CPATH =/opt/intel/tbb/2.1/include:/opt/intel/mkl/10.2.4.032/include</item>
+        <item>VT_LIB_DIR =/opt/intel/itac/8.0.0.011/itac/lib_mpich</item>
+        <item>HOME =/home/bochenkov</item>
+        <item>FPATH =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>LD_LIBRARY_PATH =/opt/pathscale/lib/3.2:/opt/pathscale/lib/3.2/32:/opt/intel/impi/4.0.0.025/intel64/lib:/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/itac/8.0.0.011/itac/slib_mpich:/opt/intel/itac/7.2.2.006/itac/slib_mpich:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>GDK_PIXBUF_MODULEDIR =/usr/lib64/gtk-2.0/2.10.0/loaders</item>
+        <item>HISTFILESIZE =9999</item>
+        <item>XDG_CONFIG_HOME =/home/bochenkov/.config</item>
+        <item>I_MPI_F90 =ifort</item>
+        <item>VT_SLIB_DIR =/opt/intel/itac/8.0.0.011/itac/slib_mpich</item>
+        <item>I_MPI_CXX =icc</item>
+        <item>MKLROOT =/opt/intel/mkl/10.2.4.032</item>
+        <item>BASH_ENV =/home/bochenkov/.bashrc</item>
+        <item>NLSPATH =/opt/intel/mkl/10.2.4.032/lib/em64t/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N</item>
+        <item>TMPDIR =/tmp/.private/bochenkov</item>
+        <item>I_MPI_RDMA_BUFFER_SIZE =4096</item>
+        <item>G_FILENAME_ENCODING =iso8859-1</item>
+      </env>
+      <rep>/home/bochenkov/test/bench/scal/ltad.rep-18084</rep>
+      <attach_mask>.*</attach_mask>
+      <path>/home/bochenkov/test/bench/scal</path>
+      <qtype>native_queue</qtype>
+      <no_run_again>1</no_run_again>
+      <signal>0</signal>
+      <temp_dir>/tmp/cleo.hdd.18084</temp_dir>
+      <lastowner>hdd</lastowner>
+      <uniqid>hdd-1275941109-18084</uniqid>
+      <npextra>0</npextra>
+      <exe>ltad</exe>
+    </task>
+    <task id="18088" priority="10" state="run" own="1" queue="hdd">
+      <nodes>
+        <item node_name="node-33-09" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-33-09" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-33-09" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-33-09" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-33-09" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-33-09" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-33-09" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-33-09" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-33-10" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-33-10" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-33-10" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-33-10" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-33-10" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-33-10" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-33-10" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-33-10" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-35-08" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-35-08" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-35-08" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-35-08" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-35-08" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-35-08" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-35-08" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-35-08" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-35-09" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-35-09" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-35-09" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-35-09" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-35-09" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-35-09" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-35-09" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-35-09" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-36-09" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-36-09" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-36-09" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-36-09" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-36-09" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-36-09" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-36-09" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-36-09" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-37-08" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-37-08" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-37-08" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-37-08" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-37-08" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-37-08" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-37-08" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-37-08" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-37-09" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-37-09" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-37-09" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-37-09" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-37-09" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-37-09" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-37-09" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-37-09" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-51-01" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-51-01" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-51-01" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-51-01" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-51-01" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-51-01" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-51-01" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-51-01" cpu_id="8" extra="0" type="own" />
+      </nodes>
+      <start day="8" month="6" of_week="2" hours="10" minutes="6" seconds="46" year="2010" unixtime="1275977206" />
+      <timelimit day="10" month="6" of_week="4" hours="10" minutes="51" seconds="46" year="2010" unixtime="1275977206" />
+      <added day="8" month="6" of_week="2" hours="10" minutes="6" seconds="45" year="2010" unixtime="1275977206" />
+      <task_code>'/home/nesterenko/local/bin/mdrun7' '-s' 'sd0.tpr' '-deffnm' 'sd0a'</task_code>
+      <priority>10</priority>
+      <state>run</state>
+      <parent_mask></parent_mask>
+      <use_rsh_filter></use_rsh_filter>
+      <pid>13393</pid>
+      <out>/home/nesterenko/lipid_phase/dppc-corr/cry250start/mdrun7.out-18088</out>
+      <pe_select>scheduler</pe_select>
+      <blocked>0</blocked>
+      <user>nesterenko</user>
+      <id>18088</id>
+      <estimated_run>1275996143</estimated_run>
+      <sexe>mdrun7</sexe>
+      <attrs>HASH(0x38dc840)</attrs>
+      <com_line>mpirun_rsh -np $np -hostfile $dir/machinefile-$id VIADEV_USE_AFFINITY=1 $task</com_line>
+      <one_rep>0</one_rep>
+      <occupy_full_node>1</occupy_full_node>
+      <pidfile>/tmp/cleo-run-18088-12486</pidfile>
+      <force_host></force_host>
+      <pgrp>13392</pgrp>
+      <nodes>node-33-09:1,node-33-09:2,node-33-09:3,node-33-09:4,node-33-09:5,node-33-09:6,node-33-09:7,node-33-09:8,node-33-10:1,node-33-10:2,node-33-10:3,node-33-10:4,node-33-10:5,node-33-10:6,node-33-10:7,node-33-10:8,node-35-08:1,node-35-08:2,node-35-08:3,node-35-08:4,node-35-08:5,node-35-08:6,node-35-08:7,node-35-08:8,node-35-09:1,node-35-09:2,node-35-09:3,node-35-09:4,node-35-09:5,node-35-09:6,node-35-09:7,node-35-09:8,node-36-09:1,node-36-09:2,node-36-09:3,node-36-09:4,node-36-09:5,node-36-09:6,node-36-09:7,node-36-09:8,node-37-08:1,node-37-08:2,node-37-08:3,node-37-08:4,node-37-08:5,node-37-08:6,node-37-08:7,node-37-08:8,node-37-09:1,node-37-09:2,node-37-09:3,node-37-09:4,node-37-09:5,node-37-09:6,node-37-09:7,node-37-09:8,node-51-01:1,node-51-01:2,node-51-01:3,node-51-01:4,node-51-01:5,node-51-01:6,node-51-01:7,node-51-01:8</nodes>
+      <queue>hdd</queue>
+      <file_mask></file_mask>
+      <reserved>0</reserved>
+      <task_args>
+        <item>/home/nesterenko/local/bin/mdrun7</item>
+        <item>-s</item>
+        <item>sd0.tpr</item>
+        <item>-deffnm</item>
+        <item>sd0a</item>
+      </task_args>
+      <core>0</core>
+      <tmpdir>/tmp</tmpdir>
+      <np>64</np>
+      <status>0</status>
+      <gummy>0</gummy>
+      <empty_input>/home/nesterenko/lipid_phase/dppc-corr/cry250start/.cleo-18088-in</empty_input>
+      <node>node-33-09:1</node>
+      <use_empty>/usr/bin/empty-cleo</use_empty>
+      <nice></nice>
+      <dir>/home/nesterenko/lipid_phase/dppc-corr/cry250start</dir>
+      <run_via_mons>0</run_via_mons>
+      <force_proc></force_proc>
+      <is_own>1</is_own>
+      <command>/home/nesterenko/local/bin/mdrun7 -s sd0.tpr -deffnm sd0a</command>
+      <wait_cond_type>a</wait_cond_type>
+      <owner>hdd</owner>
+      <env>
+        <item>DYLD_LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib</item>
+        <item>SSH_CLIENT =193.232.120.109 43064 22</item>
+        <item>LESS =-MM</item>
+        <item>MPIRUN_CONNECT_TRIES =40</item>
+        <item>LINES =24</item>
+        <item>LESSOPEN =|/usr/share/less/lesspipe.sh %s</item>
+        <item>COLUMNS =80</item>
+        <item>PWD =/home/nesterenko/lipid_phase/dppc-corr/cry250start</item>
+        <item>VT_MPI =mpich</item>
+        <item>JRE_HOME =/usr/lib/jvm/jre</item>
+        <item>LOGNAME =nesterenko</item>
+        <item>I_MPI_JOB_STARTUP_TIMEOUT =10000</item>
+        <item>I_MPI_F77 =ifort</item>
+        <item>QTLIB =/usr/lib64/qt3/lib/</item>
+        <item>PATH =/opt/pgi/linux86-64/2010/bin:/opt/pathscale/bin:/usr/lib/mvapich-gcc-x86_64/bin:/opt/intel/itac/8.0.0.011/bin:/opt/intel/ictce/3.2.2.013/bin:/opt/intel/itac/7.2.2.006/bin:/opt/intel/Compiler/11.1/059/bin/intel64:/opt/intel/Compiler/11.1/059/bin/intel64:/home/nesterenko/bin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:/usr/games:/home/nesterenko/local/bin</item>
+        <item>INCLUDE =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>TERM =xterm</item>
+        <item>HISTSIZE =999</item>
+        <item>LESSKEY =/etc/.less</item>
+        <item>SSH_CONNECTION =193.232.120.109 43064 212.192.244.31 22</item>
+        <item>MANPATH =/usr/lib/mvapich-gcc-x86_64/man:/opt/intel/mkl/10.2.4.032/man/en_US:/opt/intel/itac/8.0.0.011/man:/opt/intel/itac/7.2.2.006/man:/opt/intel/Compiler/11.1/059/man/en_US:/opt/intel/Compiler/11.1/059/man/en_US:/usr/share/man:/usr/local/share/man:/usr/X11R6/man:/usr/local/man:/opt/pathscale/man:/opt/pgi/linux86-64/2010/man</item>
+        <item>MPIRUN_CONNECT_TIMEOUT =15</item>
+        <item>LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>I_MPI_EXTRA_FILESYSTEM =enable</item>
+        <item>MAIL =/var/mail/nesterenko</item>
+        <item>QTDIR =/usr/lib64/qt3/</item>
+        <item>I_MPI_CC =icc</item>
+        <item>HOSTNAME =t60-2.parallel.ru</item>
+        <item>I_MPI_SPIN_FILE_LOCK =off</item>
+        <item>XDG_DATA_DIRS =/usr/share:/var/cache</item>
+        <item>_ =/usr/bin/cleo-submit</item>
+        <item>LS_COLORS =rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</item>
+        <item>SHELL =/bin/bash</item>
+        <item>CLASSPATH =/opt/intel/itac/8.0.0.011/itac/lib_mpich:/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>VT_ROOT =/opt/intel/itac/8.0.0.011</item>
+        <item>I_MPI_PIN_DOMAIN =omp</item>
+        <item>PGI =/opt/pgi</item>
+        <item>TMP =/tmp/.private/nesterenko</item>
+        <item>QTINC =/usr/lib64/qt3/include/</item>
+        <item>PS_FORMAT =pid,user:12,tty,stat,time,command</item>
+        <item>GTK_PATH =/usr/lib64/gtk-2.0/2.10.0</item>
+        <item>CVS_RSH =ssh</item>
+        <item>XDG_DATA_HOME =/home/nesterenko/.local/share</item>
+        <item>USER =nesterenko</item>
+        <item>G_BROKEN_FILENAMES =1</item>
+        <item>SHLVL =2</item>
+        <item>QS_QUEUE =regular</item>
+        <item>I_MPI_EXTRA_FILESYSTEM_LIST =panfs</item>
+        <item>INTEL_LICENSE_FILE =/opt/intel/licenses:/home/nesterenko/intel/licenses</item>
+        <item>SSH_TTY =/dev/pts/150</item>
+        <item>LM_LICENSE_FILE =:/opt/pgi/license.dat</item>
+        <item>CPATH =/opt/intel/tbb/2.1/include:/opt/intel/mkl/10.2.4.032/include</item>
+        <item>VT_ADD_LIBS =-ldwarf -lelf -lvtunwind -lnsl -lm -ldl -lpthread</item>
+        <item>VT_LIB_DIR =/opt/intel/itac/8.0.0.011/itac/lib_mpich</item>
+        <item>HOME =/home/nesterenko</item>
+        <item>FPATH =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>LD_LIBRARY_PATH =/opt/pathscale/lib/3.2:/opt/pathscale/lib/3.2/32:/usr/lib/mvapich-gcc-x86_64/lib:/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/itac/8.0.0.011/itac/slib_mpich:/opt/intel/itac/7.2.2.006/itac/slib_mpich:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>GDK_PIXBUF_MODULEDIR =/usr/lib64/gtk-2.0/2.10.0/loaders</item>
+        <item>HISTFILESIZE =9999</item>
+        <item>XDG_CONFIG_HOME =/home/nesterenko/.config</item>
+        <item>I_MPI_F90 =ifort</item>
+        <item>VT_SLIB_DIR =/opt/intel/itac/8.0.0.011/itac/slib_mpich</item>
+        <item>I_MPI_CXX =icc</item>
+        <item>MKLROOT =/opt/intel/mkl/10.2.4.032</item>
+        <item>BASH_ENV =/home/nesterenko/.bashrc</item>
+        <item>NLSPATH =/opt/intel/mkl/10.2.4.032/lib/em64t/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N</item>
+        <item>TMPDIR =/tmp/.private/nesterenko</item>
+        <item>I_MPI_RDMA_BUFFER_SIZE =4096</item>
+        <item>G_FILENAME_ENCODING =iso8859-1</item>
+      </env>
+      <rep>/home/nesterenko/lipid_phase/dppc-corr/cry250start/mdrun7.rep-18088</rep>
+      <attach_mask>.*</attach_mask>
+      <path>/home/nesterenko/lipid_phase/dppc-corr/cry250start</path>
+      <qtype>native_queue</qtype>
+      <no_run_again>1</no_run_again>
+      <signal>0</signal>
+      <temp_dir>/tmp/cleo.hdd.18088</temp_dir>
+      <lastowner>hdd</lastowner>
+      <uniqid>hdd-1275977205-18088</uniqid>
+      <exe>/home/nesterenko/local/bin/mdrun7</exe>
+      <npextra>0</npextra>
+    </task>
+    <task id="18113" priority="10" state="run" own="1" queue="hdd">
+      <nodes>
+        <item node_name="node-33-08" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-33-08" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-33-08" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-33-08" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-33-08" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-33-08" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-33-08" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-33-08" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-35-05" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-35-05" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-35-05" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-35-05" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-35-05" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-35-05" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-35-05" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-35-05" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-36-07" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-36-07" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-36-07" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-36-07" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-36-07" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-36-07" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-36-07" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-36-07" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-37-05" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-37-05" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-37-05" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-37-05" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-37-05" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-37-05" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-37-05" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-37-05" cpu_id="8" extra="0" type="own" />
+      </nodes>
+      <start day="8" month="6" of_week="2" hours="11" minutes="3" seconds="43" year="2010" unixtime="1275980623" />
+      <timelimit day="8" month="6" of_week="2" hours="19" minutes="23" seconds="43" year="2010" unixtime="1275980623" />
+      <added day="8" month="6" of_week="2" hours="11" minutes="3" seconds="42" year="2010" unixtime="1275980623" />
+      <task_code>'/home/aracsmd/firefly/pcgamess' '-r' '-f' '-p' '-i' '/home/aracsmd/PGAMESS/cis/cis-hess.inp' '-o' '/home/aracsmd/PGAMESS/cis/cis-hess.out' '-ex' '/home/aracsmd/firefly/' '-t' '/tmp/pcg-9661' '-stdext'</task_code>
+      <priority>10</priority>
+      <state>run</state>
+      <parent_mask></parent_mask>
+      <use_rsh_filter></use_rsh_filter>
+      <pid>10258</pid>
+      <out>/home/aracsmd/PGAMESS/cis/pcgamess.out-18113</out>
+      <pe_select>scheduler</pe_select>
+      <blocked>0</blocked>
+      <user>aracsmd</user>
+      <id>18113</id>
+      <estimated_run>1275996143</estimated_run>
+      <sexe>pcgamess</sexe>
+      <attrs>HASH(0x36b4a60)</attrs>
+      <com_line>mpirun_rsh -np $np -hostfile $dir/machinefile-$id VIADEV_USE_AFFINITY=1 $task</com_line>
+      <one_rep>0</one_rep>
+      <occupy_full_node>1</occupy_full_node>
+      <pidfile>/tmp/cleo-run-18113-40012</pidfile>
+      <force_host></force_host>
+      <pgrp>10257</pgrp>
+      <nodes>node-33-08:1,node-33-08:2,node-33-08:3,node-33-08:4,node-33-08:5,node-33-08:6,node-33-08:7,node-33-08:8,node-35-05:1,node-35-05:2,node-35-05:3,node-35-05:4,node-35-05:5,node-35-05:6,node-35-05:7,node-35-05:8,node-36-07:1,node-36-07:2,node-36-07:3,node-36-07:4,node-36-07:5,node-36-07:6,node-36-07:7,node-36-07:8,node-37-05:1,node-37-05:2,node-37-05:3,node-37-05:4,node-37-05:5,node-37-05:6,node-37-05:7,node-37-05:8</nodes>
+      <queue>hdd</queue>
+      <file_mask></file_mask>
+      <reserved>0</reserved>
+      <task_args>
+        <item>/home/aracsmd/firefly/pcgamess</item>
+        <item>-r</item>
+        <item>-f</item>
+        <item>-p</item>
+        <item>-i</item>
+        <item>/home/aracsmd/PGAMESS/cis/cis-hess.inp</item>
+        <item>-o</item>
+        <item>/home/aracsmd/PGAMESS/cis/cis-hess.out</item>
+        <item>-ex</item>
+        <item>/home/aracsmd/firefly/</item>
+        <item>-t</item>
+        <item>/tmp/pcg-9661</item>
+        <item>-stdext</item>
+      </task_args>
+      <core>0</core>
+      <tmpdir>/tmp</tmpdir>
+      <np>32</np>
+      <status>0</status>
+      <gummy>0</gummy>
+      <empty_input>/home/aracsmd/PGAMESS/cis/.cleo-18113-in</empty_input>
+      <node>node-33-08:1</node>
+      <use_empty>/usr/bin/empty-cleo</use_empty>
+      <nice></nice>
+      <dir>/home/aracsmd/PGAMESS/cis</dir>
+      <run_via_mons>0</run_via_mons>
+      <force_proc></force_proc>
+      <is_own>1</is_own>
+      <command>/home/aracsmd/firefly/pcgamess -r -f -p -i /home/aracsmd/PGAMESS/cis/cis-hess.inp -o /home/aracsmd/PGAMESS/cis/cis-hess.out -ex /home/aracsmd/firefly/ -t /tmp/pcg-9661 -stdext</command>
+      <wait_cond_type>a</wait_cond_type>
+      <owner>hdd</owner>
+      <env>
+        <item>DYLD_LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib</item>
+        <item>SSH_CLIENT =212.192.241.150 2183 22</item>
+        <item>LESS =-MM</item>
+        <item>MPIRUN_CONNECT_TRIES =40</item>
+        <item>LINES =24</item>
+        <item>LESSOPEN =|/usr/share/less/lesspipe.sh %s</item>
+        <item>COLUMNS =80</item>
+        <item>PWD =/home/aracsmd/PGAMESS/cis</item>
+        <item>VT_MPI =mpich</item>
+        <item>JRE_HOME =/usr/lib/jvm/jre</item>
+        <item>LOGNAME =aracsmd</item>
+        <item>I_MPI_JOB_STARTUP_TIMEOUT =10000</item>
+        <item>I_MPI_F77 =ifort</item>
+        <item>QTLIB =/usr/lib64/qt3/lib/</item>
+        <item>PATH =/opt/pgi/linux86-64/2010/bin:/opt/pathscale/bin:/usr/lib/mvapich-gcc-i586/bin:/opt/intel/itac/8.0.0.011/bin:/opt/intel/ictce/3.2.2.013/bin:/opt/intel/itac/7.2.2.006/bin:/opt/intel/Compiler/11.1/059/bin/intel64:/opt/intel/Compiler/11.1/059/bin/intel64:/home/aracsmd/bin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:/usr/games</item>
+        <item>INCLUDE =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>TERM =xterm</item>
+        <item>HISTSIZE =999</item>
+        <item>LESSKEY =/etc/.less</item>
+        <item>SSH_CONNECTION =212.192.241.150 2183 212.192.244.31 22</item>
+        <item>MANPATH =/usr/lib/mvapich-gcc-i586/man:/opt/intel/mkl/10.2.4.032/man/en_US:/opt/intel/itac/8.0.0.011/man:/opt/intel/itac/7.2.2.006/man:/opt/intel/Compiler/11.1/059/man/en_US:/opt/intel/Compiler/11.1/059/man/en_US:/usr/share/man:/usr/local/share/man:/usr/X11R6/man:/usr/local/man:/opt/pathscale/man:/opt/pgi/linux86-64/2010/man</item>
+        <item>MPIRUN_CONNECT_TIMEOUT =15</item>
+        <item>LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>I_MPI_EXTRA_FILESYSTEM =enable</item>
+        <item>MAIL =/var/mail/aracsmd</item>
+        <item>QTDIR =/usr/lib64/qt3/</item>
+        <item>I_MPI_CC =icc</item>
+        <item>HOSTNAME =t60-2.parallel.ru</item>
+        <item>I_MPI_SPIN_FILE_LOCK =off</item>
+        <item>XDG_DATA_DIRS =/usr/share:/var/cache</item>
+        <item>_ =/usr/bin/cleo-submit</item>
+        <item>LS_COLORS =rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</item>
+        <item>SHELL =/bin/bash</item>
+        <item>CLASSPATH =/opt/intel/itac/8.0.0.011/itac/lib_mpich:/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>VT_ROOT =/opt/intel/itac/8.0.0.011</item>
+        <item>I_MPI_PIN_DOMAIN =omp</item>
+        <item>PGI =/opt/pgi</item>
+        <item>TMP =/tmp/.private/aracsmd</item>
+        <item>QTINC =/usr/lib64/qt3/include/</item>
+        <item>PS_FORMAT =pid,user:12,tty,stat,time,command</item>
+        <item>GTK_PATH =/usr/lib64/gtk-2.0/2.10.0</item>
+        <item>CVS_RSH =ssh</item>
+        <item>XDG_DATA_HOME =/home/aracsmd/.local/share</item>
+        <item>USER =aracsmd</item>
+        <item>G_BROKEN_FILENAMES =1</item>
+        <item>SHLVL =3</item>
+        <item>QS_QUEUE =regular</item>
+        <item>I_MPI_EXTRA_FILESYSTEM_LIST =panfs</item>
+        <item>INTEL_LICENSE_FILE =/opt/intel/licenses:/home/aracsmd/intel/licenses</item>
+        <item>SSH_TTY =/dev/pts/42</item>
+        <item>LM_LICENSE_FILE =:/opt/pgi/license.dat</item>
+        <item>VT_ADD_LIBS =-ldwarf -lelf -lvtunwind -lnsl -lm -ldl -lpthread</item>
+        <item>CPATH =/opt/intel/tbb/2.1/include:/opt/intel/mkl/10.2.4.032/include</item>
+        <item>VT_LIB_DIR =/opt/intel/itac/8.0.0.011/itac/lib_mpich</item>
+        <item>HOME =/home/aracsmd</item>
+        <item>FPATH =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>LD_LIBRARY_PATH =/opt/pathscale/lib/3.2:/opt/pathscale/lib/3.2/32:/usr/lib/mvapich-gcc-i586/lib:/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/itac/8.0.0.011/itac/slib_mpich:/opt/intel/itac/7.2.2.006/itac/slib_mpich:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>GDK_PIXBUF_MODULEDIR =/usr/lib64/gtk-2.0/2.10.0/loaders</item>
+        <item>HISTFILESIZE =9999</item>
+        <item>XDG_CONFIG_HOME =/home/aracsmd/.config</item>
+        <item>I_MPI_F90 =ifort</item>
+        <item>VT_SLIB_DIR =/opt/intel/itac/8.0.0.011/itac/slib_mpich</item>
+        <item>I_MPI_CXX =icc</item>
+        <item>MKLROOT =/opt/intel/mkl/10.2.4.032</item>
+        <item>BASH_ENV =/home/aracsmd/.bashrc</item>
+        <item>NLSPATH =/opt/intel/mkl/10.2.4.032/lib/em64t/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N</item>
+        <item>TMPDIR =/tmp/.private/aracsmd</item>
+        <item>I_MPI_RDMA_BUFFER_SIZE =4096</item>
+        <item>G_FILENAME_ENCODING =iso8859-1</item>
+      </env>
+      <rep>/home/aracsmd/PGAMESS/cis/pcgamess.rep-18113</rep>
+      <attach_mask>.*</attach_mask>
+      <path>/home/aracsmd/PGAMESS/cis</path>
+      <qtype>native_queue</qtype>
+      <no_run_again>1</no_run_again>
+      <signal>0</signal>
+      <temp_dir>/tmp/cleo.hdd.18113</temp_dir>
+      <lastowner>hdd</lastowner>
+      <uniqid>hdd-1275980622-18113</uniqid>
+      <exe>/home/aracsmd/firefly/pcgamess</exe>
+      <npextra>0</npextra>
+    </task>
+    <task id="7422" priority="10" state="queued" own="1" queue="hdd">
+      <block>
+        <who>__internal__</who>
+        <reason>maximum cpu*hours reached</reason>
+      </block>
+      <nodes></nodes>
+      <start day="1" month="1" of_week="4" hours="3" minutes="0" seconds="0" year="1970" unixtime="" />
+      <timelimit day="4" month="1" of_week="1" hours="4" minutes="0" seconds="0" year="0" unixtime="" />
+      <added day="14" month="3" of_week="0" hours="1" minutes="51" seconds="55" year="2010" unixtime="" />
+      <task_code>'/home/kargovsky/ms44/bin/dmol3_mpi.x' '2484sl'</task_code>
+      <priority>10</priority>
+      <state>queued</state>
+      <use_rsh_filter></use_rsh_filter>
+      <seen>0</seen>
+      <out>$dir/$sexe.out-$id</out>
+      <pe_select>scheduler</pe_select>
+      <blocked>1</blocked>
+      <user>kargovsky</user>
+      <id>7422</id>
+      <estimated_run>1275984391</estimated_run>
+      <sexe>dmol3_mpi.x</sexe>
+      <com_line>mpirun_rsh -np $np -hostfile $dir/machinefile-$id VIADEV_USE_AFFINITY=1 $task</com_line>
+      <one_rep>0</one_rep>
+      <occupy_full_node>1</occupy_full_node>
+      <force_host></force_host>
+      <queue>hdd</queue>
+      <file_mask></file_mask>
+      <reserved>0</reserved>
+      <task_args>
+        <item>/home/kargovsky/ms44/bin/dmol3_mpi.x</item>
+        <item>2484sl</item>
+      </task_args>
+      <core>0</core>
+      <tmpdir>/tmp</tmpdir>
+      <np>64</np>
+      <status>0</status>
+      <gummy>0</gummy>
+      <empty_input>$dir/.cleo-$id-in</empty_input>
+      <use_empty>/usr/bin/empty-cleo</use_empty>
+      <nice></nice>
+      <dir>/home/kargovsky/ms44/out/1</dir>
+      <run_via_mons>0</run_via_mons>
+      <force_proc></force_proc>
+      <is_own>1</is_own>
+      <command>/home/kargovsky/ms44/bin/dmol3_mpi.x 2484sl</command>
+      <wait_cond_type>a</wait_cond_type>
+      <owner>hdd</owner>
+      <env>
+        <item>DYLD_LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib</item>
+        <item>SSH_CLIENT =193.232.121.177 1731 22</item>
+        <item>LESS =-MM</item>
+        <item>MPIRUN_CONNECT_TRIES =40</item>
+        <item>MS_INSTALL_ROOT =/home/kargovsky/ms44</item>
+        <item>LINES =25</item>
+        <item>LESSOPEN =|/usr/share/less/lesspipe.sh %s</item>
+        <item>COLUMNS =80</item>
+        <item>PWD =/home/kargovsky/ms44/out/1</item>
+        <item>VT_MPI =mpich</item>
+        <item>PSPOT_DIR =/home/kargovsky/ms44/share/Resources/Quantum/Castep/Potentials</item>
+        <item>JRE_HOME =/usr/lib/jvm/jre</item>
+        <item>LOGNAME =kargovsky</item>
+        <item>I_MPI_JOB_STARTUP_TIMEOUT =10000</item>
+        <item>PATH =/home/kargovsky/abinit/5.6/bin:/home/kargovsky/ms44/LicensePack/linux/bin:/opt/pgi/linux86-64/2010/bin:/opt/pathscale/bin:/usr/lib/mvapich-gcc-i586/bin:/opt/intel/ictce/3.2.2.013/bin:/opt/intel/itac/7.2.2.006/bin:/opt/intel/Compiler/11.1/059/bin/intel64:/opt/intel/Compiler/11.1/059/bin/intel64:/home/kargovsky/bin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:/usr/games</item>
+        <item>INCLUDE =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>TERM =xterm</item>
+        <item>HISTSIZE =999</item>
+        <item>LESSKEY =/etc/.less</item>
+        <item>SSH_CONNECTION =193.232.121.177 1731 212.192.244.31 22</item>
+        <item>MANPATH =/usr/lib/mvapich-gcc-i586/man:/opt/intel/mkl/10.2.4.032/man/en_US:/opt/intel/itac/7.2.2.006/man:/opt/intel/Compiler/11.1/059/man/en_US:/opt/intel/Compiler/11.1/059/man/en_US:/usr/share/man:/usr/local/share/man:/usr/X11R6/man:/usr/local/man:/opt/pathscale/man:/opt/pgi/linux86-64/2010/man</item>
+        <item>MPIRUN_CONNECT_TIMEOUT =15</item>
+        <item>LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>I_MPI_EXTRA_FILESYSTEM =enable</item>
+        <item>DMOL_TMP =/home/kargovsky/tmp/dmol3</item>
+        <item>MAIL =/var/mail/kargovsky</item>
+        <item>ACCELRYS_LIC_PACK_DIR =/home/kargovsky/ms44/LicensePack</item>
+        <item>HOSTNAME =t60-2.parallel.ru</item>
+        <item>I_MPI_SPIN_FILE_LOCK =off</item>
+        <item>XDG_DATA_DIRS =/usr/share:/var/cache</item>
+        <item>_ =/usr/bin/cleo-submit</item>
+        <item>LS_COLORS =rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</item>
+        <item>SHELL =/bin/bash</item>
+        <item>CLASSPATH =/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>VT_ROOT =/opt/intel/itac/7.2.2.006</item>
+        <item>I_MPI_PIN_DOMAIN =omp</item>
+        <item>PGI =/opt/pgi</item>
+        <item>TMP =/tmp/.private/kargovsky</item>
+        <item>PS_FORMAT =pid,user:12,tty,stat,time,command</item>
+        <item>GTK_PATH =/usr/lib64/gtk-2.0/2.10.0</item>
+        <item>CVS_RSH =ssh</item>
+        <item>XDG_DATA_HOME =/home/kargovsky/.local/share</item>
+        <item>USER =kargovsky</item>
+        <item>G_BROKEN_FILENAMES =1</item>
+        <item>SHLVL =3</item>
+        <item>QS_QUEUE =regular</item>
+        <item>I_MPI_EXTRA_FILESYSTEM_LIST =panfs</item>
+        <item>OMP_NUM_THREADS =1</item>
+        <item>INTEL_LICENSE_FILE =/opt/intel/licenses:/home/kargovsky/intel/licenses</item>
+        <item>SSH_TTY =/dev/pts/47</item>
+        <item>LM_LICENSE_FILE =/home/kargovsky/ms44/LicensePack/Licenses/msi.lic</item>
+        <item>VT_ADD_LIBS =-ldwarf -lelf -lvtunwind -lnsl -lm -ldl -lpthread</item>
+        <item>CPATH =/opt/intel/tbb/2.1/include:/opt/intel/mkl/10.2.4.032/include</item>
+        <item>ACCELRYS_LICENSE_PLATFORM =linux</item>
+        <item>VT_LIB_DIR =/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>HOME =/home/kargovsky</item>
+        <item>FPATH =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>MSI_LICENSE_FILE =/home/kargovsky/ms44/LicensePack/Licenses:27000@this_host</item>
+        <item>LD_LIBRARY_PATH =/home/kargovsky/ms44/bin:/usr/lib64:/home/kargovsky/ms44/LicensePack/linux/lib:/opt/pathscale/lib/3.2:/opt/pathscale/lib/3.2/32:/usr/lib/mvapich-gcc-i586/lib:/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/itac/7.2.2.006/itac/slib_mpich:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>GDK_PIXBUF_MODULEDIR =/usr/lib64/gtk-2.0/2.10.0/loaders</item>
+        <item>HISTFILESIZE =9999</item>
+        <item>XDG_CONFIG_HOME =/home/kargovsky/.config</item>
+        <item>VT_SLIB_DIR =/opt/intel/itac/7.2.2.006/itac/slib_mpich</item>
+        <item>DMOL3_DATA =/home/kargovsky/ms44/share/Resources/Quantum/DMol3</item>
+        <item>MKLROOT =/opt/intel/mkl/10.2.4.032</item>
+        <item>BASH_ENV =/home/kargovsky/.bashrc</item>
+        <item>NLSPATH =/opt/intel/mkl/10.2.4.032/lib/em64t/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N</item>
+        <item>TMPDIR =/tmp/.private/kargovsky</item>
+        <item>I_MPI_RDMA_BUFFER_SIZE =4096</item>
+        <item>G_FILENAME_ENCODING =iso8859-1</item>
+      </env>
+      <rep>$dir/$sexe.rep-$id</rep>
+      <path>/home/kargovsky/ms44/out/1</path>
+      <qtype>native_queue</qtype>
+      <signal>0</signal>
+      <temp_dir>/tmp/cleo.$queue.$id</temp_dir>
+      <lastowner>hdd</lastowner>
+      <uniqid>hdd-1268520715-7422</uniqid>
+      <exe>/home/kargovsky/ms44/bin/dmol3_mpi.x</exe>
+      <npextra>0</npextra>
+    </task>
+    <task id="18051" priority="10" state="queued" own="1" queue="hdd">
+      <block>
+        <who>__internal__</who>
+        <reason>maximum cpu*hours reached</reason>
+      </block>
+      <nodes></nodes>
+      <start day="1" month="1" of_week="4" hours="3" minutes="0" seconds="0" year="1970" unixtime="" />
+      <timelimit day="1" month="1" of_week="5" hours="0" minutes="0" seconds="0" year="0" unixtime="" />
+      <added day="7" month="6" of_week="1" hours="17" minutes="19" seconds="8" year="2010" unixtime="" />
+      <task_code>'./lsv15e' '-b' 'n190' '-f' '250000001' '-c' '100000' '-v' '-z' '-S' '1897230' '-a'</task_code>
+      <priority>10</priority>
+      <state>queued</state>
+      <use_rsh_filter></use_rsh_filter>
+      <out>$dir/$sexe.out-$id</out>
+      <pe_select>scheduler</pe_select>
+      <blocked>1</blocked>
+      <user>jikk</user>
+      <id>18051</id>
+      <estimated_run>1275990119</estimated_run>
+      <sexe>lsv15e</sexe>
+      <com_line>mpirun_rsh -np $np -hostfile $dir/machinefile-$id VIADEV_USE_AFFINITY=1 $task</com_line>
+      <one_rep>0</one_rep>
+      <occupy_full_node>1</occupy_full_node>
+      <force_host></force_host>
+      <queue>hdd</queue>
+      <file_mask></file_mask>
+      <reserved>0</reserved>
+      <task_args>
+        <item>./lsv15e</item>
+        <item>-b</item>
+        <item>n190</item>
+        <item>-f</item>
+        <item>250000001</item>
+        <item>-c</item>
+        <item>100000</item>
+        <item>-v</item>
+        <item>-z</item>
+        <item>-S</item>
+        <item>1897230</item>
+        <item>-a</item>
+      </task_args>
+      <core>0</core>
+      <tmpdir>/tmp</tmpdir>
+      <np>100</np>
+      <status>0</status>
+      <gummy>0</gummy>
+      <empty_input>$dir/.cleo-$id-in</empty_input>
+      <use_empty>/usr/bin/empty-cleo</use_empty>
+      <nice></nice>
+      <dir>/home/jikk/tests/gnfs/trunk/tests/6/yield</dir>
+      <run_via_mons>0</run_via_mons>
+      <force_proc></force_proc>
+      <is_own>1</is_own>
+      <command>./lsv15e -b n190 -f 250000001 -c 100000 -v -z -S 1897230 -a</command>
+      <wait_cond_type>a</wait_cond_type>
+      <owner>hdd</owner>
+      <env>
+        <item>DYLD_LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib</item>
+        <item>SSH_CLIENT =62.5.244.250 54166 22</item>
+        <item>LESS =-MM</item>
+        <item>MPIRUN_CONNECT_TRIES =40</item>
+        <item>LINES =37</item>
+        <item>LESSOPEN =|/usr/share/less/lesspipe.sh %s</item>
+        <item>COLUMNS =128</item>
+        <item>PWD =/home/jikk/tests/gnfs/trunk/tests/6/yield</item>
+        <item>VT_MPI =mpich</item>
+        <item>JRE_HOME =/usr/lib/jvm/jre</item>
+        <item>LOGNAME =jikk</item>
+        <item>I_MPI_JOB_STARTUP_TIMEOUT =10000</item>
+        <item>I_MPI_F77 =ifort</item>
+        <item>QTLIB =/usr/lib64/qt3/lib/</item>
+        <item>PATH =/opt/pgi/linux86-64/2010/bin:/opt/pathscale/bin:/usr/lib/mvapich-gcc-x86_64/bin:/opt/intel/itac/8.0.0.011/bin:/opt/intel/ictce/3.2.2.013/bin:/opt/intel/itac/7.2.2.006/bin:/opt/intel/Compiler/11.1/059/bin/intel64:/opt/intel/Compiler/11.1/059/bin/intel64:/home/jikk/bin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:/usr/games:/home/jikk/bin/</item>
+        <item>INCLUDE =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>TERM =xterm-color</item>
+        <item>HISTSIZE =999</item>
+        <item>LESSKEY =/etc/.less</item>
+        <item>SSH_CONNECTION =62.5.244.250 54166 212.192.244.31 22</item>
+        <item>MANPATH =/usr/lib/mvapich-gcc-x86_64/man:/opt/intel/mkl/10.2.4.032/man/en_US:/opt/intel/itac/8.0.0.011/man:/opt/intel/itac/7.2.2.006/man:/opt/intel/Compiler/11.1/059/man/en_US:/opt/intel/Compiler/11.1/059/man/en_US:/usr/share/man:/usr/local/share/man:/usr/X11R6/man:/usr/local/man:/opt/pathscale/man:/opt/pgi/linux86-64/2010/man</item>
+        <item>MPIRUN_CONNECT_TIMEOUT =15</item>
+        <item>LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>I_MPI_EXTRA_FILESYSTEM =enable</item>
+        <item>MAIL =/var/mail/jikk</item>
+        <item>QTDIR =/usr/lib64/qt3/</item>
+        <item>I_MPI_CC =icc</item>
+        <item>HOSTNAME =t60-2.parallel.ru</item>
+        <item>I_MPI_SPIN_FILE_LOCK =off</item>
+        <item>MC_SID =2191</item>
+        <item>XDG_DATA_DIRS =/usr/share:/var/cache</item>
+        <item>_ =/usr/bin/cleo-submit</item>
+        <item>LS_COLORS =rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</item>
+        <item>SHELL =/bin/bash</item>
+        <item>CLASSPATH =/opt/intel/itac/8.0.0.011/itac/lib_mpich:/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>VT_ROOT =/opt/intel/itac/8.0.0.011</item>
+        <item>I_MPI_PIN_DOMAIN =omp</item>
+        <item>PGI =/opt/pgi</item>
+        <item>TMP =/tmp/.private/jikk</item>
+        <item>HISTCONTROL =ignorespace</item>
+        <item>MC_TMPDIR =/tmp/.private/jikk/mc-jikk</item>
+        <item>QTINC =/usr/lib64/qt3/include/</item>
+        <item>PS_FORMAT =pid,user:12,tty,stat,time,command</item>
+        <item>GTK_PATH =/usr/lib64/gtk-2.0/2.10.0</item>
+        <item>CVS_RSH =ssh</item>
+        <item>XDG_DATA_HOME =/home/jikk/.local/share</item>
+        <item>USER =jikk</item>
+        <item>G_BROKEN_FILENAMES =1</item>
+        <item>SHLVL =4</item>
+        <item>QS_QUEUE =regular</item>
+        <item>I_MPI_EXTRA_FILESYSTEM_LIST =panfs</item>
+        <item>INTEL_LICENSE_FILE =/opt/intel/licenses:/home/jikk/intel/licenses</item>
+        <item>SSH_TTY =/dev/pts/175</item>
+        <item>LM_LICENSE_FILE =:/opt/pgi/license.dat</item>
+        <item>CPATH =/opt/intel/tbb/2.1/include:/opt/intel/mkl/10.2.4.032/include</item>
+        <item>VT_ADD_LIBS =-ldwarf -lelf -lvtunwind -lnsl -lm -ldl -lpthread</item>
+        <item>VT_LIB_DIR =/opt/intel/itac/8.0.0.011/itac/lib_mpich</item>
+        <item>HOME =/home/jikk</item>
+        <item>FPATH =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>LD_LIBRARY_PATH =/opt/pathscale/lib/3.2:/opt/pathscale/lib/3.2/32:/usr/lib/mvapich-gcc-x86_64/lib:/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/itac/8.0.0.011/itac/slib_mpich:/opt/intel/itac/7.2.2.006/itac/slib_mpich:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>GDK_PIXBUF_MODULEDIR =/usr/lib64/gtk-2.0/2.10.0/loaders</item>
+        <item>HISTFILESIZE =9999</item>
+        <item>XDG_CONFIG_HOME =/home/jikk/.config</item>
+        <item>I_MPI_F90 =ifort</item>
+        <item>VT_SLIB_DIR =/opt/intel/itac/8.0.0.011/itac/slib_mpich</item>
+        <item>I_MPI_CXX =icc</item>
+        <item>MKLROOT =/opt/intel/mkl/10.2.4.032</item>
+        <item>BASH_ENV =/home/jikk/.bashrc</item>
+        <item>NLSPATH =/opt/intel/mkl/10.2.4.032/lib/em64t/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N</item>
+        <item>TMPDIR =/tmp/.private/jikk</item>
+        <item>I_MPI_RDMA_BUFFER_SIZE =4096</item>
+        <item>G_FILENAME_ENCODING =iso8859-1</item>
+      </env>
+      <rep>$dir/$sexe.rep-$id</rep>
+      <path>/home/jikk/tests/gnfs/trunk/tests/6/yield</path>
+      <qtype>native_queue</qtype>
+      <signal>0</signal>
+      <temp_dir>/tmp/cleo.$queue.$id</temp_dir>
+      <lastowner>hdd</lastowner>
+      <uniqid>hdd-1275916748-18051</uniqid>
+      <exe>./lsv15e</exe>
+      <npextra>0</npextra>
+    </task>
+  </tasks>
+</cleo-state>

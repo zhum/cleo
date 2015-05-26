@@ -1,0 +1,376 @@
+table.tbl_st {
+  margin: 0 auto;
+  width: 95%;
+  border-spacing: 0px;
+}
+
+table.tbl_st td {
+  border-width: 1px;
+  border-color: #d0d0d0;
+  border-style: solid;
+}
+
+table.tbl_out {
+  /*
+  border-width: 3px;
+  border-color: red;
+  border-style: solid;
+  */
+  vertical-align: top;
+  width: 95%;
+}
+table.tbl_out td {
+  border-width: 1px;
+  /*
+  border-color: red;
+  border-style: solid;
+  */
+  text-align: center;
+  vertical-align: top;
+}
+
+
+table.index {
+  margin: 0 auto;
+  vertical-align: bottom;
+  /*width: 95%;*/
+  /*border-spacing: 5px;*/
+}
+
+table.racks td {
+/*
+  border-width: 1px;
+  border-color: #d0000;
+  border-style: solid;
+*/
+  vertical-align: bottom;
+}
+
+/*
+table.rack td {
+
+  border-width: 1px;
+  border-color: red;
+  border-style: solid;
+
+  vertical-align: bottom;
+}
+*/
+
+.table_bg_st{
+  font-size: smaller;
+}
+
+table.tasks_tbl td {
+  vertical-align: bottom;
+  font-size: small;
+  /*background: gray;*/
+  text-align: center;
+}
+
+td.qname {
+  font-weight: bold !important;
+}
+
+td.qlegend {
+  color: red !important;
+}
+
+table.legenda {
+    border: solid 1px;
+/*    background-color: #e0e0e0;*/
+}
+
+.ignored_task {
+  background-color: #e0e0e0;
+  color: #505050;
+}
+
+.even{
+  background-color: #e0e0e0;
+}
+
+.q_task {
+  color: blue;
+}
+
+.r_task {
+  color: green;
+}
+
+.s_task {
+  color: red;
+}
+
+.chassis {
+    border: solid thin gray;
+    vertical-align: bottom;
+    font-size: 1px;
+}
+.node {
+    font-size: small;
+    text-align: center;
+}
+
+/*
+.node{
+    border-color: red;
+    border-width: thin thin;
+}
+
+#node_00_01 {
+    border-color: red;
+    border-width: thin thin;
+}
+*/
+
+.users_num{
+    color: blue;
+    font-weight: bold;
+}
+.cpus_num{
+    color: blue;
+    font-weight: bold;
+}
+.used_num{
+    color: green;
+    font-weight: bold;
+}
+.tasks_num{
+    color: blue;
+    font-weight: bold;
+}
+.running_num{
+    color: green;
+    font-weight: bold;
+}
+.queued_num{
+    color: green;
+}
+
+
+
+
+
+
+.extra {
+  background-color: #0000bb;
+  color: #bbbb00;
+}
+
+.block_cpu {
+  background-color: #404040;
+  color: white;
+}
+
+.x1 {
+  background-color: #A8DBA8;
+}
+.x2 {
+  background-color: #F5DD9D;
+}
+.x3 {
+  background-color: #D48A55;
+}
+.x4 {
+  background-color: #73626E;
+}
+.x5 {
+  background-color: #CCCC99;
+}
+.x6 {
+  background-color: #CC99CC;
+}
+.x7 {
+  background-color: #BCC499;
+}  
+.x8 {
+  background-color: #B38184;
+}
+.x9 {
+  background-color: #9999FF;
+}
+.x10 {
+  background-color: #99FF99;
+}
+.x11 {
+  background-color: #163F51;
+}
+.x12 {
+  background-color: #FF9999;
+}
+.x13 {
+  background-color: #92A68A;
+}
+.x14 {
+  background-color: #FF99FF;
+}
+.x15 {
+  background-color: #99FFFF;
+}
+.x16 {
+  background-color: #FFFF99;
+}
+.x17 {
+  background-color: #7B8F8A;
+}
+.x18 {
+  background-color: #79BD9A;
+}
+.x19 {
+  background-color: #FF66FF;
+}
+.x20 {
+  background-color: #66FFFF;
+}
+.x21 {
+  background-color: #CFF09E;
+}
+.x22 {
+  background-color: #FFFF66;
+}
+.x23 {
+  background-color: #506266;
+}
+.x24 {
+  background-color: #D66C4F;
+}
+.x25 {
+  background-color: #FF33FF;
+}
+.x26 {
+  background-color: #8A5C52;
+}
+.x27 {
+  background-color: #33FFFF;
+}
+.x28 {
+  background-color: #C16063;
+}
+.x29 {
+  background-color: #FFFF33;
+}
+.x30 {
+  background-color: #793A57;
+}
+.x31 {
+  background-color: #F0B49E;
+}
+.x32 {
+  background-color: #CC33CC;
+}
+.x33 {
+  background-color: #33CCCC;
+}
+.x34 {
+  background-color: #852631;
+}
+.x35 {
+  background-color: #CCCC33;
+}
+.x36 {
+  background-color: #8C873E;
+}
+.x37 {
+  background-color: #CCCCFF;
+}
+.x38 {
+  background-color: #CCFFCC;
+}
+.x39 {
+  background-color: #3B8686;
+} 
+.x40 {
+  background-color: #FFCCCC;
+}
+.x41 {
+  background-color: #A38A5F;
+}
+.x42 {
+  background-color: #FFCCFF;
+}
+.x43 {
+  background-color: #CCFFFF;
+}
+.x44 {
+  background-color: #E26A60;
+}
+.x45 {
+  background-color: #FFFFCC;
+}
+.x46 {
+  background-color: #9CE6E4;
+} 
+.x47 {
+  background-color: #F0C673;
+} 
+.x48 {
+  background-color: #99CC99;
+}
+.x49 {
+  background-color: #CC9999;
+}
+.x50 {
+  background-color: #EBA431;
+}
+.x51 {
+  background-color: #9999CC;
+}
+.x52 {
+  background-color: #95CF9E;
+}
+
+/*
+html, body {
+	margin:0px; padding:0px; 
+	background:#fff;
+	position:relative; 
+}
+*/
+body {
+	text-align:center;
+}
+
+/*
+#all {
+	text-align:left;
+	margin:0 auto;
+	width:90%;
+}
+
+
+#container {
+	position:relative; 
+	display:block; 
+    background:#ffec97;
+	border-left:solid 30% #5d9ce7;
+	border-right:solid 150px #5de797;
+}
+#inner {
+	display:block;
+	position:relative;
+	 
+	padding:1px;
+}
+*/
+.col_1 {
+	float:left; 
+	position:relative; 
+	width:33%;
+	left:0px;
+}
+.col_3 {
+	float:right; 
+	position:relative; 
+	/*
+	width:148px;
+	*/
+	right:0px;
+}
+.col_2 {
+	margin-left:33%;
+	margin-right:33%;
+	position:relative; 
+	display:block;
+}
+

@@ -1,0 +1,938 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<cleo-state last-update="1275981274" queue="bigmem">
+  <cpus>
+    <cpu_statistics>
+      <total-free>8</total-free>
+      <shared-free>0</shared-free>
+      <shared-reserved>0</shared-reserved>
+      <total-number>64</total-number>
+      <total-own>64</total-own>
+      <total-shared>0</total-shared>
+      <own-free>8</own-free>
+      <blocked-count>16</blocked-count>
+      <own-blocked>16</own-blocked>
+      <shared-blocked>0</shared-blocked>
+      <total-busy>40</total-busy>
+      <own-busy>40</own-busy>
+      <shared-busy>0</shared-busy>
+    </cpu_statistics>
+    <node nodename="node-00-01">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-00-02">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-00-03">
+      <cpu id="1" type="own" own="1" blocked="1"><blocked>1<block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="1"><blocked>1<block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="1"><blocked>1<block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="1"><blocked>1<block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="1"><blocked>1<block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="1"><blocked>1<block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="1"><blocked>1<block_reason>Disconnected</block_reason></blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="1"><blocked>1<block_reason>Disconnected</block_reason></blocked></cpu>
+    </node>
+    <node nodename="node-00-04">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-00-05">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-00-06">
+      <cpu id="1" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="1"><blocked>1<block_reason>Node is being repaired</block_reason><block_reason>__internal__</block_reason><block_reason>Not connected yet</block_reason></blocked></cpu>
+    </node>
+    <node nodename="node-00-07">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+    <node nodename="node-00-08">
+      <cpu id="1" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="2" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="3" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="4" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="5" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="6" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="7" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+      <cpu id="8" type="own" own="1" blocked="0"><blocked>0</blocked></cpu>
+    </node>
+  </cpus>
+  <tasks>
+    <tasks_statistics>
+      <tasks-total>6</tasks-total>
+      <tasks-running>2</tasks-running>
+      <tasks-prerun>0</tasks-prerun>
+      <tasks-blocked>3</tasks-blocked>
+      <tasks-queued>4</tasks-queued>
+      <tasks-completition>0</tasks-completition>
+      <allautoblocks on="">
+        <autoblocks></autoblocks>
+        <nonautoblocks></nonautoblocks>
+      </allautoblocks>
+      <mode raw-value="9" run="1" queue="1" autorestart="0" />
+      <time-restrictions next="1292907600">
+        <restriction>
+          <count></count>
+          <allow>0</allow>
+          <start-every>08:00 21 12</start-every>
+          <end-every>11:00 25 12</end-every>
+          <start>1292907600</start>
+          <end>1293264000</end>
+          <users></users>
+        </restriction>
+      </time-restrictions>
+    </tasks_statistics>
+    <task id="4939" priority="10" state="run" own="1" queue="bigmem">
+      <nodes>
+        <item node_name="node-00-07" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-00-07" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-00-07" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-00-07" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-00-07" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-00-07" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-00-07" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-00-07" cpu_id="8" extra="0" type="own" />
+      </nodes>
+      <start day="6" month="6" of_week="0" hours="11" minutes="57" seconds="50" year="2010" unixtime="1275811070" />
+      <timelimit day="8" month="6" of_week="2" hours="11" minutes="57" seconds="50" year="2010" unixtime="1275811070" />
+      <added day="6" month="6" of_week="0" hours="11" minutes="57" seconds="49" year="2010" unixtime="1275811070" />
+      <task_code>'./mb' '/home/aleshin/natart/bigmem/Naturnex'</task_code>
+      <priority>10</priority>
+      <state>run</state>
+      <parent_mask></parent_mask>
+      <use_rsh_filter></use_rsh_filter>
+      <out>/home/aleshin/natart/bigmem/mb.out-4939</out>
+      <pid>11650</pid>
+      <pe_select>scheduler</pe_select>
+      <user>aleshin</user>
+      <blocked>0</blocked>
+      <id>4939</id>
+      <sexe>mb</sexe>
+      <estimated_run>0</estimated_run>
+      <attrs>HASH(0x36ae600)</attrs>
+      <com_line>mpirun_rsh -np $np -hostfile $dir/machinefile-$id VIADEV_USE_AFFINITY=1 $task</com_line>
+      <one_rep>0</one_rep>
+      <occupy_full_node>1</occupy_full_node>
+      <pidfile>/tmp/cleo-run-4939-54731</pidfile>
+      <force_host></force_host>
+      <file_mask></file_mask>
+      <queue>bigmem</queue>
+      <nodes>node-00-07:1,node-00-07:2,node-00-07:3,node-00-07:4,node-00-07:5,node-00-07:6,node-00-07:7,node-00-07:8</nodes>
+      <pgrp>11649</pgrp>
+      <reserved>0</reserved>
+      <task_args>
+        <item>./mb</item>
+        <item>/home/aleshin/natart/bigmem/Naturnex</item>
+      </task_args>
+      <core>0</core>
+      <tmpdir>/tmp</tmpdir>
+      <np>8</np>
+      <gummy>0</gummy>
+      <status>0</status>
+      <empty_input>/home/aleshin/natart/bigmem/.cleo-4939-in</empty_input>
+      <use_empty>/usr/bin/empty-cleo</use_empty>
+      <node>node-00-07:1</node>
+      <dir>/home/aleshin/natart/bigmem</dir>
+      <nice></nice>
+      <run_via_mons>0</run_via_mons>
+      <force_proc></force_proc>
+      <command>./mb /home/aleshin/natart/bigmem/Naturnex</command>
+      <is_own>1</is_own>
+      <owner>bigmem</owner>
+      <wait_cond_type>a</wait_cond_type>
+      <env>
+        <item>DYLD_LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib</item>
+        <item>SSH_CLIENT =212.192.230.35 1597 22</item>
+        <item>LESS =-MM</item>
+        <item>MPIRUN_CONNECT_TRIES =40</item>
+        <item>LINES =24</item>
+        <item>LESSOPEN =|/usr/share/less/lesspipe.sh %s</item>
+        <item>COLUMNS =80</item>
+        <item>PWD =/home/aleshin/natart/bigmem</item>
+        <item>VT_MPI =mpich</item>
+        <item>JRE_HOME =/usr/lib/jvm/jre</item>
+        <item>LOGNAME =aleshin</item>
+        <item>I_MPI_JOB_STARTUP_TIMEOUT =10000</item>
+        <item>I_MPI_F77 =ifort</item>
+        <item>QTLIB =/usr/lib64/qt3/lib/</item>
+        <item>PATH =/opt/pgi/linux86-64/2010/bin:/opt/pathscale/bin:/usr/lib/mvapich-gcc-i586/bin:/opt/intel/itac/8.0.0.011/bin:/opt/intel/ictce/3.2.2.013/bin:/opt/intel/itac/7.2.2.006/bin:/opt/intel/Compiler/11.1/059/bin/intel64:/opt/intel/Compiler/11.1/059/bin/intel64:/home/aleshin/bin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:/usr/games</item>
+        <item>INCLUDE =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>TERM =xterm</item>
+        <item>HISTSIZE =999</item>
+        <item>LESSKEY =/etc/.less</item>
+        <item>SSH_CONNECTION =212.192.230.35 1597 212.192.244.31 22</item>
+        <item>MANPATH =/usr/lib/mvapich-gcc-i586/man:/opt/intel/mkl/10.2.4.032/man/en_US:/opt/intel/itac/8.0.0.011/man:/opt/intel/itac/7.2.2.006/man:/opt/intel/Compiler/11.1/059/man/en_US:/opt/intel/Compiler/11.1/059/man/en_US:/usr/share/man:/usr/local/share/man:/usr/X11R6/man:/usr/local/man:/opt/pathscale/man:/opt/pgi/linux86-64/2010/man</item>
+        <item>MPIRUN_CONNECT_TIMEOUT =15</item>
+        <item>LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>I_MPI_EXTRA_FILESYSTEM =enable</item>
+        <item>MAIL =/var/mail/aleshin</item>
+        <item>QTDIR =/usr/lib64/qt3/</item>
+        <item>I_MPI_CC =icc</item>
+        <item>HOSTNAME =t60-2.parallel.ru</item>
+        <item>I_MPI_SPIN_FILE_LOCK =off</item>
+        <item>XDG_DATA_DIRS =/usr/share:/var/cache</item>
+        <item>_ =/usr/bin/cleo-submit</item>
+        <item>LS_COLORS =rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</item>
+        <item>SHELL =/bin/bash</item>
+        <item>CLASSPATH =/opt/intel/itac/8.0.0.011/itac/lib_mpich:/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>VT_ROOT =/opt/intel/itac/8.0.0.011</item>
+        <item>I_MPI_PIN_DOMAIN =omp</item>
+        <item>PGI =/opt/pgi</item>
+        <item>TMP =/tmp/.private/aleshin</item>
+        <item>QTINC =/usr/lib64/qt3/include/</item>
+        <item>PS_FORMAT =pid,user:12,tty,stat,time,command</item>
+        <item>GTK_PATH =/usr/lib64/gtk-2.0/2.10.0</item>
+        <item>CVS_RSH =ssh</item>
+        <item>XDG_DATA_HOME =/home/aleshin/.local/share</item>
+        <item>USER =aleshin</item>
+        <item>G_BROKEN_FILENAMES =1</item>
+        <item>SHLVL =2</item>
+        <item>QS_QUEUE =regular</item>
+        <item>I_MPI_EXTRA_FILESYSTEM_LIST =panfs</item>
+        <item>INTEL_LICENSE_FILE =/opt/intel/licenses:/home/aleshin/intel/licenses</item>
+        <item>SSH_TTY =/dev/pts/1</item>
+        <item>LM_LICENSE_FILE =:/opt/pgi/license.dat</item>
+        <item>CPATH =/opt/intel/tbb/2.1/include:/opt/intel/mkl/10.2.4.032/include</item>
+        <item>VT_ADD_LIBS =-ldwarf -lelf -lvtunwind -lnsl -lm -ldl -lpthread</item>
+        <item>VT_LIB_DIR =/opt/intel/itac/8.0.0.011/itac/lib_mpich</item>
+        <item>HOME =/home/aleshin</item>
+        <item>FPATH =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>LD_LIBRARY_PATH =/opt/pathscale/lib/3.2:/opt/pathscale/lib/3.2/32:/usr/lib/mvapich-gcc-i586/lib:/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/itac/8.0.0.011/itac/slib_mpich:/opt/intel/itac/7.2.2.006/itac/slib_mpich:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>GDK_PIXBUF_MODULEDIR =/usr/lib64/gtk-2.0/2.10.0/loaders</item>
+        <item>HISTFILESIZE =9999</item>
+        <item>XDG_CONFIG_HOME =/home/aleshin/.config</item>
+        <item>I_MPI_F90 =ifort</item>
+        <item>VT_SLIB_DIR =/opt/intel/itac/8.0.0.011/itac/slib_mpich</item>
+        <item>I_MPI_CXX =icc</item>
+        <item>MKLROOT =/opt/intel/mkl/10.2.4.032</item>
+        <item>BASH_ENV =/home/aleshin/.bashrc</item>
+        <item>NLSPATH =/opt/intel/mkl/10.2.4.032/lib/em64t/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N</item>
+        <item>TMPDIR =/tmp/.private/aleshin</item>
+        <item>I_MPI_RDMA_BUFFER_SIZE =4096</item>
+        <item>G_FILENAME_ENCODING =iso8859-1</item>
+      </env>
+      <rep>/home/aleshin/natart/bigmem/mb.rep-4939</rep>
+      <path>/home/aleshin/natart/bigmem</path>
+      <attach_mask>.*</attach_mask>
+      <qtype>native_queue</qtype>
+      <signal>0</signal>
+      <no_run_again>1</no_run_again>
+      <temp_dir>/tmp/cleo.bigmem.4939</temp_dir>
+      <lastowner>bigmem</lastowner>
+      <uniqid>bigmem-1275811069-4939</uniqid>
+      <npextra>0</npextra>
+      <exe>./mb</exe>
+    </task>
+    <task id="4998" priority="12" state="run" own="1" queue="bigmem">
+      <nodes>
+        <item node_name="node-00-01" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-00-01" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-00-01" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-00-01" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-00-01" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-00-01" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-00-01" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-00-01" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-00-02" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-00-02" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-00-02" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-00-02" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-00-02" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-00-02" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-00-02" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-00-02" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-00-04" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-00-04" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-00-04" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-00-04" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-00-04" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-00-04" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-00-04" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-00-04" cpu_id="8" extra="0" type="own" />
+        <item node_name="node-00-05" cpu_id="1" extra="0" type="own" />
+        <item node_name="node-00-05" cpu_id="2" extra="0" type="own" />
+        <item node_name="node-00-05" cpu_id="3" extra="0" type="own" />
+        <item node_name="node-00-05" cpu_id="4" extra="0" type="own" />
+        <item node_name="node-00-05" cpu_id="5" extra="0" type="own" />
+        <item node_name="node-00-05" cpu_id="6" extra="0" type="own" />
+        <item node_name="node-00-05" cpu_id="7" extra="0" type="own" />
+        <item node_name="node-00-05" cpu_id="8" extra="0" type="own" />
+      </nodes>
+      <start day="8" month="6" of_week="2" hours="10" minutes="49" seconds="5" year="2010" unixtime="1275979745" />
+      <timelimit day="8" month="6" of_week="2" hours="22" minutes="48" seconds="5" year="2010" unixtime="1275979745" />
+      <added day="8" month="6" of_week="2" hours="10" minutes="48" seconds="36" year="2010" unixtime="1275979745" />
+      <task_code>'/home/burunduk/NwChem/bin/nw' 'h117-echo-dp-ti-p-3-prottr-2.nw'</task_code>
+      <priority>12</priority>
+      <state>run</state>
+      <parent_mask></parent_mask>
+      <use_rsh_filter></use_rsh_filter>
+      <pid>22628</pid>
+      <out>/home/burunduk/G117H/Echo/QMMM/DP-profile/P/I/His438-HE2-transfer/nw.out-4998</out>
+      <pe_select>scheduler</pe_select>
+      <blocked>0</blocked>
+      <user>burunduk</user>
+      <id>4998</id>
+      <estimated_run>0</estimated_run>
+      <sexe>nw</sexe>
+      <attrs>HASH(0x37544b0)</attrs>
+      <com_line>mpirun_rsh -np $np -hostfile $dir/machinefile-$id VIADEV_USE_AFFINITY=1 $task</com_line>
+      <one_rep>0</one_rep>
+      <occupy_full_node>1</occupy_full_node>
+      <pidfile>/tmp/cleo-run-4998-1831</pidfile>
+      <force_host></force_host>
+      <pgrp>22627</pgrp>
+      <nodes>node-00-01:1,node-00-01:2,node-00-01:3,node-00-01:4,node-00-01:5,node-00-01:6,node-00-01:7,node-00-01:8,node-00-02:1,node-00-02:2,node-00-02:3,node-00-02:4,node-00-02:5,node-00-02:6,node-00-02:7,node-00-02:8,node-00-04:1,node-00-04:2,node-00-04:3,node-00-04:4,node-00-04:5,node-00-04:6,node-00-04:7,node-00-04:8,node-00-05:1,node-00-05:2,node-00-05:3,node-00-05:4,node-00-05:5,node-00-05:6,node-00-05:7,node-00-05:8</nodes>
+      <queue>bigmem</queue>
+      <file_mask></file_mask>
+      <reserved>0</reserved>
+      <task_args>
+        <item>/home/burunduk/NwChem/bin/nw</item>
+        <item>h117-echo-dp-ti-p-3-prottr-2.nw</item>
+      </task_args>
+      <core>0</core>
+      <tmpdir>/tmp</tmpdir>
+      <np>32</np>
+      <status>0</status>
+      <gummy>0</gummy>
+      <empty_input>/home/burunduk/G117H/Echo/QMMM/DP-profile/P/I/His438-HE2-transfer/.cleo-4998-in</empty_input>
+      <node>node-00-01:1</node>
+      <use_empty>/usr/bin/empty-cleo</use_empty>
+      <nice></nice>
+      <dir>/home/burunduk/G117H/Echo/QMMM/DP-profile/P/I/His438-HE2-transfer</dir>
+      <run_via_mons>0</run_via_mons>
+      <force_proc></force_proc>
+      <is_own>1</is_own>
+      <command>/home/burunduk/NwChem/bin/nw h117-echo-dp-ti-p-3-prottr-2.nw</command>
+      <wait_cond_type>a</wait_cond_type>
+      <owner>bigmem</owner>
+      <env>
+        <item>DYLD_LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib</item>
+        <item>SSH_CLIENT =86.194.57.110 17739 22</item>
+        <item>LESS =-MM</item>
+        <item>MPIRUN_CONNECT_TRIES =40</item>
+        <item>LINES =24</item>
+        <item>LESSOPEN =|/usr/share/less/lesspipe.sh %s</item>
+        <item>COLUMNS =80</item>
+        <item>PWD =/home/burunduk/G117H/Echo/QMMM/DP-profile/P/I/His438-HE2-transfer</item>
+        <item>VT_MPI =mpich</item>
+        <item>JRE_HOME =/usr/lib/jvm/jre</item>
+        <item>LOGNAME =burunduk</item>
+        <item>I_MPI_JOB_STARTUP_TIMEOUT =10000</item>
+        <item>I_MPI_F77 =ifort</item>
+        <item>QTLIB =/usr/lib64/qt3/lib/</item>
+        <item>PATH =/opt/pgi/linux86-64/2010/bin:/opt/pathscale/bin:/usr/lib/mvapich-gcc-i586/bin:/opt/intel/itac/8.0.0.011/bin:/opt/intel/ictce/3.2.2.013/bin:/opt/intel/itac/7.2.2.006/bin:/opt/intel/Compiler/11.1/059/bin/intel64:/opt/intel/Compiler/11.1/059/bin/intel64:/home/burunduk/bin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:/usr/games</item>
+        <item>INCLUDE =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>TERM =xterm</item>
+        <item>HISTSIZE =999</item>
+        <item>LESSKEY =/etc/.less</item>
+        <item>SSH_CONNECTION =86.194.57.110 17739 212.192.244.31 22</item>
+        <item>MANPATH =/usr/lib/mvapich-gcc-i586/man:/opt/intel/mkl/10.2.4.032/man/en_US:/opt/intel/itac/8.0.0.011/man:/opt/intel/itac/7.2.2.006/man:/opt/intel/Compiler/11.1/059/man/en_US:/opt/intel/Compiler/11.1/059/man/en_US:/usr/share/man:/usr/local/share/man:/usr/X11R6/man:/usr/local/man:/opt/pathscale/man:/opt/pgi/linux86-64/2010/man</item>
+        <item>MPIRUN_CONNECT_TIMEOUT =15</item>
+        <item>LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>I_MPI_EXTRA_FILESYSTEM =enable</item>
+        <item>MAIL =/var/mail/burunduk</item>
+        <item>QTDIR =/usr/lib64/qt3/</item>
+        <item>I_MPI_CC =icc</item>
+        <item>HOSTNAME =t60-2.parallel.ru</item>
+        <item>I_MPI_SPIN_FILE_LOCK =off</item>
+        <item>XDG_DATA_DIRS =/usr/share:/var/cache</item>
+        <item>_ =/usr/bin/cleo-submit</item>
+        <item>LS_COLORS =rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</item>
+        <item>SHELL =/bin/bash</item>
+        <item>CLASSPATH =/opt/intel/itac/8.0.0.011/itac/lib_mpich:/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>VT_ROOT =/opt/intel/itac/8.0.0.011</item>
+        <item>I_MPI_PIN_DOMAIN =omp</item>
+        <item>PGI =/opt/pgi</item>
+        <item>TMP =/tmp/.private/burunduk</item>
+        <item>QTINC =/usr/lib64/qt3/include/</item>
+        <item>PS_FORMAT =pid,user:12,tty,stat,time,command</item>
+        <item>GTK_PATH =/usr/lib64/gtk-2.0/2.10.0</item>
+        <item>CVS_RSH =ssh</item>
+        <item>XDG_DATA_HOME =/home/burunduk/.local/share</item>
+        <item>USER =burunduk</item>
+        <item>G_BROKEN_FILENAMES =1</item>
+        <item>SHLVL =2</item>
+        <item>QS_QUEUE =regular</item>
+        <item>I_MPI_EXTRA_FILESYSTEM_LIST =panfs</item>
+        <item>INTEL_LICENSE_FILE =/opt/intel/licenses:/home/burunduk/intel/licenses</item>
+        <item>SSH_TTY =/dev/pts/191</item>
+        <item>LM_LICENSE_FILE =:/opt/pgi/license.dat</item>
+        <item>CPATH =/opt/intel/tbb/2.1/include:/opt/intel/mkl/10.2.4.032/include</item>
+        <item>VT_ADD_LIBS =-ldwarf -lelf -lvtunwind -lnsl -lm -ldl -lpthread</item>
+        <item>VT_LIB_DIR =/opt/intel/itac/8.0.0.011/itac/lib_mpich</item>
+        <item>HOME =/home/burunduk</item>
+        <item>FPATH =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>LD_LIBRARY_PATH =/opt/pathscale/lib/3.2:/opt/pathscale/lib/3.2/32:/usr/lib/mvapich-gcc-i586/lib:/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/itac/8.0.0.011/itac/slib_mpich:/opt/intel/itac/7.2.2.006/itac/slib_mpich:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>GDK_PIXBUF_MODULEDIR =/usr/lib64/gtk-2.0/2.10.0/loaders</item>
+        <item>HISTFILESIZE =9999</item>
+        <item>XDG_CONFIG_HOME =/home/burunduk/.config</item>
+        <item>I_MPI_F90 =ifort</item>
+        <item>VT_SLIB_DIR =/opt/intel/itac/8.0.0.011/itac/slib_mpich</item>
+        <item>I_MPI_CXX =icc</item>
+        <item>MKLROOT =/opt/intel/mkl/10.2.4.032</item>
+        <item>BASH_ENV =/home/burunduk/.bashrc</item>
+        <item>NLSPATH =/opt/intel/mkl/10.2.4.032/lib/em64t/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N</item>
+        <item>TMPDIR =/tmp/.private/burunduk</item>
+        <item>I_MPI_RDMA_BUFFER_SIZE =4096</item>
+        <item>G_FILENAME_ENCODING =iso8859-1</item>
+      </env>
+      <rep>/home/burunduk/G117H/Echo/QMMM/DP-profile/P/I/His438-HE2-transfer/nw.rep-4998</rep>
+      <attach_mask>.*</attach_mask>
+      <path>/home/burunduk/G117H/Echo/QMMM/DP-profile/P/I/His438-HE2-transfer</path>
+      <qtype>native_queue</qtype>
+      <no_run_again>1</no_run_again>
+      <signal>0</signal>
+      <temp_dir>/tmp/cleo.bigmem.4998</temp_dir>
+      <lastowner>bigmem</lastowner>
+      <uniqid>bigmem-1275979716-4998</uniqid>
+      <exe>/home/burunduk/NwChem/bin/nw</exe>
+      <npextra>0</npextra>
+    </task>
+    <task id="1200" priority="10" state="queued" own="1" queue="bigmem">
+      <block>
+        <who>__internal__</who>
+        <reason>wait for blocked cpus</reason>
+      </block>
+      <nodes></nodes>
+      <start day="1" month="1" of_week="4" hours="3" minutes="0" seconds="0" year="1970" unixtime="" />
+      <timelimit day="1" month="1" of_week="5" hours="1" minutes="0" seconds="0" year="0" unixtime="" />
+      <added day="21" month="2" of_week="0" hours="9" minutes="57" seconds="23" year="2010" unixtime="" />
+      <task_code>'./vasp'</task_code>
+      <priority>10</priority>
+      <state>queued</state>
+      <use_rsh_filter></use_rsh_filter>
+      <out>$dir/$sexe.out-$id</out>
+      <pe_select>scheduler</pe_select>
+      <blocked>1</blocked>
+      <user>zyubina</user>
+      <id>1200</id>
+      <estimated_run>0</estimated_run>
+      <sexe>vasp</sexe>
+      <com_line>mpirun_rsh -np $np -hostfile $dir/machinefile-$id VIADEV_USE_AFFINITY=1 $task</com_line>
+      <one_rep>0</one_rep>
+      <occupy_full_node>1</occupy_full_node>
+      <force_host></force_host>
+      <queue>bigmem</queue>
+      <file_mask></file_mask>
+      <reserved>0</reserved>
+      <task_args>
+        <item>./vasp</item>
+      </task_args>
+      <core>0</core>
+      <tmpdir>/tmp</tmpdir>
+      <np>60</np>
+      <status>0</status>
+      <gummy>0</gummy>
+      <empty_input>$dir/.cleo-$id-in</empty_input>
+      <use_empty>/usr/bin/empty-cleo</use_empty>
+      <nice></nice>
+      <dir>/home/zyubina</dir>
+      <run_via_mons>0</run_via_mons>
+      <force_proc></force_proc>
+      <is_own>1</is_own>
+      <command>./vasp</command>
+      <wait_cond_type>a</wait_cond_type>
+      <owner>bigmem</owner>
+      <env>
+        <item>DYLD_LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib</item>
+        <item>SSH_CLIENT =194.107.80.254 1441 22</item>
+        <item>LESS =-MM</item>
+        <item>MPIRUN_CONNECT_TRIES =40</item>
+        <item>LINES =24</item>
+        <item>LESSOPEN =|/usr/share/less/lesspipe.sh %s</item>
+        <item>COLUMNS =80</item>
+        <item>PWD =/home/zyubina</item>
+        <item>VT_MPI =mpich</item>
+        <item>JRE_HOME =/usr/lib/jvm/jre</item>
+        <item>LOGNAME =zyubina</item>
+        <item>I_MPI_JOB_STARTUP_TIMEOUT =10000</item>
+        <item>PATH =/opt/pgi/linux86-64/2010/bin:/opt/pathscale/bin:/usr/lib/mvapich-intel-x86_64/bin:/opt/intel/ictce/3.2.2.013/bin:/opt/intel/itac/7.2.2.006/bin:/opt/intel/Compiler/11.1/059/bin/intel64:/opt/intel/Compiler/11.1/059/bin/intel64:/home/zyubina/bin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:/usr/games</item>
+        <item>INCLUDE =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>TERM =xterm</item>
+        <item>HISTSIZE =999</item>
+        <item>LESSKEY =/etc/.less</item>
+        <item>SSH_CONNECTION =194.107.80.254 1441 212.192.244.31 22</item>
+        <item>MANPATH =/usr/lib/mvapich-intel-x86_64/man:/opt/intel/mkl/10.2.4.032/man/en_US:/opt/intel/itac/7.2.2.006/man:/opt/intel/Compiler/11.1/059/man/en_US:/opt/intel/Compiler/11.1/059/man/en_US:/usr/share/man:/usr/local/share/man:/usr/X11R6/man:/usr/local/man:/opt/pathscale/man:/opt/pgi/linux86-64/2010/man</item>
+        <item>MPIRUN_CONNECT_TIMEOUT =15</item>
+        <item>LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>I_MPI_EXTRA_FILESYSTEM =enable</item>
+        <item>MAIL =/var/mail/zyubina</item>
+        <item>HOSTNAME =t60-2.parallel.ru</item>
+        <item>I_MPI_SPIN_FILE_LOCK =off</item>
+        <item>MC_SID =23925</item>
+        <item>XDG_DATA_DIRS =/usr/share:/var/cache</item>
+        <item>_ =/usr/bin/cleo-submit</item>
+        <item>LS_COLORS =rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</item>
+        <item>SHELL =/bin/bash</item>
+        <item>CLASSPATH =/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>VT_ROOT =/opt/intel/itac/7.2.2.006</item>
+        <item>I_MPI_PIN_DOMAIN =omp</item>
+        <item>PGI =/opt/pgi</item>
+        <item>TMP =/tmp/.private/zyubina</item>
+        <item>HISTCONTROL =ignorespace</item>
+        <item>MC_TMPDIR =/tmp/.private/zyubina/mc-zyubina</item>
+        <item>PS_FORMAT =pid,user:12,tty,stat,time,command</item>
+        <item>GTK_PATH =/usr/lib64/gtk-2.0/2.10.0</item>
+        <item>CVS_RSH =ssh</item>
+        <item>XDG_DATA_HOME =/home/zyubina/.local/share</item>
+        <item>USER =zyubina</item>
+        <item>G_BROKEN_FILENAMES =1</item>
+        <item>SHLVL =3</item>
+        <item>QS_QUEUE =regular</item>
+        <item>I_MPI_EXTRA_FILESYSTEM_LIST =panfs</item>
+        <item>INTEL_LICENSE_FILE =/opt/intel/licenses:/home/zyubina/intel/licenses</item>
+        <item>SSH_TTY =/dev/pts/63</item>
+        <item>LM_LICENSE_FILE =:/opt/pgi/license.dat</item>
+        <item>VT_ADD_LIBS =-ldwarf -lelf -lvtunwind -lnsl -lm -ldl -lpthread</item>
+        <item>CPATH =/opt/intel/tbb/2.1/include:/opt/intel/mkl/10.2.4.032/include</item>
+        <item>VT_LIB_DIR =/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>HOME =/home/zyubina</item>
+        <item>FPATH =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>LD_LIBRARY_PATH =/opt/pathscale/lib/3.2:/opt/pathscale/lib/3.2/32:/usr/lib/mvapich-intel-x86_64/lib:/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/itac/7.2.2.006/itac/slib_mpich:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>GDK_PIXBUF_MODULEDIR =/usr/lib64/gtk-2.0/2.10.0/loaders</item>
+        <item>HISTFILESIZE =9999</item>
+        <item>XDG_CONFIG_HOME =/home/zyubina/.config</item>
+        <item>VT_SLIB_DIR =/opt/intel/itac/7.2.2.006/itac/slib_mpich</item>
+        <item>MKLROOT =/opt/intel/mkl/10.2.4.032</item>
+        <item>BASH_ENV =/home/zyubina/.bashrc</item>
+        <item>NLSPATH =/opt/intel/mkl/10.2.4.032/lib/em64t/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N</item>
+        <item>TMPDIR =/tmp/.private/zyubina</item>
+        <item>I_MPI_RDMA_BUFFER_SIZE =4096</item>
+        <item>G_FILENAME_ENCODING =iso8859-1</item>
+      </env>
+      <rep>$dir/$sexe.rep-$id</rep>
+      <path>/home/zyubina</path>
+      <qtype>native_queue</qtype>
+      <signal>0</signal>
+      <temp_dir>/tmp/cleo.$queue.$id</temp_dir>
+      <lastowner>bigmem</lastowner>
+      <uniqid>bigmem-1266735443-1200</uniqid>
+      <exe>./vasp</exe>
+      <npextra>0</npextra>
+    </task>
+    <task id="1201" priority="10" state="queued" own="1" queue="bigmem">
+      <block>
+        <who>__internal__</who>
+        <reason>wait for blocked cpus</reason>
+      </block>
+      <nodes></nodes>
+      <start day="1" month="1" of_week="4" hours="3" minutes="0" seconds="0" year="1970" unixtime="" />
+      <timelimit day="1" month="1" of_week="5" hours="1" minutes="0" seconds="0" year="0" unixtime="" />
+      <added day="21" month="2" of_week="0" hours="9" minutes="57" seconds="50" year="2010" unixtime="" />
+      <task_code>'./vasp'</task_code>
+      <priority>10</priority>
+      <state>queued</state>
+      <use_rsh_filter></use_rsh_filter>
+      <out>$dir/$sexe.out-$id</out>
+      <pe_select>scheduler</pe_select>
+      <blocked>1</blocked>
+      <user>zyubina</user>
+      <id>1201</id>
+      <estimated_run>0</estimated_run>
+      <sexe>vasp</sexe>
+      <com_line>mpirun_rsh -np $np -hostfile $dir/machinefile-$id VIADEV_USE_AFFINITY=1 $task</com_line>
+      <one_rep>0</one_rep>
+      <occupy_full_node>1</occupy_full_node>
+      <force_host></force_host>
+      <queue>bigmem</queue>
+      <file_mask></file_mask>
+      <reserved>0</reserved>
+      <task_args>
+        <item>./vasp</item>
+      </task_args>
+      <core>0</core>
+      <tmpdir>/tmp</tmpdir>
+      <np>60</np>
+      <status>0</status>
+      <gummy>0</gummy>
+      <empty_input>$dir/.cleo-$id-in</empty_input>
+      <use_empty>/usr/bin/empty-cleo</use_empty>
+      <nice></nice>
+      <dir>/home/zyubina/sno210</dir>
+      <run_via_mons>0</run_via_mons>
+      <force_proc></force_proc>
+      <is_own>1</is_own>
+      <command>./vasp</command>
+      <wait_cond_type>a</wait_cond_type>
+      <owner>bigmem</owner>
+      <env>
+        <item>DYLD_LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib</item>
+        <item>SSH_CLIENT =194.107.80.254 1441 22</item>
+        <item>LESS =-MM</item>
+        <item>MPIRUN_CONNECT_TRIES =40</item>
+        <item>LINES =24</item>
+        <item>LESSOPEN =|/usr/share/less/lesspipe.sh %s</item>
+        <item>COLUMNS =80</item>
+        <item>PWD =/home/zyubina/sno210</item>
+        <item>VT_MPI =mpich</item>
+        <item>JRE_HOME =/usr/lib/jvm/jre</item>
+        <item>LOGNAME =zyubina</item>
+        <item>I_MPI_JOB_STARTUP_TIMEOUT =10000</item>
+        <item>PATH =/opt/pgi/linux86-64/2010/bin:/opt/pathscale/bin:/usr/lib/mvapich-intel-x86_64/bin:/opt/intel/ictce/3.2.2.013/bin:/opt/intel/itac/7.2.2.006/bin:/opt/intel/Compiler/11.1/059/bin/intel64:/opt/intel/Compiler/11.1/059/bin/intel64:/home/zyubina/bin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:/usr/games</item>
+        <item>INCLUDE =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>TERM =xterm</item>
+        <item>HISTSIZE =999</item>
+        <item>LESSKEY =/etc/.less</item>
+        <item>SSH_CONNECTION =194.107.80.254 1441 212.192.244.31 22</item>
+        <item>MANPATH =/usr/lib/mvapich-intel-x86_64/man:/opt/intel/mkl/10.2.4.032/man/en_US:/opt/intel/itac/7.2.2.006/man:/opt/intel/Compiler/11.1/059/man/en_US:/opt/intel/Compiler/11.1/059/man/en_US:/usr/share/man:/usr/local/share/man:/usr/X11R6/man:/usr/local/man:/opt/pathscale/man:/opt/pgi/linux86-64/2010/man</item>
+        <item>MPIRUN_CONNECT_TIMEOUT =15</item>
+        <item>LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>I_MPI_EXTRA_FILESYSTEM =enable</item>
+        <item>MAIL =/var/mail/zyubina</item>
+        <item>HOSTNAME =t60-2.parallel.ru</item>
+        <item>I_MPI_SPIN_FILE_LOCK =off</item>
+        <item>MC_SID =23925</item>
+        <item>XDG_DATA_DIRS =/usr/share:/var/cache</item>
+        <item>_ =/usr/bin/cleo-submit</item>
+        <item>LS_COLORS =rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</item>
+        <item>SHELL =/bin/bash</item>
+        <item>CLASSPATH =/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>VT_ROOT =/opt/intel/itac/7.2.2.006</item>
+        <item>I_MPI_PIN_DOMAIN =omp</item>
+        <item>PGI =/opt/pgi</item>
+        <item>TMP =/tmp/.private/zyubina</item>
+        <item>HISTCONTROL =ignorespace</item>
+        <item>MC_TMPDIR =/tmp/.private/zyubina/mc-zyubina</item>
+        <item>PS_FORMAT =pid,user:12,tty,stat,time,command</item>
+        <item>GTK_PATH =/usr/lib64/gtk-2.0/2.10.0</item>
+        <item>CVS_RSH =ssh</item>
+        <item>XDG_DATA_HOME =/home/zyubina/.local/share</item>
+        <item>USER =zyubina</item>
+        <item>G_BROKEN_FILENAMES =1</item>
+        <item>SHLVL =3</item>
+        <item>QS_QUEUE =regular</item>
+        <item>I_MPI_EXTRA_FILESYSTEM_LIST =panfs</item>
+        <item>INTEL_LICENSE_FILE =/opt/intel/licenses:/home/zyubina/intel/licenses</item>
+        <item>SSH_TTY =/dev/pts/63</item>
+        <item>LM_LICENSE_FILE =:/opt/pgi/license.dat</item>
+        <item>VT_ADD_LIBS =-ldwarf -lelf -lvtunwind -lnsl -lm -ldl -lpthread</item>
+        <item>CPATH =/opt/intel/tbb/2.1/include:/opt/intel/mkl/10.2.4.032/include</item>
+        <item>VT_LIB_DIR =/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>HOME =/home/zyubina</item>
+        <item>FPATH =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>LD_LIBRARY_PATH =/opt/pathscale/lib/3.2:/opt/pathscale/lib/3.2/32:/usr/lib/mvapich-intel-x86_64/lib:/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/itac/7.2.2.006/itac/slib_mpich:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>GDK_PIXBUF_MODULEDIR =/usr/lib64/gtk-2.0/2.10.0/loaders</item>
+        <item>HISTFILESIZE =9999</item>
+        <item>XDG_CONFIG_HOME =/home/zyubina/.config</item>
+        <item>VT_SLIB_DIR =/opt/intel/itac/7.2.2.006/itac/slib_mpich</item>
+        <item>MKLROOT =/opt/intel/mkl/10.2.4.032</item>
+        <item>BASH_ENV =/home/zyubina/.bashrc</item>
+        <item>NLSPATH =/opt/intel/mkl/10.2.4.032/lib/em64t/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N</item>
+        <item>TMPDIR =/tmp/.private/zyubina</item>
+        <item>I_MPI_RDMA_BUFFER_SIZE =4096</item>
+        <item>G_FILENAME_ENCODING =iso8859-1</item>
+      </env>
+      <rep>$dir/$sexe.rep-$id</rep>
+      <path>/home/zyubina/sno210</path>
+      <qtype>native_queue</qtype>
+      <signal>0</signal>
+      <temp_dir>/tmp/cleo.$queue.$id</temp_dir>
+      <lastowner>bigmem</lastowner>
+      <uniqid>bigmem-1266735470-1201</uniqid>
+      <exe>./vasp</exe>
+      <npextra>0</npextra>
+    </task>
+    <task id="4697" priority="10" state="queued" own="1" queue="bigmem">
+      <block>
+        <who>__internal__</who>
+        <reason>maximum cpu*hours reached</reason>
+      </block>
+      <nodes></nodes>
+      <start day="1" month="1" of_week="4" hours="3" minutes="0" seconds="0" year="1970" unixtime="" />
+      <timelimit day="0" month="1" of_week="4" hours="13" minutes="20" seconds="0" year="0" unixtime="" />
+      <added day="24" month="5" of_week="1" hours="18" minutes="53" seconds="22" year="2010" unixtime="" />
+      <task_code>'../bin/nw' 'c-di-GMP_1_76_ch.nw'</task_code>
+      <priority>10</priority>
+      <state>queued</state>
+      <use_rsh_filter></use_rsh_filter>
+      <out>$dir/$sexe.out-$id</out>
+      <pe_select>scheduler</pe_select>
+      <blocked>1</blocked>
+      <user>belka</user>
+      <id>4697</id>
+      <sexe>nw</sexe>
+      <estimated_run>0</estimated_run>
+      <com_line>mpirun_rsh -np $np -hostfile $dir/machinefile-$id VIADEV_USE_AFFINITY=1 $task</com_line>
+      <one_rep>0</one_rep>
+      <occupy_full_node>1</occupy_full_node>
+      <force_host></force_host>
+      <file_mask></file_mask>
+      <queue>bigmem</queue>
+      <reserved>0</reserved>
+      <task_args>
+        <item>../bin/nw</item>
+        <item>c-di-GMP_1_76_ch.nw</item>
+      </task_args>
+      <core>0</core>
+      <tmpdir>/tmp</tmpdir>
+      <np>32</np>
+      <status>0</status>
+      <gummy>0</gummy>
+      <empty_input>$dir/.cleo-$id-in</empty_input>
+      <use_empty>/usr/bin/empty-cleo</use_empty>
+      <dir>/home/belka/nw/c-di-gmp_1_76_ch</dir>
+      <nice></nice>
+      <run_via_mons>0</run_via_mons>
+      <force_proc></force_proc>
+      <command>../bin/nw c-di-GMP_1_76_ch.nw</command>
+      <is_own>1</is_own>
+      <owner>bigmem</owner>
+      <wait_cond_type>a</wait_cond_type>
+      <env>
+        <item>DYLD_LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib</item>
+        <item>SSH_CLIENT =212.192.241.150 1229 22</item>
+        <item>LESS =-MM</item>
+        <item>MPIRUN_CONNECT_TRIES =40</item>
+        <item>LINES =24</item>
+        <item>LESSOPEN =|/usr/share/less/lesspipe.sh %s</item>
+        <item>COLUMNS =80</item>
+        <item>PWD =/home/belka/nw/c-di-gmp_1_76_ch</item>
+        <item>VT_MPI =mpich</item>
+        <item>JRE_HOME =/usr/lib/jvm/jre</item>
+        <item>LOGNAME =belka</item>
+        <item>I_MPI_JOB_STARTUP_TIMEOUT =10000</item>
+        <item>I_MPI_F77 =ifort</item>
+        <item>QTLIB =/usr/lib64/qt3/lib/</item>
+        <item>PATH =/opt/pgi/linux86-64/2010/bin:/opt/pathscale/bin:/usr/lib/mvapich-intel-x86_64/bin:/opt/intel/itac/8.0.0.011/bin:/opt/intel/ictce/3.2.2.013/bin:/opt/intel/itac/7.2.2.006/bin:/opt/intel/Compiler/11.1/059/bin/intel64:/opt/intel/Compiler/11.1/059/bin/intel64:/home/belka/bin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:/usr/games</item>
+        <item>INCLUDE =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>TERM =xterm</item>
+        <item>HISTSIZE =999</item>
+        <item>LESSKEY =/etc/.less</item>
+        <item>SSH_CONNECTION =212.192.241.150 1229 212.192.244.31 22</item>
+        <item>MANPATH =/usr/lib/mvapich-intel-x86_64/man:/opt/intel/mkl/10.2.4.032/man/en_US:/opt/intel/itac/8.0.0.011/man:/opt/intel/itac/7.2.2.006/man:/opt/intel/Compiler/11.1/059/man/en_US:/opt/intel/Compiler/11.1/059/man/en_US:/usr/share/man:/usr/local/share/man:/usr/X11R6/man:/usr/local/man:/opt/pathscale/man:/opt/pgi/linux86-64/2010/man</item>
+        <item>MPIRUN_CONNECT_TIMEOUT =15</item>
+        <item>LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>I_MPI_EXTRA_FILESYSTEM =enable</item>
+        <item>MAIL =/var/mail/belka</item>
+        <item>QTDIR =/usr/lib64/qt3/</item>
+        <item>I_MPI_CC =icc</item>
+        <item>HOSTNAME =t60-2.parallel.ru</item>
+        <item>I_MPI_SPIN_FILE_LOCK =off</item>
+        <item>XDG_DATA_DIRS =/usr/share:/var/cache</item>
+        <item>_ =/usr/bin/cleo-submit</item>
+        <item>LS_COLORS =rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</item>
+        <item>SHELL =/bin/bash</item>
+        <item>CLASSPATH =/opt/intel/itac/8.0.0.011/itac/lib_mpich:/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>VT_ROOT =/opt/intel/itac/8.0.0.011</item>
+        <item>I_MPI_PIN_DOMAIN =omp</item>
+        <item>PGI =/opt/pgi</item>
+        <item>TMP =/tmp/.private/belka</item>
+        <item>QTINC =/usr/lib64/qt3/include/</item>
+        <item>PS_FORMAT =pid,user:12,tty,stat,time,command</item>
+        <item>GTK_PATH =/usr/lib64/gtk-2.0/2.10.0</item>
+        <item>CVS_RSH =ssh</item>
+        <item>XDG_DATA_HOME =/home/belka/.local/share</item>
+        <item>USER =belka</item>
+        <item>G_BROKEN_FILENAMES =1</item>
+        <item>SHLVL =2</item>
+        <item>QS_QUEUE =regular</item>
+        <item>I_MPI_EXTRA_FILESYSTEM_LIST =panfs</item>
+        <item>INTEL_LICENSE_FILE =/opt/intel/licenses:/home/belka/intel/licenses</item>
+        <item>SSH_TTY =/dev/pts/64</item>
+        <item>LM_LICENSE_FILE =:/opt/pgi/license.dat</item>
+        <item>CPATH =/opt/intel/tbb/2.1/include:/opt/intel/mkl/10.2.4.032/include</item>
+        <item>VT_ADD_LIBS =-ldwarf -lelf -lvtunwind -lnsl -lm -ldl -lpthread</item>
+        <item>VT_LIB_DIR =/opt/intel/itac/8.0.0.011/itac/lib_mpich</item>
+        <item>HOME =/home/belka</item>
+        <item>FPATH =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>LD_LIBRARY_PATH =/opt/pathscale/lib/3.2:/opt/pathscale/lib/3.2/32:/usr/lib/mvapich-intel-x86_64/lib:/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/itac/8.0.0.011/itac/slib_mpich:/opt/intel/itac/7.2.2.006/itac/slib_mpich:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>GDK_PIXBUF_MODULEDIR =/usr/lib64/gtk-2.0/2.10.0/loaders</item>
+        <item>HISTFILESIZE =9999</item>
+        <item>XDG_CONFIG_HOME =/home/belka/.config</item>
+        <item>I_MPI_F90 =ifort</item>
+        <item>VT_SLIB_DIR =/opt/intel/itac/8.0.0.011/itac/slib_mpich</item>
+        <item>I_MPI_CXX =icc</item>
+        <item>MKLROOT =/opt/intel/mkl/10.2.4.032</item>
+        <item>BASH_ENV =/home/belka/.bashrc</item>
+        <item>NLSPATH =/opt/intel/mkl/10.2.4.032/lib/em64t/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N</item>
+        <item>TMPDIR =/tmp/.private/belka</item>
+        <item>I_MPI_RDMA_BUFFER_SIZE =4096</item>
+        <item>G_FILENAME_ENCODING =iso8859-1</item>
+      </env>
+      <rep>$dir/$sexe.rep-$id</rep>
+      <path>/home/belka/nw/c-di-gmp_1_76_ch</path>
+      <qtype>native_queue</qtype>
+      <signal>0</signal>
+      <temp_dir>/tmp/cleo.$queue.$id</temp_dir>
+      <lastowner>bigmem</lastowner>
+      <uniqid>bigmem-1274712802-4697</uniqid>
+      <npextra>0</npextra>
+      <exe>../bin/nw</exe>
+    </task>
+    <task id="4993" priority="10" state="queued" own="1" queue="bigmem">
+      <nodes></nodes>
+      <start day="1" month="1" of_week="4" hours="3" minutes="0" seconds="0" year="1970" unixtime="" />
+      <timelimit day="0" month="1" of_week="4" hours="0" minutes="15" seconds="0" year="0" unixtime="" />
+      <added day="8" month="6" of_week="2" hours="8" minutes="52" seconds="13" year="2010" unixtime="" />
+      <task_code>'hpc-poisson' '--nx=512' '--ny=512' '--nz=512' '--lx=1' '--ly=1' '--lz=1'</task_code>
+      <priority>10</priority>
+      <state>queued</state>
+      <use_rsh_filter></use_rsh_filter>
+      <out>$dir/$sexe.out-$id</out>
+      <pe_select>scheduler</pe_select>
+      <blocked>0</blocked>
+      <user>pozdneev</user>
+      <id>4993</id>
+      <estimated_run>0</estimated_run>
+      <sexe>hpc-poisson</sexe>
+      <com_line>mpirun_rsh -np $np -hostfile $dir/machinefile-$id VIADEV_USE_AFFINITY=1 $task</com_line>
+      <one_rep>0</one_rep>
+      <occupy_full_node>1</occupy_full_node>
+      <force_host></force_host>
+      <file_mask></file_mask>
+      <queue>bigmem</queue>
+      <reserved>0</reserved>
+      <task_args>
+        <item>hpc-poisson</item>
+        <item>--nx=512</item>
+        <item>--ny=512</item>
+        <item>--nz=512</item>
+        <item>--lx=1</item>
+        <item>--ly=1</item>
+        <item>--lz=1</item>
+      </task_args>
+      <np>32</np>
+      <tmpdir>/tmp</tmpdir>
+      <core>0</core>
+      <gummy>0</gummy>
+      <status>0</status>
+      <empty_input>$dir/.cleo-$id-in</empty_input>
+      <use_empty>/usr/bin/empty-cleo</use_empty>
+      <nice></nice>
+      <dir>/home/pozdneev/work/hpc-poisson</dir>
+      <run_via_mons>0</run_via_mons>
+      <force_proc></force_proc>
+      <is_own>1</is_own>
+      <command>hpc-poisson --nx=512 --ny=512 --nz=512 --lx=1 --ly=1 --lz=1</command>
+      <wait_cond_type>a</wait_cond_type>
+      <owner>bigmem</owner>
+      <env>
+        <item>DYLD_LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib</item>
+        <item>SSH_CLIENT =194.9.238.187 34438 22</item>
+        <item>LESS =-MM</item>
+        <item>MPIRUN_CONNECT_TRIES =40</item>
+        <item>LINES =42</item>
+        <item>LESSOPEN =|/usr/share/less/lesspipe.sh %s</item>
+        <item>COLUMNS =157</item>
+        <item>PWD =/home/pozdneev/work/hpc-poisson</item>
+        <item>VT_MPI =mpich</item>
+        <item>JRE_HOME =/usr/lib/jvm/jre</item>
+        <item>LOGNAME =pozdneev</item>
+        <item>I_MPI_JOB_STARTUP_TIMEOUT =10000</item>
+        <item>I_MPI_F77 =ifort</item>
+        <item>QTLIB =/usr/lib64/qt3/lib/</item>
+        <item>PATH =/opt/pgi/linux86-64/2010/bin:/opt/pathscale/bin:/usr/lib/mvapich-intel-x86_64/bin:/opt/intel/itac/8.0.0.011/bin:/opt/intel/ictce/3.2.2.013/bin:/opt/intel/itac/7.2.2.006/bin:/opt/intel/Compiler/11.1/059/bin/intel64:/opt/intel/Compiler/11.1/059/bin/intel64:/home/pozdneev/bin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:/usr/games</item>
+        <item>INCLUDE =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>TERM =xterm</item>
+        <item>HISTSIZE =999</item>
+        <item>LESSKEY =/etc/.less</item>
+        <item>FIGNORE =.mod:.o:~</item>
+        <item>SSH_CONNECTION =194.9.238.187 34438 212.192.244.31 22</item>
+        <item>MANPATH =/usr/lib/mvapich-intel-x86_64/man:/opt/intel/mkl/10.2.4.032/man/en_US:/opt/intel/itac/8.0.0.011/man:/opt/intel/itac/7.2.2.006/man:/opt/intel/Compiler/11.1/059/man/en_US:/opt/intel/Compiler/11.1/059/man/en_US:/usr/share/man:/usr/local/share/man:/usr/X11R6/man:/usr/local/man:/opt/pathscale/man:/opt/pgi/linux86-64/2010/man</item>
+        <item>MPIRUN_CONNECT_TIMEOUT =15</item>
+        <item>LIBRARY_PATH =/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>I_MPI_EXTRA_FILESYSTEM =enable</item>
+        <item>MAIL =/var/mail/pozdneev</item>
+        <item>QTDIR =/usr/lib64/qt3/</item>
+        <item>I_MPI_CC =icc</item>
+        <item>HOSTNAME =t60-2.parallel.ru</item>
+        <item>I_MPI_SPIN_FILE_LOCK =off</item>
+        <item>XDG_DATA_DIRS =/usr/share:/var/cache</item>
+        <item>_ =/usr/bin/cleo-submit</item>
+        <item>LS_COLORS =rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</item>
+        <item>SHELL =/bin/bash</item>
+        <item>CLASSPATH =/opt/intel/itac/8.0.0.011/itac/lib_mpich:/opt/intel/itac/7.2.2.006/itac/lib_mpich</item>
+        <item>VT_ROOT =/opt/intel/itac/8.0.0.011</item>
+        <item>I_MPI_PIN_DOMAIN =omp</item>
+        <item>PGI =/opt/pgi</item>
+        <item>TMP =/tmp/.private/pozdneev</item>
+        <item>HISTCONTROL =erasedups</item>
+        <item>QTINC =/usr/lib64/qt3/include/</item>
+        <item>PS_FORMAT =pid,user:12,tty,stat,time,command</item>
+        <item>GTK_PATH =/usr/lib64/gtk-2.0/2.10.0</item>
+        <item>CVS_RSH =ssh</item>
+        <item>BZIP2 =-9</item>
+        <item>XDG_DATA_HOME =/home/pozdneev/.local/share</item>
+        <item>USER =pozdneev</item>
+        <item>LANG =en_US.UTF-8</item>
+        <item>G_BROKEN_FILENAMES =1</item>
+        <item>GZIP =-9</item>
+        <item>SHLVL =2</item>
+        <item>QS_QUEUE =regular</item>
+        <item>I_MPI_EXTRA_FILESYSTEM_LIST =panfs</item>
+        <item>INTEL_LICENSE_FILE =/opt/intel/licenses:/home/pozdneev/intel/licenses</item>
+        <item>SSH_TTY =/dev/pts/47</item>
+        <item>LM_LICENSE_FILE =:/opt/pgi/license.dat</item>
+        <item>CPATH =/opt/intel/tbb/2.1/include:/opt/intel/mkl/10.2.4.032/include</item>
+        <item>VT_ADD_LIBS =-ldwarf -lelf -lvtunwind -lnsl -lm -ldl -lpthread</item>
+        <item>VT_LIB_DIR =/opt/intel/itac/8.0.0.011/itac/lib_mpich</item>
+        <item>HOME =/home/pozdneev</item>
+        <item>FPATH =/opt/intel/mkl/10.2.4.032/include</item>
+        <item>LD_LIBRARY_PATH =/opt/pathscale/lib/3.2:/opt/pathscale/lib/3.2/32:/usr/lib/mvapich-intel-x86_64/lib:/opt/intel/tbb/2.1/em64t/cc4.1.0_libc2.4_kernel2.6.16.21/lib:/opt/intel/mkl/10.2.4.032/lib/em64t:/opt/intel/itac/8.0.0.011/itac/slib_mpich:/opt/intel/itac/7.2.2.006/itac/slib_mpich:/opt/intel/Compiler/11.1/059/lib/intel64:/opt/intel/Compiler/11.1/059/lib/intel64</item>
+        <item>GDK_PIXBUF_MODULEDIR =/usr/lib64/gtk-2.0/2.10.0/loaders</item>
+        <item>HISTFILESIZE =9999</item>
+        <item>EDITOR =/usr/bin/vim</item>
+        <item>XDG_CONFIG_HOME =/home/pozdneev/.config</item>
+        <item>I_MPI_F90 =ifort</item>
+        <item>VT_SLIB_DIR =/opt/intel/itac/8.0.0.011/itac/slib_mpich</item>
+        <item>I_MPI_CXX =icc</item>
+        <item>MKLROOT =/opt/intel/mkl/10.2.4.032</item>
+        <item>BASH_ENV =/home/pozdneev/.bashrc</item>
+        <item>NLSPATH =/opt/intel/mkl/10.2.4.032/lib/em64t/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N:/opt/intel/Compiler/11.1/059/lib/intel64/locale/%l_%t/%N</item>
+        <item>TMPDIR =/tmp/.private/pozdneev</item>
+        <item>I_MPI_RDMA_BUFFER_SIZE =4096</item>
+        <item>G_FILENAME_ENCODING =utf8</item>
+      </env>
+      <rep>$dir/$sexe.rep-$id</rep>
+      <path>/home/pozdneev/work/hpc-poisson</path>
+      <qtype>native_queue</qtype>
+      <signal>0</signal>
+      <temp_dir>/tmp/cleo.$queue.$id</temp_dir>
+      <lastowner>bigmem</lastowner>
+      <uniqid>bigmem-1275972733-4993</uniqid>
+      <npextra>0</npextra>
+      <exe>hpc-poisson</exe>
+    </task>
+  </tasks>
+</cleo-state>

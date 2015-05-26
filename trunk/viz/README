@@ -1,0 +1,23 @@
+  This is cgi-visualisation scripts for Cleo batch system.
+  Perl 5.8 or higher, XML::Parser and CGI modules sre needed.
+
+  Default file structure:
+    /var/www/cgi-bin/cleo-viz.cgi        - main script
+    /var/lib/cleo-viz/*.tmpl             - pages templates
+    /var/lib/cleo-viz/cleo-viz-locale.pm - locale module
+    /var/www/img/*.png                   - pictures for pages
+    /var/www/jq/jquery-1.4.2.min.js      - jquery library
+    /var/www/jq/jq.js                    - symlink to jquery library
+
+  You can install them in another places, but you must change settings in
+cleo-viz.cgi AND in install.sh
+
+  You MUST set queue names and, probably, some others parameters in cleo-viz.cgi.
+  You MUST change cleo_viz_image.tmpl and set actual nodes/racks/etc places.
+Big example you can find in cleo_viz_image.tmpl-skif.
+
+  After all, you can run install.sh and then type in your browser
+http://your-site/cgi-bin/cleo-viz/cgi
+
+
+
