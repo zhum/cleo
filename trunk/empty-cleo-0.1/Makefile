@@ -13,13 +13,13 @@ THESBINDIR=$(BASEDIR)/$(SBINDIR)
 THEMANDIR=$(BASEDIR)/$(MANDIR)
 
 all:
-	$(CC) -o empty-cleo empty-cleo.c $(LDFLAGS) -lutil 
+	$(CC) -o empty-cleo empty-cleo.c $(LDFLAGS) $(RPM_OPT_FLAGS) -lutil 
 	cp empty-cleo ../ready	
 
 FreeBSD:	all
 NetBSD:		all
 OpenBSD:
-	$(CC) -o empty-cleo empty-cleo.c -DOpenBSD $(LDFLAGS) -lutil
+	$(CC) -o empty-cleo empty-cleo.c -DOpenBSD $(LDFLAGS) $(RPM_OPT_FLAGS) -lutil
 
 Linux:		all
 

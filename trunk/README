@@ -74,3 +74,7 @@ end. Detailed info and simple examples may be found in file
 Modules-howto. For example, you can copy some files on nodes before
 task run and clean them after task end, etc.
 
+RPMS
+
+  Here is binary and source rpms for Fedora/Centos/Redhat/Suse: http://download.opensuse.org/repositories/home:/Zhum/
+

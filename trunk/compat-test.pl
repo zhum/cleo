@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+if($ARGV[0] eq 'no'){ exit(0);}
+
 my %tests=(
     perl  => 'Perl version must be 5.6.1 or greater',
     fcntl => 'Your system does not have Fcntl perl module',

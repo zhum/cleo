@@ -1,6 +1,6 @@
 Summary: Cleo batch system. Server part.
 Name: cleo-server
-Version: 5.23b
+Version: 5.23c
 Release: alt1
 License: GPL
 Group: System/Servers
@@ -44,10 +44,10 @@ files, used by all cleo components.
 %build
 mv cleo.rc-alt cleo.rc
 mv cleo-mon.rc-alt cleo-mon.rc
-make RCDIR=%_initdir
+make RCDIR=%_initdir CHECK=no
 
 %install
-fakeroot make DESTDIR=%buildroot RCDIR=%_initdir install \
+fakeroot make DESTDIR=%buildroot RCDIR=%_initdir CHECK=no install \
 	{,MAN}USER=root {,MAN}GROUP=root
 
 
@@ -67,6 +67,7 @@ fakeroot make DESTDIR=%buildroot RCDIR=%_initdir install \
 %_bindir/cleo-client
 %_bindir/cleo-priority
 %_bindir/cleo-stat
+%_bindir/cleo-reporter
 %_bindir/cleo-terminal
 %_bindir/cleo-freeze
 %_bindir/qsub-cleo
